@@ -10,5 +10,6 @@ export const routes: Routes = [
   { path: 'board', component: Board },
   { path: 'add-task', component: AddTask },
   { path: 'sign-up', component: SignUp },
-  { path: '', component: Login },
+  { path: 'login', component: Login },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
 ];
