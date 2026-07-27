@@ -187,3 +187,23 @@
         }
     }
 }
+
+.scale {
+    transition: transform 150ms ease;
+
+    &:hover {
+            transform: scale(1.025);
+        }
+
+    &__leftFixed {
+        transform-origin: left;  
+    }
+
+    &__rightFixed {
+        transform-origin: right;
+    }
+
+    &__leftTopFixed {
+        transform-origin: left top;
+    }
+}

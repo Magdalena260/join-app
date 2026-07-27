@@ -1,7 +1,7 @@
 <div class="content__main__summary">
 
             <div class="content__main__summary__firstLane">
-                <div class="card card--firstLane" routerLink="/board">
+                <div class="card card--firstLane scale scale__leftFixed" routerLink="/board">
                     <div class="card__svg">
                         <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <mask id="mask0_75592_8413" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
@@ -21,7 +21,7 @@
                         <p>To-do</p>
                     </div>
                 </div>
-                <div class="card card--firstLane" routerLink="/board">
+                <div class="card card--firstLane scale scale__rightFixed" routerLink="/board">
                     <div class="card__svg">
                         <svg width="37" height="30" viewBox="0 0 37 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M3.5 14.566L14.7288 25.6321L33.4434 3.5" stroke="currentColor" stroke-width="7"
@@ -37,7 +37,7 @@
             </div>
 
             <div class="content__main__summary__secondLane">
-                <div class="card card--secondLane" routerLink="/board">
+                <div class="card card--secondLane scale scale__leftTopFixed" routerLink="/board">
 
                     <div class="card--secondLane__summary">
                         <div class="card__svg__secondLane">
@@ -71,19 +71,19 @@
             </div>
 
             <div class="content__main__summary__thirdLane">
-                <div class="card card--thirdLane" routerLink="/board">
+                <div class="card card--thirdLane scale scale__leftFixed" routerLink="/board">
                     <div class="card__text">
                         <h2>{{ tasksInBoard() }}</h2>
                         <p>Tasks in Board</p>
                     </div>
                 </div>
-                <div class="card card--thirdLane" routerLink="/board">
+                <div class="card card--thirdLane scale" routerLink="/board">
                     <div class="card__text">
                         <h2>{{ progressTasksCount() }}</h2>
                         <p>Tasks in Progress</p>
                     </div>
                 </div>
-                <div class="card card--thirdLane" routerLink="/board">
+                <div class="card card--thirdLane scale scale__rightFixed" routerLink="/board">
                     <div class="card__text">
                         <h2>{{ feedbackTasksCount() }}</h2>
                         <p>Awaiting Feedback</p>
