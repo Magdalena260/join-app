@@ -52,7 +52,12 @@
     </header>
 
     <h5 class="task-card__title">{{ task.title }}</h5>
-    <p class="task-card__description">{{ task.desc }}</p>
+    <p
+      class="task-card__description"
+      [class.task-card__description--with-subtasks]="task.subtasks && task.subtasks.length > 0"
+    >
+      {{ task.desc }}
+    </p>
 
     @if (task.subtasks; as subtasks) {
       @if (subtasks.length > 0) {
