@@ -31,6 +31,14 @@
             background-color: transparent;
             pointer-events: none;
         }
+
+        &--no-transition {
+            transition: none !important;
+            
+            .auth__logo-wrapper {
+                transition: none !important;
+            }
+        }
     }
 
     &__logo-wrapper {

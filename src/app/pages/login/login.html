@@ -9,7 +9,8 @@
             </div>
         </header>
 
-        <div class="auth__splash" [class.auth__splash--animated]="!isAnimating()">
+        <div class="auth__splash" [class.auth__splash--animated]="!isAnimating() || skipAnimation()"
+            [class.auth__splash--no-transition]="skipAnimation()">
             <div class="auth__logo-wrapper">
                 <svg width="100%" height="100%" viewBox="0 0 274 335" fill="currentColor" xmlns="http://w3.org">
                     <path d="M196.314 0H135.623V69.8251H196.314V0Z" fill="#2A3647" />
@@ -28,7 +29,8 @@
             </div>
         </div>
 
-        <div class="auth__card" [class.auth__card--visible]="!isAnimating()">
+        <div class="auth__card" [class.auth__card--visible]="!isAnimating() || skipAnimation()"
+            [class.auth__card--no-transition]="skipAnimation()">
             <div class="auth__card-header">
                 <h1 class="auth__title">Log in</h1>
                 <div class="auth__underline"></div>

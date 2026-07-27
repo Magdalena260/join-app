@@ -2,6 +2,11 @@ import { Component, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { ButtonComponent } from '../../shared/components/button/button.component';
 
+/**
+ * Component managing the authentication process and splash screen sequence.
+ * Handles credential input, password toggles, and cross-session animation state 
+ * using Angular signals and session-level storage flags.
+ */
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -10,52 +15,162 @@ import { ButtonComponent } from '../../shared/components/button/button.component
   styleUrls: ['./login.scss'],
 })
 export class Login implements OnInit {
-  constructor(private router: Router) {}
-  
   /**
    * Reactive signal controlling the splash screen animation state.
-   * True if the splash screen is currently active/animating, false otherwise.
+   * True if the splash transition sequence is active, false once complete.
    */
   public isAnimating = signal<boolean>(true);
 
   /**
+   * Reactive signal indicating whether the initial animation phase should be hard-bypassed.
+   * True locks layout states instantly on evaluation to avoid visual stuttering.
+   */
+  public skipAnimation = signal<boolean>(false);
+
+  /**
    * Reactive signal controlling whether the password input content is masked.
-   * True shows asterisks (password type), false reveals the plain text.
+   * True applies bullet characters, false reveals plain text.
    */
   public hidePassword = signal<boolean>(true);
 
   /**
-   * Reactive signal tracking if the user has typed anything into the password field.
-   * Used to swap between the static lock icon and interactive eye icons.
+   * Reactive signal tracking if the user has supplied content within the password box boundary.
+   * Determines visual layout choices between static locks and interactive view toggles.
    */
   public hasPasswordText = signal<boolean>(false);
 
   /**
-   * Reactive signal holding the current value of the email input field.
+   * Reactive signal caching the evaluated text stream from the email control element.
    */
   public emailValue = signal<string>('');
 
   /**
-   * Reactive signal holding the current value of the password input field.
+   * Reactive signal caching the evaluated text stream from the password control element.
    */
   public passwordValue = signal<string>('');
 
   /**
-   * Reactive signal controlling the visibility of the global validation error message.
-   * True if the credentials failed validation checks, false otherwise.
+   * Reactive signal driving the visibility matrix of the general authorization failure notice block.
    */
   public showError = signal<boolean>(false);
 
   /**
-   * Lifecycle hook that initializes the component and triggers the splash screen transition.
+   * Instantiates the component wrapper context and evaluates session loading footprints.
+   * Hard-bypasses transition schedules immediately if past records are validated.
+   * 
+   * @param {Router} router - Core Angular routing layer for application state transitions.
+   */
+  constructor(private router: Router) {
+    const hasAnimated = sessionStorage.getItem('join_splash_done') === 'true';
+    if (hasAnimated) {
+      this.isAnimating.set(false);
+      this.skipAnimation.set(true);
+    }
+  }
+
+  /**
+   * Lifecycle hook triggered instantly upon component tree evaluation.
+   * Aborts transition sub-routines completely if the skip-flag matrix evaluates to true.
    */
   public ngOnInit(): void {
+    if (this.skipAnimation()) {
+      return;
+    }
     this.startSplashTransition();
   }
 
   /**
-   * Initiates the transition from the full-screen splash logo to the corner login logo
-   * after a predefined timeout delay.
+   * Inverts the binary masking value to toggle raw plain-text readouts inside password fields.
+   */
+  public togglePasswordVisibility(): void { 
+    this.hidePassword.update(value => !value); 
+  }
+
+  /**
+   * Absorbs standard change flows inside the email node to synchronize the raw signal memory cache.
+   * Instantly purges valid error flags to maintain fluid form states.
+   * 
+   * @param {Event} event - Native browser event payload intercepted from the input node boundary.
+   */
+  public onEmailInput(event: Event): void { 
+    const input = event.target as HTMLInputElement; 
+    this.emailValue.set(input.value); 
+    this.showError.set(false); 
+  }
+
+  /**
+   * Evaluates change patterns inside the password box to switch layout glyphs or zero out mask properties.
+   * Instantly purges valid error flags to maintain fluid form states.
+   * 
+   * @param {Event} event - Native browser event payload intercepted from the input node boundary.
+   */
+  public onPasswordInput(event: Event): void { 
+    const input = event.target as HTMLInputElement; 
+    this.passwordValue.set(input.value); 
+    this.hasPasswordText.set(input.value.length > 0); 
+    
+    if (input.value.length === 0) { 
+      this.hidePassword.set(true); 
+    } 
+    this.showError.set(false); 
+  }
+
+  /**
+   * Validates explicit syntax criteria and submission shapes on interception.
+   * Simulates a local secure authorization handshake before triggering programmatic routing changes.
+   * 
+   * @param {Event} event - Form block submit event context used to suppress raw document dispatch behaviors.
+   */
+  public onLoginSubmit(event: Event): void { 
+    event.preventDefault(); 
+    
+    const email = this.emailValue().trim(); 
+    const password = this.passwordValue(); 
+    
+    if (email.length === 0 || !email.includes('@') || password.length === 0) { 
+      this.showError.set(true); 
+      return; 
+    } 
+    
+    if (email === 'test@join.com' && password === 'password123') { 
+      this.showError.set(false); 
+      this.router.navigate(['/contacts']); 
+    } else { 
+      this.showError.set(true); 
+    } 
+  }
+
+  /**
+   * Bypasses security parameters to route generic sessions straight to application views.
+   */
+  public onGuestLogin(): void { 
+    this.router.navigate(['/contacts']); 
+  }
+
+  /**
+   * Triggers explicit state transitions toward registration flows.
+   */
+  public onSignupClick(): void { 
+    this.router.navigate(['/sign-up']); 
+  }
+
+  /**
+   * Dispatches explicit cross-origin routing target signals to reveal user data policy declarations.
+   */
+  public onPrivacyPolicyClick(): void { 
+    this.router.navigate(['/privacy-policy']); 
+  }
+
+  /**
+   * Dispatches explicit cross-origin routing target signals to reveal corporate legal disclosure views.
+   */
+  public onLegalNoticeClick(): void { 
+    this.router.navigate(['/legal-notice']); 
+  }
+
+  /**
+   * Spawns a deferred micro-task to transition view frameworks from baseline configurations to static nodes.
+   * Flushes records to local cache layers upon complete execution loop closure.
    * 
    * @private
    */
@@ -64,108 +179,7 @@ export class Login implements OnInit {
 
     setTimeout(() => {
       this.isAnimating.set(false);
+      sessionStorage.setItem('join_splash_done', 'true');
     }, animationDelayMs);
-  }
-
-  /**
-   * Toggles the visibility state of the password input field between plain text and masked text.
-   */
-  public togglePasswordVisibility(): void {
-    this.hidePassword.update(value => !value);
-  }
-
-  /**
-   * Listens to input events on the email field to update the reactive value signal.
-   * Automatically clears the validation error message state once the user resumes typing.
-   * 
-   * @param {Event} event - The HTML input event from the template.
-   */
-  public onEmailInput(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    this.emailValue.set(input.value);
-    
-    this.showError.set(false);
-  }
-
-  /**
-   * Listens to input events on the password field to dynamically show the correct control icons.
-   * Resets visibility to hidden if the field becomes completely empty.
-   * Automatically clears the validation error message state once the user resumes typing.
-   * 
-   * @param {Event} event - The HTML input event from the template.
-   */
-  public onPasswordInput(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    this.passwordValue.set(input.value);
-    this.hasPasswordText.set(input.value.length > 0);
-    
-    if (input.value.length === 0) {
-      this.hidePassword.set(true);
-    }
-
-    this.showError.set(false);
-  }
-
-  /**
-   * Validates the form data on submission. Verifies basic syntax requirements
-   * and non-empty values before performing a simulated mock credential check.
-   * Redirects to the contacts view on success or triggers error signals on failure.
-   * 
-   * @param {Event} event - The HTML form submission event.
-   */
-  public onLoginSubmit(event: Event): void {
-    event.preventDefault();
-
-    const email = this.emailValue().trim();
-    const password = this.passwordValue();
-
-    const isEmailInvalid = email.length === 0 || !email.includes('@');
-    const isPasswordInvalid = password.length === 0;
-
-    if (isEmailInvalid || isPasswordInvalid) {
-      this.showError.set(true);
-      return;
-    }
-
-    // --- TEMPORÄRER DB-TEST-BLOCK (MOCK) ---
-    // Simuliert den Datenbank-Abgleich deines Gruppenmitglieds vorab lokal.
-    const mockEmail = 'test@join.com';
-    const mockPassword = 'password123';
-
-    if (email === mockEmail && password === mockPassword) {
-      this.showError.set(false);
-      this.router.navigate(['/contacts']);  // Später zu summary!
-    } else {
-      this.showError.set(true);
-    }
-  }
-
-  /**
-   * Handles the guest login action by programmatically navigating 
-   * the user directly to the application dashboard.
-   */
-  public onGuestLogin(): void {
-    this.router.navigate(['/contacts']);
-  }
-
-  /**
-   * Handles the navigation to the sign-up page when the header button is clicked.
-   */
-  public onSignupClick(): void {
-    this.router.navigate(['/sign-up']);
-  }
-
-  /**
-   * Navigates the user instantly to the external privacy policy view.
-   */
-  public onPrivacyPolicyClick(): void {
-    this.router.navigate(['/privacy-policy']);
-  }
-
-  /**
-   * Navigates the user instantly to the external legal notice view.
-   */
-  public onLegalNoticeClick(): void {
-    this.router.navigate(['/legal-notice']);
   }
 }
