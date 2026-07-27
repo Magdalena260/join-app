@@ -3,6 +3,15 @@
 .content {
     padding: var(--space-xl);
 
+    @include respond-to (lg) {
+        padding: var(--space-sm);
+        padding-top: var(--space-xl);
+    }
+
+    @include respond-to (md) {
+        padding-bottom: calc(88px + var(--space-xl));
+    }
+
     &__header {
         display: flex;
         align-items: center;
@@ -56,112 +65,6 @@
             flex-direction: column;
         }
 
-        &__summary {
-            width: 60%;
-            display: flex;
-            flex-direction: column;
-            gap: var(--space-xl);
-
-            @include respond-to(lg) {
-                width: 100%;
-            }
-
-            &__firstLane {
-                display: flex;
-                gap: var(--space-xl);
-            }
-
-            &__secondLane {
-                &:hover {
-                    .border {
-                        background-color: white;
-                    }
-                }
-            }
-
-            &__thirdLane {
-                display: flex;
-                gap: var(--space-xl);
-            }
-        }
-    }
-}
-
-.card {
-    background-color: white;
-    height: 160px;
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-allaround);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: var(--space-xl);
-    padding: var(--space-md);
-
-    h2 {
-        margin: 0;
-    }
-
-    &__text {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-
-        p {
-            text-align: center;
-        }
-    }
-
-    &__svg {
-        background-color: var(--clr-blue-dark);
-        border-radius: var(--radius-pill);
-        padding: var(--space-md);
-
-        svg {
-            color: white;
-            width: 28px;
-            height: 28px;
-        }
-
-        &__secondLane {
-            background-color: #ff3d00;
-            border-radius: var(--radius-pill);
-            padding: var(--space-md);
-        }
-    }
-
-    &:hover {
-        background-color: var(--clr-blue-dark);
-        cursor: pointer;
-        color: white;
-
-        .card__svg {
-            background-color: white;
-
-            svg {
-                color: var(--clr-blue-dark);
-            }
-        }
-    }
-
-    &--firstLane {
-        width: 50%;
-    }
-
-    &--secondLane {
-        width: 100%;
-
-        &__summary {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: var(--space-xl);
-        }
-    }
-
-    &--thirdLane {
-        width: 33%;
     }
 }
 
@@ -176,6 +79,14 @@ app-greeting {
     width: 40%;
 
     @include respond-to(lg) {
-        width: 100%;
+       display: none;
     }
+}
+
+app-cards {
+    width: 60%;
+
+    @include respond-to(lg) {
+        width: 100%;
+    }    
 }
