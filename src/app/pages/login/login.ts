@@ -84,7 +84,6 @@ export class Login implements OnInit {
     const input = event.target as HTMLInputElement;
     this.emailValue.set(input.value);
     
-    // Setzt den Fehlerstatus bedingungslos zurück, sobald der User tippt
     this.showError.set(false);
   }
 
@@ -104,7 +103,6 @@ export class Login implements OnInit {
       this.hidePassword.set(true);
     }
 
-    // Setzt den Fehlerstatus bedingungslos zurück, sobald der User tippt
     this.showError.set(false);
   }
 
@@ -154,7 +152,7 @@ export class Login implements OnInit {
    * Handles the navigation to the sign-up page when the header button is clicked.
    */
   public onSignupClick(): void {
-    this.router.navigate(['/signup']);
+    this.router.navigate(['/sign-up']);
   }
 
   /**
