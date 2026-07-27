@@ -13,4 +13,8 @@
         font-weight: 500;
         color: var(--clr-blue-muted)
     }
+
+    @include respond-to(lg) {
+        justify-content: flex-start;
+    }
 }
