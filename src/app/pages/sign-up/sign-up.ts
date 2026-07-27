@@ -17,12 +17,10 @@ import { LogoDark } from '../../shared/components/logo-dark/logo-dark';
   styleUrls: ['./sign-up.scss'],
 })
 export class SignUp {
-  
   /**
    * Root FormGroup object aggregating and managing validation rules for all registration inputs.
    */
   public signUpForm = new FormGroup({
-    // Neu: Validators.pattern stellt sicher, dass NUR Buchstaben eingegeben werden dürfen
     name: new FormControl('', [
       Validators.required, 
       Validators.minLength(2),
@@ -33,7 +31,6 @@ export class SignUp {
     confirmPassword: new FormControl('', [Validators.required]),
     privacyAccepted: new FormControl(false, [Validators.requiredTrue])
   }, { validators: this.passwordMatchValidator });
-
 
   /**
    * Reactive signal controlling whether the primary password input content is masked.
@@ -107,7 +104,7 @@ export class SignUp {
 
     const navigationDelayMs = 800;
     setTimeout(() => {
-      this.router.navigate(['/login']);
+      this.router.navigate(['/login']); 
     }, navigationDelayMs);
   }
 
