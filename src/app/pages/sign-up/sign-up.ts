@@ -49,6 +49,18 @@ export class SignUp {
    * True shows asterisks, false reveals plain text.
    */
   public hideConfirmPassword = signal<boolean>(true);
+
+  /**
+   * Reactive signal tracking if the user has supplied content within the primary password box boundary.
+   * Determines visual layout choices between static locks and interactive view toggles.
+   */
+  public hasPasswordText = signal<boolean>(false);
+
+  /**
+   * Reactive signal tracking if the user has supplied content within the confirmation password box boundary.
+   * Determines visual layout choices between static locks and interactive view toggles.
+   */
+  public hasConfirmPasswordText = signal<boolean>(false);
   
   /**
    * Reactive signal controlling the visual presence of the success toast notification.
@@ -71,21 +83,54 @@ export class SignUp {
   }
 
   /**
+   * Explicitly updates the validation interaction state when the confirmation password field loses focus.
+   */
+  public onConfirmPasswordBlur(): void {
+    this.signUpForm.get('confirmPassword')?.markAsTouched();
+  }
+
+  /**
+   * Synchronizes the text input event of the primary password control with the reactive state graph.
+   * Safely resets masking styles if content parameters shift back to empty states.
+   * 
+   * @param {Event} event - Intercepted DOM interface payload sourced from input nodes.
+   */
+  public onPasswordInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.hasPasswordText.set(input.value.length > 0);
+    if (input.value.length === 0) {
+      this.hidePassword.set(true);
+    }
+  }
+
+  /**
+   * Synchronizes the text input event of the confirmation password control with the reactive state graph.
+   * Safely resets masking styles if content parameters shift back to empty states.
+   * 
+   * @param {Event} event - Intercepted DOM interface payload sourced from input nodes.
+   */
+  public onConfirmPasswordInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.hasConfirmPasswordText.set(input.value.length > 0);
+    if (input.value.length === 0) {
+      this.hideConfirmPassword.set(true);
+    }
+  }
+
+    /**
    * Determines whether the password mismatch error text should be displayed in the UI.
-   * Returns true only if the passwords do not match and the user has finished typing 
-   * or left the confirmation input field.
+   * Returns true only if the passwords do not match and the user has left the confirmation input field.
    * 
    * @returns {boolean} True if the error should be visible, false otherwise.
    */
   public shouldShowPasswordError(): boolean {
-    const password = this.signUpForm.get('password')?.value || '';
-    const confirmPassword = this.signUpForm.get('confirmPassword')?.value || '';
     const confirmControl = this.signUpForm.get('confirmPassword');
 
     if (this.signUpForm.valid || !this.signUpForm.hasError('passwordMismatch')) {
       return false;
     }
-    return !!confirmControl?.touched && confirmPassword !== '';
+
+    return !!confirmControl?.touched;
   }
 
   /**
