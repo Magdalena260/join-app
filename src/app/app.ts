@@ -1,5 +1,6 @@
 import { Component, computed, inject, signal } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { filter } from 'rxjs';
 import { Header } from './layout/header/header';
 import { SidebarComponent } from './layout/sidebar/sidebar';
 
@@ -29,17 +30,40 @@ export class App {
   protected readonly title = signal('join-app');
 
   /**
+   * Reactive signal holding the verified final destination URL path.
+   * Driven by localized stream monitoring inside the component initializer.
+   * 
+   * @private
+   */
+  private currentUrl = signal<string>('');
+
+  /**
+   * Subscribes to synchronous router event lifecycle channels.
+   * Filters specifically for completed navigation targets to populate the tracking matrix.
+   */
+  constructor() {
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: any) => {
+      this.currentUrl.set(event.urlAfterRedirects || event.url);
+    });
+  }
+
+  /**
    * Computed signal evaluating if the active route is a standalone authentication or legal page.
    * Returns true if the viewport should suppress global sidebar and header layout trees.
    */
   protected readonly isAuthPage = computed<boolean>(() => {
-    const currentUrl = this.router.url;
+    const url = this.currentUrl();
+    
+    if (!url) return true;
+
     return (
-      currentUrl === '/' ||
-      currentUrl.includes('/login') ||
-      currentUrl.includes('/sign-up') ||
-      currentUrl.includes('/privacy-policy') ||
-      currentUrl.includes('/legal-notice')
+      url === '/' ||
+      url.startsWith('/login') ||
+      url.startsWith('/sign-up') ||
+      url.startsWith('/privacy-policy') ||
+      url.startsWith('/legal-notice')
     );
   });
 }
