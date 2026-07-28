@@ -18,4 +18,12 @@ export const routes: Routes = [
   { path: 'privacy-policy', component: PrivacyPolicy },
   { path: 'legal-notice', component: LegalNotice },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
+import { AuthGuard } from './shared/components/auth-guard';
+
+export const routes: Routes = [
+  { path: 'contacts', component: Contacts, canActivate: [AuthGuard] },
+  { path: 'board', component: Board, canActivate: [AuthGuard] },
+  { path: 'contacts', component: Contacts, canActivate: [AuthGuard] },
+  { path: 'add-task', component: AddTask, canActivate: [AuthGuard] },
+  {path: '', redirectTo: '/login', pathMatch: 'full'},
 ];
