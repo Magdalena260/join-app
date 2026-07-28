@@ -85,8 +85,11 @@ export class AddTaskSubtasks {
     }
 
     subtask.name = trimmedName;
-    this.editingSubtaskId = null;
     this.updateSubtasksForm();
+
+    setTimeout(() => {
+      this.editingSubtaskId = null;
+    });
   }
 
   /** Cancels subtask edit mode without saving changes. */

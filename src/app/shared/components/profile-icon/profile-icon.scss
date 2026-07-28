@@ -82,7 +82,8 @@
         border: 2px solid var( --clr-blue-muted);
         color: #124658;
         font-weight: var(--fw-semibold);
-        font-size: var(--fs-h3);
+        font-size: var(--fs-h5);
+        background-color: var(--clr-white);
         box-sizing: border-box;
         flex-shrink: 0;
         display: flex;
@@ -91,7 +92,7 @@
       
 
          &:hover {
-        background-color: #0C2E62 12%;
+        background-color: rgba(#0C2E62, 0.12); 
        
   }
     }

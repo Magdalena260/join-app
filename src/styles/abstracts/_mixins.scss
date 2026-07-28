@@ -49,4 +49,14 @@
   } @else {
     @error "Unbekannter Breakpoint: #{$size}.";
   }
+
+  
+}
+
+/*breakpoint 622* also in variables defined*/
+
+@mixin landscape-mobile {
+  @media (max-height: $breakpoint-rotate) {
+    @content;
+  }
 }

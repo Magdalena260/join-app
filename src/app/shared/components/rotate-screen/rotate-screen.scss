@@ -1,0 +1,50 @@
+@use '../../../../styles/abstracts/mixins' as *;
+
+.rotate-screen {
+    position: fixed;
+    inset: 0;
+
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 30px;
+    background-color:  var(--clr-white);
+
+    color: #000;
+
+
+    font-family: var(--ff-display);
+    font-size: var(--fs-h5);
+    text-align: center;
+    z-index: 99999;
+}
+
+.rotate-screen p {
+    margin: 0;
+}
+
+.rotate-screen span {
+    display: block;
+
+    animation: rotate-device-icon 1.5s ease-in-out infinite;
+}
+
+@keyframes rotate-device-icon {
+
+    0%,
+    100% {
+        transform: rotate(0deg);
+    }
+
+    50% {
+        transform: rotate(90deg);
+    }
+}
+
+@include landscape-mobile  {
+  .rotate-screen {
+    display: flex !important;
+  }
+}

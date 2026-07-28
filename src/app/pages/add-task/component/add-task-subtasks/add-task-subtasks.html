@@ -42,11 +42,11 @@
 
     <div class="subtasks__list">
         @for (subtask of currentSubtasks; track subtask.id) {
-        <div class="subtasks__list__element" (click)="editSelectedSubtask(subtask.id)">
+        <div class="subtasks__list__element" (mousedown)="editSelectedSubtask(subtask.id)">
             <li>{{ subtask.name }}</li>
 
             <div class="subtasks__list__element__editInput" [class.editInputDisabled]="!isEditingSubtask(subtask.id)">
-                <input [value]="subtask.name" #editedValue (click)="$event.stopPropagation()">
+                <input [value]="subtask.name" #editedValue (click)="$event.stopPropagation()"  (mousedown)="$event.stopPropagation()">
 
                 <div class="subtasks__list__element__editInput__btns">
                     <div class="subtasks__list__element__btns__btn"
@@ -61,7 +61,7 @@
                     <div class="subtasks__submitIcons__border"></div>
 
                     <div class="subtasks__list__element__btns__btn"
-                        (mousedown)="$event.stopPropagation(); $event.preventDefault(); saveSelectedSubtask(subtask.id, editedValue.value)">
+                        (mousedown)="$event.preventDefault(); saveSelectedSubtask(subtask.id, editedValue.value)">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <mask id="mask0_75601_14762_edit" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0"
                                 y="0" width="24" height="24">

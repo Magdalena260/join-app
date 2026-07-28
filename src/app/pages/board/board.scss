@@ -169,15 +169,6 @@
       flex-wrap: nowrap;
       min-height: 180px;
 
-      /*       margin-left: calc(clamp(var(--space-lg), 5vw, var(--space-2xl)) * -1);
-      margin-right: calc(clamp(var(--space-lg), 5vw, var(--space-2xl)) * -1);
-
-      padding-left: clamp(var(--space-lg), 5vw, var(--space-2xl));
-      padding-right: clamp(var(--space-lg), 5vw, var(--space-2xl));
-
-      padding-bottom: 1rem;
-      padding-top: 0; */
-
       width: auto;
       max-width: none;
       min-width: 0;
@@ -231,6 +222,10 @@
   border: 2px dashed var(--border-clr-dark);
   border-radius: var(--radius-lg);
   min-height: 150px;
+
+  @include respond-to(xl) {
+    min-height: 260px;
+  }
 }
 
 .board__task {

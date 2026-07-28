@@ -3,11 +3,14 @@ import { RouterOutlet } from '@angular/router';
 import { Header } from './layout/header/header';
 import { SidebarComponent } from './layout/sidebar/sidebar';
 import { Greeting } from './pages/summary/greeting/greeting';
+import { RotateScreen } from './shared/components/rotate-screen/rotate-screen';
+
+
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, SidebarComponent, Header, Greeting],
+  imports: [RouterOutlet, SidebarComponent, Header, Greeting, RotateScreen],
   templateUrl: './app.html',
   styleUrls: ['./app.scss'],
 })
