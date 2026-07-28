@@ -3,8 +3,11 @@
   <router-outlet></router-outlet>
 </main>
 } @else {
+<app-rotate-screen></app-rotate-screen>
+
 <div class="app-layout">
   <app-sidebar></app-sidebar>
+
 
   <div class="content-wrapper">
     <app-header></app-header>
@@ -14,4 +17,9 @@
     </main>
   </div>
 </div>
-}
+
+@if (showIntroAnimation()) {
+<section class="introMobileAnimation">
+  <app-greeting></app-greeting>
+</section>
+}}

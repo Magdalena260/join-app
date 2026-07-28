@@ -58,11 +58,11 @@
     }
 
     &:hover {
-      background-color: var(--bg-dark);
+      background-color: var(--clr-blue-dark-muted);
     }
 
     &.active {
-      background-color: var(--bg-special);
+      background-color: var(--bg-dark);
       color: var(--text-color-ultralight);
     }
   }

@@ -1,7 +1,7 @@
 @use '../../../../../styles/abstracts/mixins' as *;
 
 .task-card {
-  @include flexbox(column, center, flex-start, 0.5rem);
+  @include flexbox(column, flex-start, flex-start, 0.5rem);
   max-width: 16rem;
   width: 100%;
   min-width: 7rem;
@@ -15,6 +15,8 @@
   @include respond-to(xl) {
     max-width: 16rem;
     min-width: 16rem;
+
+    height: 280px;
   }
 
   &__header {
@@ -89,20 +91,30 @@
     overflow: hidden;
     text-overflow: ellipsis;
 
-    margin-top: 0.5rem;
+    overflow-wrap: break-word;
+    word-break: break-word;
+
+    flex-shrink: 0;
   }
 
   &__description {
     color: var(--text-color-grey);
 
     display: -webkit-box;
-    -webkit-line-clamp: 3;
-    line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
 
-    margin-top: -0.5rem;
+    overflow-wrap: break-word;
+    word-break: break-word;
+
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+
+    &--with-subtasks {
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+    }
 
     @include respond-to(xl) {
       min-height: var(--fs-body-large);
@@ -152,8 +164,8 @@
 
   &__footer {
     @include flexbox(row, space-between, center, 0);
-
     width: 100%;
+    margin-top: auto;
   }
 
   &__contributors {

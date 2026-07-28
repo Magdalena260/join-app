@@ -131,6 +131,11 @@ app-button {
     }
 }
 
+.createTaskBtn {
+    --btn-primary-hover-bg: var(--clr-blue-muted);
+    --btn-primary-hover-border: var(--clr-blue-muted);
+}
+
 app-add-task-basic-info {
     width: 45%;
 
@@ -201,10 +206,57 @@ app-add-task-detail-info {
 }
 
 .addTaskLayout__content--edit {
+    padding-top: 0;
+
+    .addTaskLayout__content__formComponents {
+        flex-direction: column;
+        gap: var(--space-xl);
+    }
+
     .addTaskLayout__content__footer {
         padding-bottom: 0;
     }
 
+    app-add-task-basic-info {
+        width: 100%;
+    }
 
-    padding-top: 0;
+    app-add-task-detail-info {
+        width: 100%;
+    }
+}
+
+.addTaskLayout--dialog {
+
+    .addTaskLayout__content {
+        @include respond-to(lg) {
+            padding-top: 0;
+        }
+    }
+
+    .addTaskLayout__content__headline {
+        @include respond-to(lg) {
+            background-color: white;
+            position: sticky;
+            padding: 0;
+            top: 0;
+            left: auto;
+            width: 100%;
+        }
+    }
+
+    .addTaskLayout__content__footer {
+        @include respond-to(lg) {
+            position: static;
+            padding-bottom: 0;
+            background-color: transparent;
+        }
+    }
+
+    .addTaskLayout__content__footer__buttons {
+        display: none;
+        @include respond-to(lg) {
+            display: none;
+        }
+    }
 }
