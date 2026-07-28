@@ -79,11 +79,12 @@
                     </div>
 
                     <div class="auth__field-group"
-                        [class.auth__field-group--invalid]="signUpForm.get('password')?.invalid && signUpForm.get('password')?.touched">
+                        [class.auth__field-group--invalid]="signUpForm.get('password')?.invalid && passwordControlTouched">
 
                         <input [type]="hidePassword() ? 'password' : 'text'" placeholder="Password" class="auth__input"
-                            formControlName="password" required />
-                        @if (signUpForm.get('password')?.touched && signUpForm.get('password')?.invalid) {
+                            formControlName="password" (blur)="onPasswordBlur()" required />
+
+                        @if (passwordControlTouched && signUpForm.get('password')?.invalid) {
                         <span class="auth__error-text">
                             @if (signUpForm.get('password')?.hasError('required')) {
                             Password is required.
@@ -93,6 +94,7 @@
                             }
                         </span>
                         }
+
                         <button type="button" class="auth__visibility-btn" (click)="togglePasswordVisibility()">
                             @if (hidePassword()) { <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -123,12 +125,11 @@
                         </button>
                     </div>
 
-
-                    <div class="auth__field-group"
-                        [class.auth__field-group--invalid]="signUpForm.hasError('passwordMismatch') && signUpForm.get('confirmPassword')?.touched">
+                    <div class="auth__field-group" [class.auth__field-group--invalid]="shouldShowPasswordError()">
                         <input [type]="hideConfirmPassword() ? 'password' : 'text'" placeholder="Confirm Password"
                             class="auth__input" formControlName="confirmPassword" required />
-                        @if (signUpForm.get('confirmPassword')?.touched && signUpForm.hasError('passwordMismatch')) {
+
+                        @if (shouldShowPasswordError()) {
                         <span class="auth__error-text">
                             Your passwords don't match. Please try again.
                         </span>

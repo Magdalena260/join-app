@@ -33,6 +33,12 @@ export class SignUp {
   }, { validators: this.passwordMatchValidator });
 
   /**
+   * Tracks whether the primary password input field has lost focus after user interaction.
+   * Prevents formatting errors from flashing prematurely when clicking visibility toggle elements.
+   */
+  public passwordControlTouched = false;
+
+  /**
    * Reactive signal controlling whether the primary password input content is masked.
    * True shows asterisks, false reveals plain text.
    */
@@ -58,6 +64,13 @@ export class SignUp {
   constructor(private router: Router) {}
 
   /**
+   * Explicitly updates the validation interaction state when the primary password field loses focus.
+   */
+  public onPasswordBlur(): void {
+    this.passwordControlTouched = true;
+  }
+
+  /**
    * Determines whether the password mismatch error text should be displayed in the UI.
    * Returns true only if the passwords do not match and the user has finished typing 
    * or left the confirmation input field.
@@ -69,11 +82,10 @@ export class SignUp {
     const confirmPassword = this.signUpForm.get('confirmPassword')?.value || '';
     const confirmControl = this.signUpForm.get('confirmPassword');
 
-    if (this.signUpForm.valid || !this.signUpForm.hasError('passwordMismatch') || confirmPassword === '') {
+    if (this.signUpForm.valid || !this.signUpForm.hasError('passwordMismatch')) {
       return false;
     }
-
-    return !!confirmControl?.touched || confirmPassword.length >= password.length;
+    return !!confirmControl?.touched && confirmPassword !== '';
   }
 
   /**
