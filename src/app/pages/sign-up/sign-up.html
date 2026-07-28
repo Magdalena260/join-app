@@ -24,6 +24,19 @@
                     <div class="auth__field-group"
                         [class.auth__field-group--invalid]="signUpForm.get('name')?.invalid && signUpForm.get('name')?.touched">
                         <input type="text" placeholder="Name" class="auth__input" formControlName="name" required />
+                        @if (signUpForm.get('name')?.touched && signUpForm.get('name')?.invalid) {
+                        <span class="auth__error-text">
+                            @if (signUpForm.get('name')?.hasError('required')) {
+                            Name is required.
+                            }
+                            @if (signUpForm.get('name')?.hasError('minlength')) {
+                            Name must be at least 2 characters.
+                            }
+                            @if (signUpForm.get('name')?.hasError('pattern')) {
+                            Name contains invalid characters.
+                            }
+                        </span>
+                        }
                         <svg class="auth__input-icon" width="24" height="24" viewBox="0 0 24 24" fill="#d1d1d1"
                             xmlns="http://w3.org">
                             <mask id="mask0_71395_17521" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
@@ -38,8 +51,19 @@
                         </svg>
                     </div>
 
-                    <div class="auth__field-group">
+                    <div class="auth__field-group"
+                        [class.auth__field-group--invalid]="signUpForm.get('email')?.invalid && signUpForm.get('email')?.touched">
                         <input type="email" placeholder="Email" class="auth__input" formControlName="email" required />
+                        @if (signUpForm.get('email')?.touched && signUpForm.get('email')?.invalid) {
+                        <span class="auth__error-text">
+                            @if (signUpForm.get('email')?.hasError('required')) {
+                            Email is required.
+                            }
+                            @if (signUpForm.get('email')?.hasError('email')) {
+                            Please enter a valid email address.
+                            }
+                        </span>
+                        }
                         <svg class="auth__input-icon" width="24" height="24" viewBox="0 0 24 24" fill="#d1d1d1"
                             xmlns="http://www.w3.org/2000/svg">
                             <mask id="mask0_71395_17528" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
@@ -54,9 +78,21 @@
                         </svg>
                     </div>
 
-                    <div class="auth__field-group">
+                    <div class="auth__field-group"
+                        [class.auth__field-group--invalid]="signUpForm.get('password')?.invalid && signUpForm.get('password')?.touched">
+
                         <input [type]="hidePassword() ? 'password' : 'text'" placeholder="Password" class="auth__input"
                             formControlName="password" required />
+                        @if (signUpForm.get('password')?.touched && signUpForm.get('password')?.invalid) {
+                        <span class="auth__error-text">
+                            @if (signUpForm.get('password')?.hasError('required')) {
+                            Password is required.
+                            }
+                            @if (signUpForm.get('password')?.hasError('minlength')) {
+                            Password must be at least 4 characters.
+                            }
+                        </span>
+                        }
                         <button type="button" class="auth__visibility-btn" (click)="togglePasswordVisibility()">
                             @if (hidePassword()) { <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -89,9 +125,14 @@
 
 
                     <div class="auth__field-group"
-                        [class.auth__field-group--invalid]="signUpForm.get('confirmPassword')?.hasError('passwordMismatch')">
+                        [class.auth__field-group--invalid]="signUpForm.hasError('passwordMismatch') && signUpForm.get('confirmPassword')?.touched">
                         <input [type]="hideConfirmPassword() ? 'password' : 'text'" placeholder="Confirm Password"
                             class="auth__input" formControlName="confirmPassword" required />
+                        @if (signUpForm.get('confirmPassword')?.touched && signUpForm.hasError('passwordMismatch')) {
+                        <span class="auth__error-text">
+                            Your passwords don't match. Please try again.
+                        </span>
+                        }
                         <button type="button" class="auth__visibility-btn" (click)="toggleConfirmPasswordVisibility()">
                             @if (hideConfirmPassword()) { <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -148,11 +189,6 @@
                                     policy</a></span>
                         </label>
                     </div>
-
-                    @if (shouldShowPasswordError()) {
-                    <span class="auth__error-text text-center" style="width: 100%;">Your passwords don't match. Please
-                        try again.</span>
-                    }
                 </div>
 
                 <div class="auth__action-group">
@@ -162,7 +198,6 @@
                 </div>
             </form>
         </div>
-
         @if (showSuccessToast()) {
         <div class="auth__toast">
             You Signed Up successfully

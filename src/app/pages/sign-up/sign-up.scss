@@ -184,7 +184,6 @@
         user-select: none;
     }
 
-
     &__checkbox-hidden {
         position: absolute;
         opacity: 0;
@@ -257,28 +256,42 @@
     }
 
     &__toast {
-        position: fixed;
-        bottom: 15%; 
+        position: absolute;
+        top: 50%;
         left: 50%;
-        transform: translateX(-50%);
         z-index: 9999;
-        
+
         display: inline-flex;
         align-items: center;
         justify-content: center;
         padding: 14px 24px;
-        
-        background: var(--bg-ultralight);
-        box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.4); 
-        border-radius: 20px; 
-        
+        white-space: nowrap;
+
+        background: var(--clr-blue-muted);
+        box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.4);
+        border-radius: 20px;
+
         font-family: var(--ff-body);
         font-weight: var(--fw-regular);
-        font-style: normal;
-        font-size: var(--fs-body-large); 
-        line-height: var(--lh-heading); 
-        letter-spacing: 0%;
-        color: var(--text-color-dark);
+        font-size: var(--fs-body-large);
+        color: var(--clr-white);
+
+        opacity: 0;
+        animation: toastBottomToCenter 0.6s ease-out forwards;
+    }
+
+    @keyframes toastBottomToCenter {
+        0% {
+            opacity: 0;
+            transform: translate(-50%, -50%) translateY(100vh);
+        }
+        60% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 1;
+            transform: translate(-50%, -50%) translateY(0);
+        }
     }
 
     &__footer {
