@@ -12,4 +12,12 @@ export const routes: Routes = [
   { path: 'sign-up', component: SignUp },
   { path: 'login', component: Login },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
+import { AuthGuard } from './shared/components/auth-guard';
+
+export const routes: Routes = [
+  { path: 'contacts', component: Contacts, canActivate: [AuthGuard] },
+  { path: 'board', component: Board, canActivate: [AuthGuard] },
+  { path: 'contacts', component: Contacts, canActivate: [AuthGuard] },
+  { path: 'add-task', component: AddTask, canActivate: [AuthGuard] },
+  {path: '', redirectTo: '/login', pathMatch: 'full'},
 ];

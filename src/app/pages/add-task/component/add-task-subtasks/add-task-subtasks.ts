@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, ElementRef, HostListener, Input, inject } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 /** Subtask data used inside the add task form before saving. */
@@ -16,6 +16,8 @@ type Subtask = {
 })
 export class AddTaskSubtasks {
   @Input({ required: true }) form!: FormGroup;
+
+  private elementRef = inject(ElementRef<HTMLElement>);
 
   currentSubtaskId = 1;
   currentSubtasks: Subtask[] = [];
@@ -119,5 +121,20 @@ export class AddTaskSubtasks {
     this.form.patchValue({
       subtasks: this.currentSubtasks,
     });
+  }
+
+  /** Cancels edit mode when clicking outside the active edit input. */
+  @HostListener('document:pointerdown', ['$event'])
+  closeEditInputOnPointerDown(event: PointerEvent): void {
+    if (this.editingSubtaskId === null) {
+      return;
+    }
+
+    const target = event.target as HTMLElement;
+    const clickedInsideEditInput = target.closest('.subtasks__list__element__editInput');
+
+    if (!clickedInsideEditInput) {
+      this.cancelEditSubtask();
+    }
   }
 }

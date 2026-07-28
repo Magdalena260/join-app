@@ -246,3 +246,8 @@
     cursor: pointer;
   }
 }
+
+.board__add-desktop {
+  --btn-primary-hover-bg: var(--clr-blue-muted);
+  --btn-primary-hover-border: var(--clr-blue-muted);
+}
