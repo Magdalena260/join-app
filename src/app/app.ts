@@ -16,6 +16,7 @@ export class App implements OnInit {
 
   showIntroAnimation = signal(false);
 
+  /** Shows the mobile intro animation once per browser tab session. */
   ngOnInit(): void {
     const isMobile = window.matchMedia('(max-width: 992px)').matches;
     const introAlreadyShown = window.name.includes('introAnimationShown=true');

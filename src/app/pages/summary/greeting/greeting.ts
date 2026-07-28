@@ -8,6 +8,7 @@ import { Component } from '@angular/core';
 })
 export class Greeting {
 
+  /** Returns a time-based greeting for the current hour. */ 
   get greetingGetter(): string {
     const hour = new Date().getHours();
     if (hour >= 5 && hour < 11) return 'Good morning!';
