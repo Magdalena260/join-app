@@ -29,6 +29,7 @@ export class AuthService {
       console.error('Error occurred while signing in:', error);
     } else {
       this.isAuthenticated = true;
+      this.router.navigate(['']);
     }
     return { data, error };
   }
