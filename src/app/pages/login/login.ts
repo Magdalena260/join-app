@@ -29,8 +29,6 @@ export class Login implements OnInit {
       this.showError.set(true);
       return;
     }
-
-    this.router.navigate(['/summary']);
   }
 
   /**
@@ -144,7 +142,7 @@ export class Login implements OnInit {
    */
   public onGuestLogin(): void { 
     this.authService.guestLogin();
-    this.router.navigate(['/summary']); 
+    this.router.navigate(['']); 
   }
 
   /**
