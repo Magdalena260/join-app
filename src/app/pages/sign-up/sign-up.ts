@@ -27,7 +27,7 @@ export class SignUp {
       Validators.pattern(/^[a-zA-ZäöüÄÖÜß\s-]+$/)
     ]),
     email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [Validators.required, Validators.minLength(4)]),
+    password: new FormControl('', [Validators.required, Validators.minLength(6)]),
     confirmPassword: new FormControl('', [Validators.required]),
     privacyAccepted: new FormControl(false, [Validators.requiredTrue])
   }, { validators: this.passwordMatchValidator });

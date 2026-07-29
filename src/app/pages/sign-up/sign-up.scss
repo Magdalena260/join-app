@@ -257,9 +257,12 @@
 
     &__toast {
         position: absolute;
-        top: 50%;
+        top: 90%; 
         left: 50%;
         z-index: 9999;
+
+        transform: translateX(-50%); 
+        opacity: 0;
 
         display: inline-flex;
         align-items: center;
@@ -268,7 +271,7 @@
         white-space: nowrap;
 
         background: var(--clr-blue-muted);
-        box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.4);
+        box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.4);
         border-radius: 20px;
 
         font-family: var(--ff-body);
@@ -276,21 +279,20 @@
         font-size: var(--fs-body-large);
         color: var(--clr-white);
 
-        opacity: 0;
         animation: toastBottomToCenter 0.6s ease-out forwards;
     }
 
     @keyframes toastBottomToCenter {
         0% {
             opacity: 0;
-            transform: translate(-50%, -50%) translateY(100vh);
+            translate: 0 50vh; 
         }
         60% {
             opacity: 1;
         }
         100% {
             opacity: 1;
-            transform: translate(-50%, -50%) translateY(0);
+            translate: 0 0; 
         }
     }
 
@@ -329,6 +331,84 @@
             color: #124658;  
             text-decoration: none; 
             font-weight: var(--fw-bold);
+        }
+    }
+
+    @include respond-to(md) {
+        height: auto;
+        min-height: 100vh;
+        padding-top: 0px; 
+        padding-bottom: 80px; 
+        @include flexbox(column, center, center, 0); 
+        position: relative; 
+        overflow-x: hidden; 
+
+        &__logo-signup {
+            position: absolute;
+            top: var(--space-xl); 
+            left: var(--space-xl); 
+            pointer-events: none;
+            
+            svg {
+                max-width: 60px; 
+                height: auto;    
+            }
+        }
+
+        &__card {
+            width: 95%; 
+            max-width: 400px; 
+            min-height: auto;
+            padding: var(--space-xl) var(--space-md); 
+            margin: 0 auto; 
+            @include flexbox(column, center, center, var(--space-xl)); 
+        }
+
+        &__card-header {
+            position: relative;
+            width: 100%;
+            @include flexbox(column, center, center, 12px); 
+        }
+
+        &__back-btn {
+            position: absolute;
+            left: 0; 
+            top: 50%;
+            transform: translateY(-50%); 
+            margin: 0;
+
+            &:hover, &:active {
+                transform: translateY(-50%) scale(1.05); 
+            }
+        }
+
+        &__title {
+            font-size: 36px; 
+            text-align: center;
+            width: 100%;
+        }
+
+        &__underline {
+            width: 80px; 
+            height: 3px;
+        }
+
+        &__form {
+            width: 100%; 
+        }
+
+        &__inputs-container {
+            width: 100%;
+        }
+
+        &__footer {
+            position: absolute; 
+            bottom: var(--space-xl); 
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 0; 
+            width: 100%;
+            @include flexbox(row, center, center, 0);
         }
     }
 }

@@ -132,7 +132,7 @@
                         @if (passwordControlTouched && signUpForm.get('password')?.invalid) {
                         <span class="auth__error-text">
                             @if (signUpForm.get('password')?.hasError('required')) { Password is required. }
-                            @if (signUpForm.get('password')?.hasError('minlength')) { Password must be at least 4
+                            @if (signUpForm.get('password')?.hasError('minlength')) { Password must be at least 6
                             characters. }
                         </span>
                         }
@@ -229,11 +229,14 @@
                 </div>
             </form>
         </div>
-        @if (showSuccessToast()) {
-        <div class="auth__toast">
-            You Signed Up successfully
+
+        <div class="toast">
+            @if (showSuccessToast()) {
+            <div class="auth__toast">
+                You Signed Up successfully
+            </div>
+            }
         </div>
-        }
     </div>
     <footer class="auth__footer">
         <div class="auth__footer-nav">
