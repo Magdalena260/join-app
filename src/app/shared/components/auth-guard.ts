@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
-import { Observable } from 'rxjs';
 import { AuthService } from '../services/auth-service';
 
 @Injectable({
@@ -9,15 +8,15 @@ import { AuthService } from '../services/auth-service';
 export class AuthGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
 
-  canActivate(
+  async canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if (this.authService.isLoggedIn()) {
+  ): Promise<boolean | UrlTree> {
+    if (this.authService.isAuthenticated || (await this.authService.isLoggedIn())) {
       return true;
-    } else {
-      // Umleitung zur Login-Seite, wenn nicht eingeloggt
-      return this.router.createUrlTree(['/login']);
     }
+
+    console.log('User is not logged in. Redirecting to login page.');
+    return this.router.createUrlTree(['/login']);
   }
 }

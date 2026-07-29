@@ -1,6 +1,7 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { ButtonComponent } from '../../shared/components/button/button.component';
+import { AuthService } from '../../shared/services/auth-service';
 
 /**
  * Component managing the authentication process and splash screen sequence.
@@ -15,6 +16,23 @@ import { ButtonComponent } from '../../shared/components/button/button.component
   styleUrls: ['./login.scss'],
 })
 export class Login implements OnInit {
+
+  async onLoginSubmit(event: Event) {
+    event.preventDefault();
+
+    const { data, error } = await this.authService.login(
+      this.emailValue(),
+      this.passwordValue(),
+    );
+
+    if (error || !data?.user) {
+      this.showError.set(true);
+      return;
+    }
+
+    this.router.navigate(['/contacts']);
+  }
+
   /**
    * Reactive signal controlling the splash screen animation state.
    * True if the splash transition sequence is active, false once complete.
@@ -60,7 +78,7 @@ export class Login implements OnInit {
    * 
    * @param {Router} router - Core Angular routing layer for application state transitions.
    */
-  constructor(private router: Router) {
+  constructor(private authService: AuthService, private router: Router) {
     const hasAnimated = sessionStorage.getItem('join_splash_done') === 'true';
     if (hasAnimated) {
       this.isAnimating.set(false);
@@ -121,29 +139,11 @@ export class Login implements OnInit {
    * 
    * @param {Event} event - Form block submit event context used to suppress raw document dispatch behaviors.
    */
-  public onLoginSubmit(event: Event): void { 
-    event.preventDefault(); 
-    
-    const email = this.emailValue().trim(); 
-    const password = this.passwordValue(); 
-    
-    if (email.length === 0 || !email.includes('@') || password.length === 0) { 
-      this.showError.set(true); 
-      return; 
-    } 
-    
-    if (email === 'test@join.com' && password === 'password123') { 
-      this.showError.set(false); 
-      this.router.navigate(['/contacts']); 
-    } else { 
-      this.showError.set(true); 
-    } 
-  }
-
   /**
    * Bypasses security parameters to route generic sessions straight to application views.
    */
   public onGuestLogin(): void { 
+    this.authService.guestLogin();
     this.router.navigate(['/contacts']); 
   }
 
