@@ -134,7 +134,7 @@ export class Login implements OnInit {
     
     if (email === 'test@join.com' && password === 'password123') { 
       this.showError.set(false); 
-      this.router.navigate(['/contacts']); 
+      this.router.navigate(['/summary']); 
     } else { 
       this.showError.set(true); 
     } 
@@ -144,7 +144,7 @@ export class Login implements OnInit {
    * Bypasses security parameters to route generic sessions straight to application views.
    */
   public onGuestLogin(): void { 
-    this.router.navigate(['/contacts']); 
+    this.router.navigate(['/summary']); 
   }
 
   /**
