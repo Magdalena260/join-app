@@ -2,6 +2,8 @@
 
 .content {
     padding: var(--space-xl);
+    width: 100%;
+    max-width: var(--container-content-md);;
 
     @include respond-to (lg) {
         padding: var(--space-md);
