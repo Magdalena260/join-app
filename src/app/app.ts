@@ -77,8 +77,8 @@ export class App implements OnInit {
     }, animationDurationMs);
   }
 
-  /**
-   * Computed signal evaluating if the active route is a standalone authentication or legal page.
+    /**
+   * Computed signal evaluating if the active route is a standalone authentication page.
    * Returns true if the viewport should suppress global sidebar and header layout trees.
    */
   protected readonly isAuthPage = computed<boolean>(() => {
@@ -88,9 +88,7 @@ export class App implements OnInit {
 
     return (
       url.startsWith('/login') ||
-      url.startsWith('/sign-up') ||
-      url.startsWith('/privacy-policy') ||
-      url.startsWith('/legal-notice')
+      url.startsWith('/sign-up')
     );
   });
 }
