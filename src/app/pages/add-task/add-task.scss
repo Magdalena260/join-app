@@ -1,5 +1,13 @@
 @use '../../../styles/abstracts/mixins' as *;
 
+h2 {
+    margin: 0;
+
+    @include respond-to (sm) {
+        font-size: 48px;
+    }
+}
+
 .addTaskLayout {
     width: 100%;
     max-width: var(--container-content-md);
@@ -23,7 +31,7 @@
         box-sizing: border-box;
 
         @include respond-to(lg) {
-            padding: var(--space-lg);
+            padding: var(--space-sm);
             padding-top: 140px;
         }
 
@@ -40,7 +48,7 @@
                 top: 96px;
                 left: calc(232px);
                 padding-top: 32px;
-                padding-left: var(--space-lg);
+                padding-left: var(--space-sm);
                 position: fixed;
                 background-color: var(--clr-tinted-grey);
                 z-index: 100;
@@ -63,7 +71,9 @@
             }
 
             h2 {
-                font-size: 52px;
+                @include respond-to(sm) {
+                    font-size: 48px;
+                }
             }
         }
 
@@ -255,6 +265,7 @@ app-add-task-detail-info {
 
     .addTaskLayout__content__footer__buttons {
         display: none;
+
         @include respond-to(lg) {
             display: none;
         }
