@@ -3,6 +3,9 @@ import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validatio
 import { Router } from '@angular/router';
 import { ButtonComponent } from '../../shared/components/button/button.component';
 import { LogoDark } from '../../shared/components/logo-dark/logo-dark';
+import { AuthService } from '../../shared/services/auth-service';
+import { contactsService } from '../../shared/services/contacts-service';
+
 
 /**
  * Component handling the registration process for new users.
@@ -69,11 +72,16 @@ export class SignUp {
   public showSuccessToast = signal<boolean>(false);
 
   /**
+   * Prevents duplicate sign-up requests while the current submission is still running.
+   */
+  public isSubmitting = signal<boolean>(false);
+
+  /**
    * Initializes the component with dependency injection.
    * 
    * @param {Router} router - The Angular router service for programmatic navigation.
    */
-  constructor(private router: Router) {}
+  constructor(private router: Router, private authService: AuthService, private contactsService: contactsService) {}
 
   /**
    * Explicitly updates the validation interaction state when the primary password field loses focus.
@@ -151,18 +159,41 @@ export class SignUp {
    * Handles the programmatic form submission logic. Halts execution if the reactive form group is invalid.
    * Displays a visual success confirmation feedback toast before navigating back to the login view.
    */
-  public onSignUpSubmit(): void {
-    if (this.signUpForm.invalid) return;
+  public async onSignUpSubmit(): Promise<void> {
+    if (this.signUpForm.invalid || this.isSubmitting()) return;
 
-    const { name, email } = this.signUpForm.value;
-    console.log('Registration submitted for:', name, email);
+    this.isSubmitting.set(true);
+
+    const email = this.signUpForm.value.email ?? '';
+    const password = this.signUpForm.value.password ?? '';
+
+    const { error } = await this.authService.signUp(email, password);
+
+    const name = this.signUpForm.controls.name.value!.trim();
+    const emailtrim = this.signUpForm.controls.email.value!.trim();
+
+    const [firstname, ...lastnameParts] = name.split(/\s+/);
+
+
+    await this.contactsService.setContact([{
+      firstname: firstname,
+      lastname: lastnameParts.join(' '),
+      telephone: '',
+      email: emailtrim,
+    }]);
+
+    if (error) {
+      console.error(error);
+      return;
+    }
 
     this.showSuccessToast.set(true);
 
-    const navigationDelayMs = 800;
     setTimeout(() => {
-      this.router.navigate(['/login']); 
-    }, navigationDelayMs);
+      this.router.navigate(['/login']);
+    }, 800);
+
+    this.isSubmitting.set(false);
   }
 
   /**

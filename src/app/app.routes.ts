@@ -12,13 +12,14 @@ import { PrivacyPolicy } from './shared/components/privacy-policy/privacy-policy
 export const routes: Routes = [
   { path: 'login', component: Login },
   { path: 'sign-up', component: SignUp },
+
+  { path: '', component: Summary },
   { path: 'privacy-policy', component: PrivacyPolicy },
   { path: 'legal-notice', component: LegalNotice },
 
-  { path: 'summary', component: Summary, canActivate: [AuthGuard] },
+  { path: 'contacts', component: Contacts, canActivate: [AuthGuard] },
   { path: 'board', component: Board, canActivate: [AuthGuard] },
   { path: 'add-task', component: AddTask, canActivate: [AuthGuard] },
-  { path: 'contacts', component: Contacts, canActivate: [AuthGuard] },
-
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '**', redirectTo: '/login', pathMatch: 'full' }
 ];
+

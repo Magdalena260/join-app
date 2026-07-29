@@ -87,7 +87,6 @@ export class App implements OnInit {
     if (!url) return true;
 
     return (
-      url === '/' ||
       url.startsWith('/login') ||
       url.startsWith('/sign-up') ||
       url.startsWith('/privacy-policy') ||

@@ -224,7 +224,7 @@
 
                 <div class="auth__action-group">
                     <app-button [text]="'Sign up'" [variant]="'primary'" [size]="'md'" [buttonType]="'submit'"
-                        [disabled]="signUpForm.invalid" class="auth__custom-btn">
+                        [disabled]="signUpForm.invalid || isSubmitting()" class="auth__custom-btn">
                     </app-button>
                 </div>
             </form>
