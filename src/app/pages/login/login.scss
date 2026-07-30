@@ -271,12 +271,11 @@
     &__inputs-container {
         width: 100%;
         max-width: 422px;
-
         @include flexbox(column, center, center, var(--space-xl)); 
 
         @include respond-to(md) {
             width: 100%; 
-            max-width: 364px; 
+            max-width: 400px; 
             gap: 16px;       
         }
     }
@@ -295,6 +294,12 @@
                 }
             }
         }
+
+        @include respond-to(md) {
+            height: auto; 
+            min-height: 48px;
+            @include flexbox(column, flex-start, flex-start, 0); 
+        }
     }
 
     &__error-text {
@@ -304,11 +309,17 @@
         line-height: var(--lh-heading); 
         letter-spacing: 0em;
         color: #E60026;
-
         text-align: left;
         width: 100%;
         display: block;
         margin-top: var(--space-xs); 
+
+        @include respond-to(md) {
+            font-size: 14px; 
+            margin-top: 6px; 
+            margin-bottom: 12px; 
+            display: block;
+        }
     }
 
     &__input {
@@ -325,6 +336,11 @@
         &:focus {
             border-color: var(--border-clr-active);
         }
+
+        @include respond-to(md) {
+            padding-right: 44px; 
+            height: 48px;
+        }
     }
 
     &__input-icon {
@@ -333,6 +349,11 @@
         top: 50%;
         transform: translateY(-50%);
         pointer-events: none;
+
+        @include respond-to(md) {
+            top: 24px; 
+            transform: translateY(-50%);
+        }
     }
 
     &__visibility-btn {
@@ -348,6 +369,11 @@
 
         &:focus {
             outline: none;
+        }
+
+        @include respond-to(md) {
+            top: 24px;
+            transform: translateY(-50%);
         }
     }
 
