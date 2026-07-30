@@ -4,6 +4,11 @@ import { LogoDark } from '../../shared/components/logo-dark/logo-dark';
 import { ProfileIcon } from '../../shared/components/profile-icon/profile-icon';
 import { AuthService } from '../../shared/services/auth-service';
 
+/**
+ * Component managing the global application header.
+ * Handles user profile menu toggles, routing links (like help/legal/privacy),
+ * and dynamic user initials based on active authentication state changes.
+ */
 @Component({
   selector: 'app-header',
   imports: [LogoDark, ProfileIcon, RouterLink, RouterLinkActive],
@@ -11,16 +16,37 @@ import { AuthService } from '../../shared/services/auth-service';
   styleUrls: ['./header.scss'],
 })
 export class Header implements OnInit, OnDestroy {
-  userInitials: string = 'G';
+  /**
+   * Caches the evaluated initials of the authenticated user.
+   * Defaults to 'G' for guest accounts or unauthenticated states.
+   */
+  public userInitials: string = 'G';
+
+  /**
+   * Subscription reference tracking the Supabase authentication handshake state stream.
+   * Kept in memory to prevent memory leaks upon component destruction.
+   * @private
+   */
   private authSubscription?: any;
 
+  /**
+   * Instantiates the header component context.
+   * 
+   * @param {AuthService} authService - Service managing authentication requests and session states.
+   * @param {Router} router - Core Angular routing layer for application state transitions.
+   * @param {ChangeDetectorRef} cdr - Service to manually trigger change detection loops for asynchronously loaded profile data.
+   */
   constructor(
     private authService: AuthService, 
     private router: Router,
     private cdr: ChangeDetectorRef 
   ) {}
 
-  ngOnInit() {
+  /**
+   * Lifecycle hook triggered instantly upon component initialization.
+   * Resolves baseline user footprints and binds a persistent hook to capture cross-session auth changes.
+   */
+  public ngOnInit(): void {
     this.loadUserInitials();
 
     const supabase = (this.authService as any).dB; 
@@ -32,13 +58,23 @@ export class Header implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy() {
+  /**
+   * Lifecycle hook triggered when the component is destroyed.
+   * Unsubscribes from the active auth handshake stream to purge resources cleanly.
+   */
+  public ngOnDestroy(): void {
     if (this.authSubscription) {
       this.authSubscription.unsubscribe();
     }
   }
 
-  async loadUserInitials() {
+  /**
+   * Asynchronously pulls raw session records from the authentication layer.
+   * Defers visual evaluation to synchronize character signals and safely flush state modifications.
+   * 
+   * @returns {Promise<void>} A promise that resolves when the user initials have been evaluated and view state is forced.
+   */
+  public async loadUserInitials(): Promise<void> {
     const user = await this.authService.getUser();
 
     setTimeout(() => {
@@ -57,6 +93,14 @@ export class Header implements OnInit, OnDestroy {
     }, 0);
   }
 
+  /**
+   * Extracts exactly two identifying initial characters from a given full name string.
+   * Falls back to the first two leading letters of the string if name tokens cannot be securely split.
+   * 
+   * @param {string} name - The raw full name string evaluated from database user meta streams.
+   * @returns {string} A two-character capitalized string representing the initials.
+   * @private
+   */
   private getInitialsFromName(name: string): string {
     const parts = name.trim().split(/\s+/);
     if (parts.length >= 2 && parts[0] && parts[parts.length - 1]) {
@@ -65,7 +109,10 @@ export class Header implements OnInit, OnDestroy {
     return name.substring(0, 2).toUpperCase();
   }
 
-  logOut() {
+  /**
+   * Destroys the current active session state and redirects browser navigation parameters back to login paths.
+   */
+  public logOut(): void {
     this.authService.logout();
     this.router.navigate(['/login']);
   }
