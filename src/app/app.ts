@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { filter } from 'rxjs';
 import { Header } from './layout/header/header';
@@ -50,28 +50,7 @@ export class App {
     });
   }
 
-  // /**
-  //  * Executed on component initialization. Checks client environment specifications 
-  //  * to trigger a single-session responsive onboarding animation for mobile form factors.
-  //  */
-  // public ngOnInit(): void {
-  //   const isMobile = window.matchMedia('(max-width: 992px)').matches;
-  //   const introAlreadyShown = window.name.includes('introAnimationShown=true');
-
-  //   if (!isMobile || introAlreadyShown) {
-  //     return;
-  //   }
-
-  //   window.name = `${window.name};introAnimationShown=true`;
-  //   this.showIntroAnimation.set(true);
-
-  //   const animationDurationMs = 2000;
-  //   setTimeout(() => {
-  //     this.showIntroAnimation.set(false);
-  //   }, animationDurationMs);
-  // }
-
-    /**
+  /**
    * Computed signal evaluating if the active route is a standalone authentication page.
    * Returns true if the viewport should suppress global sidebar and header layout trees.
    */
