@@ -15,24 +15,102 @@ import { AuthService } from '../../shared/services/auth-service';
   templateUrl: './header.html',
   styleUrls: ['./header.scss'],
 })
-export class Header {
+export class Header implements OnInit, OnDestroy {
   /**
-   * Instantiates the component wrapper context and injects core routing and authentication services.
-   *
-   * @param {AuthService} authService - Core authentication layer managing active user sessions.
+   * Caches the evaluated initials of the authenticated user.
+   * Defaults to 'G' for guest accounts or unauthenticated states.
+   */
+  public userInitials: string = 'G';
+
+  /**
+   * Subscription reference tracking the Supabase authentication handshake state stream.
+   * Kept in memory to prevent memory leaks upon component destruction.
+   * @private
+   */
+  private authSubscription?: any;
+
+  /**
+   * Instantiates the header component context.
+   * 
+   * @param {AuthService} authService - Service managing authentication requests and session states.
    * @param {Router} router - Core Angular routing layer for application state transitions.
+   * @param {ChangeDetectorRef} cdr - Service to manually trigger change detection loops for asynchronously loaded profile data.
    */
   constructor(
-    private authService: AuthService,
+    private authService: AuthService, 
     private router: Router,
+    private cdr: ChangeDetectorRef 
   ) {}
 
   /**
-   * Triggers the explicit termination sequence for the active user session.
-   * Purges authorization states via the authentication service and programmatically redirects
-   * the view context back to the baseline login interface.
+   * Lifecycle hook triggered instantly upon component initialization.
+   * Resolves baseline user footprints and binds a persistent hook to capture cross-session auth changes.
    */
-  logOut() {
+  public ngOnInit(): void {
+    this.loadUserInitials();
+    const supabase = (this.authService as any).dB; 
+    if (supabase) {
+      const { data } = supabase.auth.onAuthStateChange((event: string, session: any) => {
+        this.loadUserInitials();
+      });
+      this.authSubscription = data.subscription;
+    }
+  }
+
+  /**
+   * Lifecycle hook triggered when the component is destroyed.
+   * Unsubscribes from the active auth handshake stream to purge resources cleanly.
+   */
+  public ngOnDestroy(): void {
+    if (this.authSubscription) {
+      this.authSubscription.unsubscribe();
+    }
+  }
+
+  /**
+   * Asynchronously pulls raw session records from the authentication layer.
+   * Defers visual evaluation to synchronize character signals and safely flush state modifications.
+   * 
+   * @returns {Promise<void>} A promise that resolves when the user initials have been evaluated and view state is forced.
+   */
+  public async loadUserInitials(): Promise<void> {
+    const user = await this.authService.getUser();
+    setTimeout(() => {
+      if (!user) {
+        this.userInitials = 'G';
+      } else {
+        const fullName = user.user_metadata?.['full_name'] || user.user_metadata?.['name'];
+        if (fullName) {
+          this.userInitials = this.getInitialsFromName(fullName);
+        } else if (user.email) {
+          this.userInitials = user.email.substring(0, 2).toUpperCase();
+        }
+      }
+      
+      this.cdr.detectChanges(); 
+    }, 0);
+  }
+
+  /**
+   * Extracts exactly two identifying initial characters from a given full name string.
+   * Falls back to the first two leading letters of the string if name tokens cannot be securely split.
+   * 
+   * @param {string} name - The raw full name string evaluated from database user meta streams.
+   * @returns {string} A two-character capitalized string representing the initials.
+   * @private
+   */
+  private getInitialsFromName(name: string): string {
+    const parts = name.trim().split(/\s+/);
+    if (parts.length >= 2 && parts[0] && parts[parts.length - 1]) {
+      return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase();
+    }
+    return name.substring(0, 2).toUpperCase();
+  }
+
+  /**
+   * Destroys the current active session state and redirects browser navigation parameters back to login paths.
+   */
+  public logOut(): void {
     this.authService.logout();
     this.router.navigate(['/login']);
   }
