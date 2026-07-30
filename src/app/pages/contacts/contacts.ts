@@ -5,6 +5,11 @@ import { ContactsDetailComponent } from './components/contacts-detail/contacts-d
 import { ContactList, UIContact } from './components/contacts-list/contacts-list';
 import { EditContactComponent } from './components/edit-contact/edit-contact';
 
+/**
+ * Component responsible for orchestrating the contacts management view.
+ * Coordinates data flows between the contact list, detailed information view,
+ * and editing overlays using reactive state signals.
+ */
 @Component({
   selector: 'app-contacts',
   standalone: true,
@@ -87,8 +92,11 @@ export class Contacts {
     this.closeEditContact();
   }
 
-    /**
+  /**
    * Resets the active contact to null to return to the list view on mobile.
+   * 
+   * @param {ContactList} listComponent - The child contact list component instance to clear its local selection.
+   * @returns {void}
    */
   public handleBackToList(listComponent: ContactList): void {
     this.activeContact.set(null);
