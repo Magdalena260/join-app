@@ -98,17 +98,17 @@
             }
 
             .auth__splash--animated & {
-                top: clamp(20px, 5vh, 37px);   
-                left: clamp(20px, 5vw, 38px);  
+                top: clamp(24px, 6vh, 40px);  
+                left: clamp(24px, 6vw, 40px);  
                 transform: none; 
                 
-                width: clamp(44px, 12vw, 64px);          
+                width: clamp(70px, 16vw, 90px);         
                 height: auto;
 
                 svg {
                     .logo-path-dark { fill: #2A3647; }
-                    .logo-path-accent { fill: var(--clr-blue-light); }
-
+                    .logo-path-accent { fill: var(--clr-blue-light); 
+                    }
                 }
             }
         }
@@ -135,14 +135,14 @@
         @include respond-to(md) {
             position: absolute;
             top: auto;
-            bottom: 16%;
+            bottom: 14%; 
             left: 50%;
             right: auto;
             transform: translateX(-50%);
             
             width: 100%;
-            max-width: 292px;
-            height: 49px;
+            max-width: calc(100% - 32px); 
+            height: auto; 
             margin: 0;
             justify-content: center;
         }
@@ -198,7 +198,6 @@
             }
         }
 
-
         @include respond-to(md) {
             position: absolute;
             top: 50%;
@@ -215,7 +214,7 @@
 
             &--visible {
                 opacity: 1;
-                transform: translate(-50%, -58%) translateY(0);
+                transform: translate(-50%, -54%) translateY(0);
             }  
         }
     }
@@ -241,7 +240,7 @@
         text-align: center;
 
         @include respond-to(md) {
-            font-size: 47px;            
+            font-size: clamp(32px, 10vw, 44px);            
             color: var(--clr-black);    
         }
     }
@@ -272,12 +271,11 @@
     &__inputs-container {
         width: 100%;
         max-width: 422px;
-
         @include flexbox(column, center, center, var(--space-xl)); 
 
         @include respond-to(md) {
             width: 100%; 
-            max-width: 364px; 
+            max-width: 400px; 
             gap: 16px;       
         }
     }
@@ -296,6 +294,12 @@
                 }
             }
         }
+
+        @include respond-to(md) {
+            height: auto; 
+            min-height: 48px;
+            @include flexbox(column, flex-start, flex-start, 0); 
+        }
     }
 
     &__error-text {
@@ -305,11 +309,17 @@
         line-height: var(--lh-heading); 
         letter-spacing: 0em;
         color: #E60026;
-
         text-align: left;
         width: 100%;
         display: block;
         margin-top: var(--space-xs); 
+
+        @include respond-to(md) {
+            font-size: 14px; 
+            margin-top: 6px; 
+            margin-bottom: 12px; 
+            display: block;
+        }
     }
 
     &__input {
@@ -326,6 +336,11 @@
         &:focus {
             border-color: var(--border-clr-active);
         }
+
+        @include respond-to(md) {
+            padding-right: 44px; 
+            height: 48px;
+        }
     }
 
     &__input-icon {
@@ -334,6 +349,11 @@
         top: 50%;
         transform: translateY(-50%);
         pointer-events: none;
+
+        @include respond-to(md) {
+            top: 24px; 
+            transform: translateY(-50%);
+        }
     }
 
     &__visibility-btn {
@@ -349,6 +369,11 @@
 
         &:focus {
             outline: none;
+        }
+
+        @include respond-to(md) {
+            top: 24px;
+            transform: translateY(-50%);
         }
     }
 
@@ -379,7 +404,7 @@
             width: 100%; 
             max-width: 180px; 
             height: auto;
-            margin-top: clamp(16px, 4vh, 32px); 
+            margin-top: auto;
             margin-bottom: 0;
             margin-left: auto;
             margin-right: auto; 
@@ -444,6 +469,7 @@
             }
         }
     }
+    
     &__footer {
         position: absolute;
         bottom: var(--space-2xl);

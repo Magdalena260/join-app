@@ -106,3 +106,34 @@
     }
   }
 }
+
+.hidden-desktop-md {
+    display: none;
+
+    @include respond-to(md) {
+        display: flex;
+    }
+}
+
+.header__usermenu {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    &__help-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: #a8a8a8;
+        transition: color 0.2s ease-in-out;
+
+        &:hover {
+            color: var(--clr-blue-light);
+        }
+
+        @include respond-to(md) {
+            display: none;
+        }
+    }
+}

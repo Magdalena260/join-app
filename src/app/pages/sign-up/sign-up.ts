@@ -61,7 +61,7 @@ export class SignUp {
 
   /**
    * Reactive signal tracking if the user has supplied content within the confirmation password box boundary.
-   * Determines visual layout choices between static locks and interactive view toggles.
+   * Determines visual choices between static locks and interactive view toggles.
    */
   public hasConfirmPasswordText = signal<boolean>(false);
   
@@ -80,6 +80,8 @@ export class SignUp {
    * Initializes the component with dependency injection.
    * 
    * @param {Router} router - The Angular router service for programmatic navigation.
+   * @param {AuthService} authService - Service managing user registration and authentication handshakes.
+   * @param {contactsService} contactsService - Service handling creation and management of user contacts.
    */
   constructor(private router: Router, private authService: AuthService, private contactsService: contactsService) {}
 
@@ -125,7 +127,7 @@ export class SignUp {
     }
   }
 
-    /**
+  /**
    * Determines whether the password mismatch error text should be displayed in the UI.
    * Returns true only if the passwords do not match and the user has left the confirmation input field.
    * 
@@ -158,6 +160,8 @@ export class SignUp {
   /**
    * Handles the programmatic form submission logic. Halts execution if the reactive form group is invalid.
    * Displays a visual success confirmation feedback toast before navigating back to the login view.
+   * 
+   * @returns {Promise<void>} A promise that resolves when the signup process and routing conclude.
    */
   public async onSignUpSubmit(): Promise<void> {
     if (this.signUpForm.invalid || this.isSubmitting()) return;
@@ -217,7 +221,7 @@ export class SignUp {
     this.router.navigate(['/legal-notice']);
   }
 
-  /**
+    /**
    * Custom validator executing synchronous matching validation between password and confirmPassword inputs.
    * 
    * @private

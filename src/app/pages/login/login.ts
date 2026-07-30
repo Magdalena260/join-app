@@ -17,6 +17,13 @@ import { AuthService } from '../../shared/services/auth-service';
 })
 export class Login implements OnInit {
 
+  /**
+   * Validates credentials and handles the submission of the login form.
+   * Updates error states if the authentication handshake fails.
+   * 
+   * @param {Event} event - Form submission event used to prevent default browser behavior.
+   * @returns {Promise<void>} A promise that resolves when the login process completes.
+   */
   async onLoginSubmit(event: Event) {
     event.preventDefault();
 
@@ -66,7 +73,7 @@ export class Login implements OnInit {
   public passwordValue = signal<string>('');
 
   /**
-   * Reactive signal driving the visibility matrix of the general authorization failure notice block.
+   * Reactive signal driving the visibility of the general authorization failure notice block.
    */
   public showError = signal<boolean>(false);
 
@@ -74,6 +81,7 @@ export class Login implements OnInit {
    * Instantiates the component wrapper context and evaluates session loading footprints.
    * Hard-bypasses transition schedules immediately if past records are validated.
    * 
+   * @param {AuthService} authService - Service managing authentication requests and session states.
    * @param {Router} router - Core Angular routing layer for application state transitions.
    */
   constructor(private authService: AuthService, private router: Router) {
@@ -86,7 +94,7 @@ export class Login implements OnInit {
 
   /**
    * Lifecycle hook triggered instantly upon component tree evaluation.
-   * Aborts transition sub-routines completely if the skip-flag matrix evaluates to true.
+   * Aborts transition sub-routines completely if the skip-flag evaluates to true.
    */
   public ngOnInit(): void {
     if (this.skipAnimation()) {
@@ -131,12 +139,6 @@ export class Login implements OnInit {
     this.showError.set(false); 
   }
 
-  /**
-   * Validates explicit syntax criteria and submission shapes on interception.
-   * Simulates a local secure authorization handshake before triggering programmatic routing changes.
-   * 
-   * @param {Event} event - Form block submit event context used to suppress raw document dispatch behaviors.
-   */
   /**
    * Bypasses security parameters to route generic sessions straight to application views.
    */

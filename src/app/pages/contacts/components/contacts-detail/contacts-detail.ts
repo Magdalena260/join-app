@@ -2,6 +2,11 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UIContact } from '../contacts-list/contacts-list';
 
+/**
+ * Component responsible for displaying detailed information about a selected contact.
+ * Manages contextual mobile actions and dispatches event streams for updating or 
+ * removing records within higher-level orchestrator views.
+ */
 @Component({
   selector: 'app-contacts-detail',
   standalone: true,
@@ -35,6 +40,9 @@ export class ContactsDetailComponent {
    */
   @Output() public close = new EventEmitter<void>();
 
+  /** 
+   * State flag determining whether the contextual responsive action sheet or mobile overlay is visible. 
+   */
   public isMobileMenuOpen = false;
 
   /** Toggles the visibility of the mobile edit/delete menu. */
@@ -63,6 +71,11 @@ export class ContactsDetailComponent {
       this.delete.emit(this.contact);
     }
   }
+
+  /**
+   * Dispatches an empty notification signal to trigger list navigation behaviors on mobile layouts.
+   * @returns {void}
+   */
   public onCloseDetail(): void {
     this.close.emit();
   }

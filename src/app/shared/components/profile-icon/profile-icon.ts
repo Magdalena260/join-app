@@ -1,64 +1,60 @@
-/*
-The imports come from contacts-list.ts.
-
-Since this is a standalone component,
-the required imports are added directly to the component.
-
-The initials and the avatar color are passed via @Input().
-There is also an array containing the available avatar colors.
-
-Replace Contact with User everywhere,
-because we want to work with the initials of the logged-in user.
-
-Import the Contact model and set the correct file path.
-*/
-
 import { Component, Input } from '@angular/core';
 
-
-/*only fpr testing Contact Contact ID*/
-interface Contact {
+/**
+ * Raw fallback blueprint matching the core database user or authenticated account record.
+ */
+interface User {
   id: number;
   firstname: string;
   lastname: string;
 }
 
-interface UIContact extends Contact {
+/**
+ * Enriched user contract extending the core payload with computed visual interface properties.
+ */
+interface UIUser extends User {
   name: string;
   initials: string;
   avatarColor: string;
 }
 
+/**
+ * Component managing the global user profile badge or avatar icon.
+ * Dynamically evaluates character initials, maps persistent branding palettes,
+ * and scales typography containers across multiple application layout anchors.
+ */
 @Component({
   selector: 'app-profile-icon',
   standalone: true,
   templateUrl: './profile-icon.html',
   styleUrls: ['./profile-icon.scss']
 })
-
-/*Import initials, avatar color, & Contact! and avaible colors */
 export class ProfileIcon {
 
-  @Input() initials = '';
+  /**
+   * Explicitly supplied character sequence for quick-rendering active or guest accounts.
+   */
+  @Input() public initials: string = '';
 
-  @Input() avatarColor = '';
+  /**
+   * Explicitly supplied design token reference string determining the background color fill.
+   */
+  @Input() public avatarColor: string = '';
 
-  @Input() contact?: UIContact;
+  /**
+   * Optional comprehensive user object containing pre-calculated name, initial, and color metadata.
+   */
+  @Input() public user?: UIUser;
 
-  @Input() size: 'normal' | 'small' | 'big' | 'eighty' | 'header' = 'normal';
+  /**
+   * Layout scale descriptor defining the dimensional boundary conditions of the rendered avatar boundary.
+   */
+  @Input() public size: 'normal' | 'small' | 'big' | 'eighty' | 'header' = 'normal';
 
-/*testing user*/
-public testContact!: UIContact;
-
-constructor() {
-  this.testContact = this.transformContactData({
-    id: 1,
-    firstname: 'Magdalena',
-    lastname: 'Laurisch'
-  });
-}
-
-    public availableColors: string[] = [
+  /**
+   * Static indexed catalog of available design-system palette variables mapped to unique records.
+   */
+  public availableColors: string[] = [
     'var(--clr-user-tangerine)',
     'var(--clr-user-flamingo)',
     'var(--clr-user-iris)',
@@ -76,25 +72,26 @@ constructor() {
     'var(--clr-user-marigold)'
   ];
 
-/*from Jérôme Data: contact-list: changing: contact to user! */
-    /**
-     * Transforms raw Supabase database fields into UI-ready fields like combined name, initials, and colors.
-     * @param {Contact} contact - The raw database user object.
-     * @returns {UIContact} The enriched user object including UI properties.
-     */
-private transformContactData(contact: Contact): UIContact {
-    const firstLetter = contact.firstname?.charAt(0).toUpperCase() || '';
-    const lastLetter = contact.lastname?.charAt(0).toUpperCase() || '';
-    const contactId = typeof contact.id === 'number' ? contact.id : 0;
-    const colorIndex = Math.abs(contactId) % this.availableColors.length;
+  /**
+   * Transforms raw database user fields into UI-ready parameters.
+   * Maps individual identification keys to safe array ranges to ensure a deterministic color assignment.
+   * Reserved for future implementation hooks or local mock pipeline data transformations.
+   * 
+   * @param {User} user - The baseline raw database or authentication record.
+   * @returns {UIUser} An enriched data structure ready for interface rendering.
+   * @private
+   */
+  private transformUserData(user: User): UIUser {
+    const firstLetter = user.firstname?.charAt(0).toUpperCase() || '';
+    const lastLetter = user.lastname?.charAt(0).toUpperCase() || '';
+    const userId = typeof user.id === 'number' ? user.id : 0;
+    const colorIndex = Math.abs(userId) % this.availableColors.length;
+
     return {
-      ...contact,
-      name: `${contact.firstname} ${contact.lastname}`,
+      ...user,
+      name: `${user.firstname} ${user.lastname}`,
       initials: `${firstLetter}${lastLetter}`,
       avatarColor: this.availableColors[colorIndex],
     };
   }
 }
-
-
-  

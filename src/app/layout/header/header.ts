@@ -1,9 +1,8 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { LogoDark } from '../../shared/components/logo-dark/logo-dark';
 import { ProfileIcon } from '../../shared/components/profile-icon/profile-icon';
-import { RouterLink } from '@angular/router';
 import { AuthService } from '../../shared/services/auth-service';
-import { Router } from '@angular/router';
 
 /**
  * Component managing the global application header interface.
@@ -12,7 +11,7 @@ import { Router } from '@angular/router';
  */
 @Component({
   selector: 'app-header',
-  imports: [LogoDark, ProfileIcon, RouterLink],
+  imports: [LogoDark, ProfileIcon, RouterLink, RouterLinkActive],
   templateUrl: './header.html',
   styleUrls: ['./header.scss'],
 })

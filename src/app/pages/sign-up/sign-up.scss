@@ -7,11 +7,26 @@
     background-color: var(--bg-light);
     @include flexbox(column, center, center, 0);
 
+    @include respond-to(md) {
+        height: auto;
+        min-height: 100vh;
+        padding: 120px var(--space-md) 100px var(--space-md);
+        @include flexbox(column, center, center, 0); 
+        overflow-y: auto;
+    }
+
     &__logo-signup {
         position: absolute;
         top: var(--space-2xl); 
         left: var(--space-4xl); 
         pointer-events: none;
+
+        @include respond-to(md) {
+            top: clamp(20px, 4vh, 40px);
+            left: clamp(20px, 4vw, 40px);
+            width: clamp(70px, 12vw, 90px);
+            height: auto;
+        }
     }
 
     &__back-btn {
@@ -26,7 +41,7 @@
         opacity: 1;
         
         position: absolute;
-        left: -56px; 
+        left: -48px; 
         top: 20px;
         
         @include flexbox(row, center, center, 0);
@@ -49,6 +64,18 @@
         &:focus {
             outline: none;
         }
+
+        @include respond-to(md) {
+            position: absolute;
+            left: 16px; 
+            top: 10px;
+            transform: none;
+        }
+
+        @include respond-to(sm) {
+            left: -8px; 
+            top: 8px;
+        }
     }
 
     &__card {
@@ -59,48 +86,116 @@
         background-color: var(--bg-ultralight);
         box-shadow: 0px 0px 14px 3px rgba(0, 0, 0, 0.14);
         @include flexbox(column, center, center, var(--space-xl)); 
-        margin-top: -100px;
-        
-        opacity: 0;
-        transform: translateY(20px);
-        transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out;
 
-        &--visible {
-            opacity: 1;
-            transform: translateY(0);
+        @media (min-width: 769px) {
+            position: static;
+            top: auto;
+            left: auto;
+            transform: none; 
+            margin: 0 auto;
+
+            &--visible {
+                opacity: 1;
+                transform: none; 
+            }
+        }
+
+        @include respond-to(md) {
+            position: relative;
+            top: auto;
+            left: auto;
+            transform: none; 
+            
+            width: 100%;
+            max-width: 400px; 
+            min-height: auto;        
+            border-radius: 30px;      
+            
+            padding: var(--space-xl) 16px var(--space-lg) 16px; 
+            gap: 24px; 
+            margin: 0 auto; 
+
+            &--visible {
+                transform: none; 
+                opacity: 1;
+            }  
+
+            @include respond-to(sm) {
+                max-height: calc(100vh - 140px); 
+                overflow-y: auto; 
+                padding: var(--space-md) 40px; 
+                gap: 12px; 
+            }
         }
     }
 
     &__card-header {
-        @include flexbox(column, center, center, 16px);
+        @include flexbox(column, center, center, 16px); 
         width: 100%;
+
+        @include respond-to(md) {
+            width: 100%;
+            height: auto; 
+            margin: 0 auto; 
+        }
     }
 
     &__title {
-        font-family: var(--ff-display);
-        font-size: 61px;
-        font-weight: var(--fw-bold);
+        font-family: var(--ff-display); 
+        font-size: var(--fs-h2);
+        font-weight: var(--fw-bold);    
         line-height: var(--lh-heading);
         color: var(--text-color-ultradark);
         margin-bottom: 0;
         text-align: center;
+
+        @include respond-to(md) {
+            font-size: clamp(32px, 10vw, 44px);            
+            color: var(--clr-black);    
+        }
+
+        @include respond-to(sm) {
+                font-size: 28px; 
+        }
     }
 
     &__underline {
-        width: 124px;
+        width: 124px; 
         height: 3px;
         background-color: var(--clr-blue-light);
         border-radius: var(--radius-pill);
+
+        @include respond-to(md) {
+            width: 88px;  
+            height: 3px; 
+            background-color: var(--clr-blue-light); 
+        }
     }
 
     &__form {
         width: 100%;
         @include flexbox(column, center, center, var(--space-xl)); 
+
+        @include respond-to(md) {
+            width: 100%;
+            align-items: center; 
+        }
     }
 
     &__inputs-container {
-        width: 422px;
+        width: 100%;
+        max-width: 422px;
         @include flexbox(column, center, center, var(--space-xl)); 
+
+        @include respond-to(md) {
+            width: 100%; 
+            max-width: 400px; 
+            gap: 16px;       
+        }
+
+        @include respond-to(sm) {
+                gap: 12px; 
+        }
     }
 
     &__field-group {
@@ -110,12 +205,18 @@
 
         &--invalid {
             .auth__input {
-                border: 1px solid var(--border-clr-error) !important; 
+                border: 1px solid #E60026; 
 
                 &:focus {
-                    border: 1px solid var(--border-clr-error) !important;
+                    border: 1px solid #E60026;
                 }
             }
+        }
+
+        @include respond-to(md) {
+            height: auto; 
+            min-height: 48px;
+            @include flexbox(column, flex-start, flex-start, 0); 
         }
     }
 
@@ -123,11 +224,25 @@
         font-size: var(--fs-body-normal);
         font-weight: var(--fw-regular); 
         line-height: var(--lh-heading); 
-        color: var(--border-clr-error) !important; 
+        color: var(--border-clr-error); 
         text-align: left;
         width: 100%;
         display: block;
         margin-top: var(--space-xs); 
+
+        @include respond-to(md) {
+            font-size: 16px;
+            margin-top: 6px;
+            margin-bottom: 12px; 
+            display: block;
+
+            @include respond-to(sm) {
+                font-size: 12px;
+                margin-top: 2px;
+                margin-bottom: 4px;
+                line-height: 1.1;
+            }
+        }
     }
 
     &__input {
@@ -144,6 +259,11 @@
         &:focus {
             border-color: var(--border-clr-active);
         }
+
+        @include respond-to(md) {
+            padding-right: 44px; 
+            height: 48px;
+        }
     }
 
     &__input-icon {
@@ -152,6 +272,11 @@
         top: 50%;
         transform: translateY(-50%);
         pointer-events: none;
+
+        @include respond-to(md) {
+            top: 24px; 
+            transform: translateY(-50%);
+        }
     }
 
     &__visibility-btn {
@@ -167,6 +292,11 @@
 
         &:focus {
             outline: none;
+        }
+
+        @include respond-to(md) {
+            top: 24px;
+            transform: translateY(-50%);
         }
     }
 
@@ -249,10 +379,25 @@
         width: 322px;
         height: 48px;
         @include flexbox(row, center, center, var(--space-xl)); 
+
+        @include respond-to(md) {
+            width: 100%;
+            max-width: 100%;
+            height: auto;
+            @include flexbox(column, center, center, 16px);
+        }
     }
 
     &__custom-btn {
         height: 100%;
+
+        @include respond-to(md) {
+            width: 100%;
+            ::ng-deep .custom-btn {
+                width: 100% !important;
+                height: 51px;
+            }
+        }
     }
 
     &__toast {
@@ -331,84 +476,6 @@
             color: #124658;  
             text-decoration: none; 
             font-weight: var(--fw-bold);
-        }
-    }
-
-    @include respond-to(md) {
-        height: auto;
-        min-height: 100vh;
-        padding-top: 0px; 
-        padding-bottom: 80px; 
-        @include flexbox(column, center, center, 0); 
-        position: relative; 
-        overflow-x: hidden; 
-
-        &__logo-signup {
-            position: absolute;
-            top: var(--space-xl); 
-            left: var(--space-xl); 
-            pointer-events: none;
-            
-            svg {
-                max-width: 60px; 
-                height: auto;    
-            }
-        }
-
-        &__card {
-            width: 95%; 
-            max-width: 400px; 
-            min-height: auto;
-            padding: var(--space-xl) var(--space-md); 
-            margin: 0 auto; 
-            @include flexbox(column, center, center, var(--space-xl)); 
-        }
-
-        &__card-header {
-            position: relative;
-            width: 100%;
-            @include flexbox(column, center, center, 12px); 
-        }
-
-        &__back-btn {
-            position: absolute;
-            left: 0; 
-            top: 50%;
-            transform: translateY(-50%); 
-            margin: 0;
-
-            &:hover, &:active {
-                transform: translateY(-50%) scale(1.05); 
-            }
-        }
-
-        &__title {
-            font-size: 36px; 
-            text-align: center;
-            width: 100%;
-        }
-
-        &__underline {
-            width: 80px; 
-            height: 3px;
-        }
-
-        &__form {
-            width: 100%; 
-        }
-
-        &__inputs-container {
-            width: 100%;
-        }
-
-        &__footer {
-            position: absolute; 
-            bottom: var(--space-xl); 
-            left: 50%;
-            transform: translateX(-50%);
-            margin-top: 0; 
-            width: 100%;
-            @include flexbox(row, center, center, 0);
         }
     }
 }
