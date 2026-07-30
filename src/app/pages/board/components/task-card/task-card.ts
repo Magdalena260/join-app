@@ -4,6 +4,11 @@ import { tasksService } from '../../../../shared/services/tasks-service';
 import { contactsService } from '../../../../shared/services/contacts-service';
 import { ProfileIcon } from '../../../../shared/components/profile-icon/profile-icon';
 
+/**
+ * Component managing the visual representation and isolated interaction layer of a singular task entity.
+ * Evaluates local bound parameters to render dynamic progress metrics, contextual user assignments,
+ * and dispatches state mutations for column migrations.
+ */
 @Component({
   selector: 'app-task-card',
   standalone: true,
@@ -12,11 +17,24 @@ import { ProfileIcon } from '../../../../shared/components/profile-icon/profile-
   styleUrl: './task-card.scss',
 })
 export class TaskCard implements OnInit {
+  /**
+   * Externally bound task entity payload serving as the primary data context for this visual node.
+   */
   @Input() task?: Task;
 
+  /**
+   * Injected service singleton orchestrating database transactions and reactive signal streams for task entities.
+   */
   dbTasks = inject(tasksService);
+
+  /**
+   * Injected service singleton managing the global registry and retrieval of contact entities.
+   */
   dbContacts = inject(contactsService);
 
+  /**
+   * Static matrix of CSS variable identifiers used for deterministic color hashing of assignee avatars.
+   */
   availableColors: string[] = [
     'var(--clr-user-tangerine)',
     'var(--clr-user-flamingo)',
@@ -35,11 +53,21 @@ export class TaskCard implements OnInit {
     'var(--clr-user-marigold)',
   ];
 
+  /**
+   * Lifecycle hook triggered upon component initialization to dispatch asynchronous database fetch routines,
+   * ensuring the local cache is populated for relational data mappings.
+   */
   async ngOnInit() {
     await this.dbTasks.getTasks();
     await this.dbContacts.getContacts();
   }
 
+  /**
+   * Evaluates the active task's collaborator IDs against the global contact registry cache.
+   * Maps raw relational endpoints into enriched view models containing deterministic avatar colors and computed initials.
+   *
+   * @returns {Array<any>} Array of synthesized contact view objects assigned to this task constraint.
+   */
   get assignedContacts() {
     if (!this.task || !this.task.collaborators || this.task.collaborators.length === 0) {
       return [];
@@ -66,6 +94,12 @@ export class TaskCard implements OnInit {
       .filter((contact) => contact !== undefined);
   }
 
+  /**
+   * Computes a truncated subset of the assigned collaborator matrix for constrained visual representation.
+   * Enforces a maximum rendering limit to preserve layout integrity on the primary card face.
+   *
+   * @returns {Array<any>} Sliced array of contact view objects permitted within the visible bounds.
+   */
   get visibleContacts() {
     const contacts = this.assignedContacts;
     if (contacts.length <= 4) {
@@ -74,11 +108,23 @@ export class TaskCard implements OnInit {
     return contacts.slice(0, 3);
   }
 
+  /**
+   * Calculates the numerical overflow of collaborators exceeding the primary visual bounding box.
+   *
+   * @returns {number} Integer representing the surplus count of assigned contacts.
+   */
   get extraContactsCount() {
     const contacts = this.assignedContacts;
     return contacts.length > 4 ? contacts.length - 3 : 0;
   }
 
+  /**
+   * Computes a filtered matrix of viable column destinations for the active task entity,
+   * excluding the current status vector to prevent circular migration loops.
+   *
+   * @param {number} currentStatus - The integer mapping of the task's present column state.
+   * @returns {Array<{id: string, title: string, status: number}>} Array of valid migration targets.
+   */
   getAvailableTargetColumns(currentStatus: number) {
     const columns = [
       { id: 'todo', title: 'To-do', status: 0 },
@@ -89,6 +135,13 @@ export class TaskCard implements OnInit {
     return columns.filter((col) => col.status !== currentStatus);
   }
 
+  /**
+   * Orchestrates the state mutation sequence to migrate the contextual task across board boundaries.
+   * Purges the active popover node from the DOM and dispatches an explicit database update protocol.
+   *
+   * @param {any} task - The targeted task entity payload undergoing state mutation.
+   * @param {string} targetColumnId - The evaluated lexical identifier of the destination column.
+   */
   moveTaskTo(task: any, targetColumnId: string) {
     if (!task) return;
 
@@ -118,8 +171,10 @@ export class TaskCard implements OnInit {
   }
 
   /**
-   * Counts how many subtasks have a status of 1 (completed).
-   * @returns {number} The total number of completed subtasks.
+   * Iterates through the localized subtask matrix to calculate the absolute volume of completed nodes.
+   * Assesses binary status flags across the array to establish linear progression metrics.
+   *
+   * @returns {number} The aggregate count of subtasks evaluating to a completed state.
    */
   getCompletedSubtasksCount(): number {
     if (!this.task?.subtasks) return 0;
@@ -127,8 +182,10 @@ export class TaskCard implements OnInit {
   }
 
   /**
-   * Calculates the percentage of completed subtasks for the progress bar width.
-   * @returns {number} The completion percentage between 0 and 100.
+   * Evaluates the completion volume against the total bounded subtask matrix to compute a relative width ratio.
+   * Outputs a sanitized mathematical percentage designed for direct CSS style binding on progress indicators.
+   *
+   * @returns {number} Float value representing the absolute completion ratio between 0 and 100.
    */
   getCompletionPercentage(): number {
     if (!this.task?.subtasks || this.task.subtasks.length === 0) return 0;
