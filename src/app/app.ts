@@ -3,7 +3,6 @@ import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { filter } from 'rxjs';
 import { Header } from './layout/header/header';
 import { SidebarComponent } from './layout/sidebar/sidebar';
-import { Greeting } from './pages/summary/greeting/greeting';
 import { RotateScreen } from './shared/components/rotate-screen/rotate-screen';
 
 /**
@@ -14,11 +13,11 @@ import { RotateScreen } from './shared/components/rotate-screen/rotate-screen';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, SidebarComponent, Header, Greeting, RotateScreen],
+  imports: [RouterOutlet, SidebarComponent, Header, RotateScreen],
   templateUrl: './app.html',
   styleUrls: ['./app.scss'],
 })
-export class App implements OnInit {
+export class App {
   /**
    * Injecting the Angular router to monitor active routes.
    * 
@@ -30,11 +29,6 @@ export class App implements OnInit {
    * Application title property wrapped in a reactive signal.
    */
   protected readonly title = signal('join-app');
-
-  /**
-   * Reactive signal controlling the visibility state of the mobile-only intro greeting animation.
-   */
-  protected readonly showIntroAnimation = signal<boolean>(false);
 
   /**
    * Reactive signal holding the verified final destination URL path.
@@ -56,26 +50,26 @@ export class App implements OnInit {
     });
   }
 
-  /**
-   * Executed on component initialization. Checks client environment specifications 
-   * to trigger a single-session responsive onboarding animation for mobile form factors.
-   */
-  public ngOnInit(): void {
-    const isMobile = window.matchMedia('(max-width: 992px)').matches;
-    const introAlreadyShown = window.name.includes('introAnimationShown=true');
+  // /**
+  //  * Executed on component initialization. Checks client environment specifications 
+  //  * to trigger a single-session responsive onboarding animation for mobile form factors.
+  //  */
+  // public ngOnInit(): void {
+  //   const isMobile = window.matchMedia('(max-width: 992px)').matches;
+  //   const introAlreadyShown = window.name.includes('introAnimationShown=true');
 
-    if (!isMobile || introAlreadyShown) {
-      return;
-    }
+  //   if (!isMobile || introAlreadyShown) {
+  //     return;
+  //   }
 
-    window.name = `${window.name};introAnimationShown=true`;
-    this.showIntroAnimation.set(true);
+  //   window.name = `${window.name};introAnimationShown=true`;
+  //   this.showIntroAnimation.set(true);
 
-    const animationDurationMs = 2000;
-    setTimeout(() => {
-      this.showIntroAnimation.set(false);
-    }, animationDurationMs);
-  }
+  //   const animationDurationMs = 2000;
+  //   setTimeout(() => {
+  //     this.showIntroAnimation.set(false);
+  //   }, animationDurationMs);
+  // }
 
   /**
    * Computed signal evaluating if the active route is a standalone authentication or legal page.
@@ -88,9 +82,7 @@ export class App implements OnInit {
 
     return (
       url.startsWith('/login') ||
-      url.startsWith('/sign-up') ||
-      url.startsWith('/privacy-policy') ||
-      url.startsWith('/legal-notice')
+      url.startsWith('/sign-up')
     );
   });
 }
