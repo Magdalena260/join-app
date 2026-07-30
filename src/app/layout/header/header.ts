@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { filter, Subscription } from 'rxjs';
 import { LogoDark } from '../../shared/components/logo-dark/logo-dark';
 import { ProfileIcon } from '../../shared/components/profile-icon/profile-icon';
 import { AuthService } from '../../shared/services/auth-service';
@@ -21,13 +22,15 @@ export class Header implements OnInit, OnDestroy {
    * Defaults to 'G' for guest accounts or unauthenticated states.
    */
   public userInitials: string = 'G';
+  public isLoggedIn: boolean = false;
 
   /**
-   * Subscription reference tracking the Supabase authentication handshake state stream.
+   * Subscription references tracking authentication and routing state streams.
    * Kept in memory to prevent memory leaks upon component destruction.
    * @private
    */
   private authSubscription?: any;
+  private routerSubscription?: Subscription;
 
   /**
    * Instantiates the header component context.
@@ -44,26 +47,35 @@ export class Header implements OnInit, OnDestroy {
 
   /**
    * Lifecycle hook triggered instantly upon component initialization.
-   * Resolves baseline user footprints and binds a persistent hook to capture cross-session auth changes.
+   * Resolves baseline user footprints and binds persistent hooks to capture cross-session auth changes.
    */
   public ngOnInit(): void {
     this.loadUserInitials();
     const supabase = (this.authService as any).dB; 
     if (supabase) {
-      const { data } = supabase.auth.onAuthStateChange((event: string, session: any) => {
+      const { data } = supabase.auth.onAuthStateChange(() => {
         this.loadUserInitials();
       });
       this.authSubscription = data.subscription;
     }
+
+    this.routerSubscription = this.router.events
+      .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
+      .subscribe(() => {
+        this.loadUserInitials();
+      });
   }
 
   /**
    * Lifecycle hook triggered when the component is destroyed.
-   * Unsubscribes from the active auth handshake stream to purge resources cleanly.
+   * Unsubscribes from active handshake and routing streams to purge resources cleanly.
    */
   public ngOnDestroy(): void {
     if (this.authSubscription) {
       this.authSubscription.unsubscribe();
+    }
+    if (this.routerSubscription) {
+      this.routerSubscription.unsubscribe();
     }
   }
 
@@ -75,20 +87,20 @@ export class Header implements OnInit, OnDestroy {
    */
   public async loadUserInitials(): Promise<void> {
     const user = await this.authService.getUser();
-    setTimeout(() => {
-      if (!user) {
-        this.userInitials = 'G';
-      } else {
-        const fullName = user.user_metadata?.['full_name'] || user.user_metadata?.['name'];
-        if (fullName) {
-          this.userInitials = this.getInitialsFromName(fullName);
-        } else if (user.email) {
-          this.userInitials = user.email.substring(0, 2).toUpperCase();
-        }
+    this.isLoggedIn = await this.authService.isLoggedIn();
+
+    if (!user) {
+      this.userInitials = 'G';
+    } else {
+      const fullName = user.user_metadata?.['full_name'] || user.user_metadata?.['name'];
+      if (fullName) {
+        this.userInitials = this.getInitialsFromName(fullName);
+      } else if (user.email) {
+        this.userInitials = user.email.substring(0, 2).toUpperCase();
       }
-      
-      this.cdr.detectChanges(); 
-    }, 0);
+    }
+    
+    this.cdr.detectChanges(); 
   }
 
   /**
@@ -112,6 +124,5 @@ export class Header implements OnInit, OnDestroy {
    */
   public logOut(): void {
     this.authService.logout();
-    this.router.navigate(['/login']);
   }
 }

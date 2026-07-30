@@ -2,6 +2,8 @@
   <section class="header__container">
     <app-logo-dark class="header_logo"></app-logo-dark>
     <h1 class="header__title">Kanban Project Management Tool</h1>
+
+    @if (isLoggedIn) {
     <div class="header__usermenu">
       <a routerLink="/help" class="header__usermenu__help-link">
         <svg class="header__usermenu__help" width="20" height="20" viewBox="0 0 20 20" fill="currentColor"
@@ -11,14 +13,12 @@
             fill="currentColor" />
         </svg>
       </a>
-
       <button class="header__usermenu__profile" popovertarget="my-profile">
+
         <app-profile-icon size="header" [initials]="userInitials">
         </app-profile-icon>
       </button>
       <div class="header__usermenu__menu" popover id="my-profile">
-
-
         <a routerLink="/help" routerLinkActive="active" class="header__usermenu__menu__links hidden-desktop-md">
           Help
         </a>
@@ -33,5 +33,6 @@
         </a>
       </div>
     </div>
+    }
   </section>
 </header>
