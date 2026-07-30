@@ -39,7 +39,6 @@ h2 {
     padding-bottom: calc(88px + var(--space-xl));
   }
 
-
   &__header {
     @include flexbox(row, space-between, center, 1rem);
     // padding-top: var(--space-2xl);
@@ -83,6 +82,10 @@ h2 {
       flex: 1;
       min-width: 0;
     }
+  }
+
+  input {
+    border: 2px solid var(--clr-darker-grey);
   }
 
   &__add-desktop {
