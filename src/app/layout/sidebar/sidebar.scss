@@ -47,6 +47,7 @@
     padding: var(--space-sm) var(--space-2xl);
     color: var(--text-color-light);
     text-decoration: none;
+    width: 100%;
 
     @include respond-to(md) {
       @include flexbox(column, center, center, var(--space-xs));
@@ -87,6 +88,19 @@
 
     &:hover {
       color: var(--text-color-special);
+      font-weight: bold;
+      background-color: transparent;
+    }
+
+    &.active {
+      background-color: var(--bg-dark);
+      color: var(--text-color-ultralight);
+    }
+
+    &.active:hover {
+      background-color: var(--bg-dark);
+      color: var(--text-color-ultralight);
+      font-weight: var(--fw-regular);
     }
   }
 }

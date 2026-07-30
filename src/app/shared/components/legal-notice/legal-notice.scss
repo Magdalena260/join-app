@@ -1,7 +1,9 @@
+@use '../../../../styles/abstracts/mixins' as *;
+
 h2 {
-    font-size: var(--fs-h2);
-    color: #000;
-    margin: 0 0 30px;
+    @include respond-to (sm) {
+        font-size: 48px;
+    }
   }
 
   h3 {
@@ -18,9 +20,14 @@ h2 {
 
 
 .legal-wrapper {
-  padding-top: var(--space-4xl);
-  padding-right: var(--space-3xl);
-  padding-bottom: var(--space-4xl);
-  padding-left: var(--space-2xl);
-  margin-top: 24px;
+  padding: var(--space-xl);
+
+  @include respond-to(lg) {
+    padding: var(--space-sm);
+    padding-top: var(--space-xl);
+  }
+
+  @include respond-to (md) {
+    padding-bottom: calc(88px + var(--space-xl));
+  }
 }

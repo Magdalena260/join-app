@@ -1,27 +1,35 @@
 @use '../../../styles/abstracts/mixins' as *;
 @use '../../../styles/abstracts/variables' as *;
 
+h2 {
+    margin: 0;
+
+    @include respond-to (sm) {
+        font-size: 48px;
+    }
+}
+
 .contacts-layout {
     width: 100%;
     min-width: 0;
     height: calc(100vh - 96px);
-    @include flexbox(row, flex-start, stretch, 0); 
+    @include flexbox(row, flex-start, stretch, 0);
     box-sizing: border-box;
-    background: var(--bg-main, #F6F7F9); 
+    background: var(--bg-main, #F6F7F9);
 
     @include respond-to(xl) {
-        gap: 0; 
+        gap: 0;
     }
 }
 
 app-contacts-list {
     flex-shrink: 0;
-    height: 100%; 
-    position: sticky; 
-    top: 96px; 
+    height: 100%;
+    position: sticky;
+    top: 96px;
     display: flex;
-    flex-direction: column; 
-    background-color: var(--bg-main, #F6F7F9); 
+    flex-direction: column;
+    background-color: var(--bg-main, #F6F7F9);
 
     @include respond-to(xl) {
         width: 100%;
@@ -36,13 +44,13 @@ app-contacts-list {
 
 app-contacts-detail {
     flex: 1;
-    height: auto; 
+    height: auto;
     min-width: 0;
-    background-color: var(--bg-main, #F6F7F9); 
+    background-color: var(--bg-main, #F6F7F9);
 
     @include respond-to(xl) {
         width: 100%;
-        display: none; 
+        display: none;
 
         .contacts-layout--has-contact & {
             display: flex;

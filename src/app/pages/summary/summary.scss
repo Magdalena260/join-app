@@ -2,6 +2,8 @@
 
 .content {
     padding: var(--space-xl);
+    width: 100%;
+    max-width: var(--container-content-md);;
 
     @include respond-to (lg) {
         padding: var(--space-md);
@@ -96,4 +98,40 @@ app-cards {
     @include respond-to(lg) {
         width: 100%;
     }    
+}
+
+.introMobileAnimation {
+  position: fixed;
+  inset: 0;
+  width: 100dvw;
+  height: 100dvh;
+  background-color: var(--clr-tinted-grey);
+  z-index: 10001;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: all;
+//   animation: introFadeOut 2s ease forwards;
+  padding: var(--space-xl);
+
+  app-greeting {
+    display: flex;
+    position: relative;
+    z-index: 1;
+    color: black;
+  }
+}
+
+@keyframes introFadeOut {
+  0% {
+    opacity: 1;
+  }
+
+  75% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
 }
