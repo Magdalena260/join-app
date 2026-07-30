@@ -6,6 +6,7 @@ import { Login } from './pages/login/login';
 import { SignUp } from './pages/sign-up/sign-up';
 import { Summary } from './pages/summary/summary';
 import { AuthGuard } from './shared/components/auth-guard';
+import { Help } from './shared/components/help/help';
 import { LegalNotice } from './shared/components/legal-notice/legal-notice';
 import { PrivacyPolicy } from './shared/components/privacy-policy/privacy-policy';
 
@@ -16,10 +17,10 @@ export const routes: Routes = [
   { path: '', component: Summary, canActivate: [AuthGuard] },
   { path: 'privacy-policy', component: PrivacyPolicy },
   { path: 'legal-notice', component: LegalNotice },
+  { path: 'help', component: Help },
 
   { path: 'contacts', component: Contacts, canActivate: [AuthGuard] },
   { path: 'board', component: Board, canActivate: [AuthGuard] },
   { path: 'add-task', component: AddTask, canActivate: [AuthGuard] },
   { path: '**', redirectTo: '/login', pathMatch: 'full' }
 ];
-

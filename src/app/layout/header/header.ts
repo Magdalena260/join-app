@@ -1,12 +1,12 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { LogoDark } from '../../shared/components/logo-dark/logo-dark';
 import { ProfileIcon } from '../../shared/components/profile-icon/profile-icon';
 import { AuthService } from '../../shared/services/auth-service';
 
 @Component({
   selector: 'app-header',
-  imports: [LogoDark, ProfileIcon],
+  imports: [LogoDark, ProfileIcon, RouterLink, RouterLinkActive],
   templateUrl: './header.html',
   styleUrls: ['./header.scss'],
 })
