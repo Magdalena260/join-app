@@ -26,32 +26,3 @@ app-header {
   display: flex;
   flex-direction: column;
 }
-
-.introMobileAnimation {
-  position: fixed;
-  inset: 0;
-  width: 100dvw;
-  height: 100dvh;
-  background-color: var(--clr-tinted-grey);
-  z-index: 1001;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  pointer-events: all;
-  animation: introFadeOut 2s ease forwards;
-  padding: var(--space-xl);
-}
-
-@keyframes introFadeOut {
-  0% {
-    opacity: 1;
-  }
-
-  75% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 0;
-  }
-}
