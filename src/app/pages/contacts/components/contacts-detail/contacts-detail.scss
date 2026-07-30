@@ -75,8 +75,6 @@
   &__title {
     margin: 0;
 
-    
-
     @include respond-to(lg) {
       font-family: 'Inter', var(--ff-body);
       font-size: 47px;
@@ -268,7 +266,6 @@
     height: 100%;
     padding: 0;
 
-
     &:hover {
     color:#124658;
     font-weight: var(--fw-bold);
@@ -276,10 +273,8 @@
 
     &--edit {
       width: 62px;
-      
     }
 
-    
     &--delete {
       width: auto;
     }
