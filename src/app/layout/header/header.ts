@@ -1,9 +1,10 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
 import { LogoDark } from '../../shared/components/logo-dark/logo-dark';
 import { ProfileIcon } from '../../shared/components/profile-icon/profile-icon';
 import { AuthService } from '../../shared/services/auth-service';
+import { contactsService } from '../../shared/services/contacts-service';
 
 /**
  * Component managing the global application header interface.
@@ -17,6 +18,9 @@ import { AuthService } from '../../shared/services/auth-service';
   styleUrls: ['./header.scss'],
 })
 export class Header implements OnInit, OnDestroy {
+
+  private contactDatabase = inject(contactsService);
+
   /**
    * Caches the evaluated initials of the authenticated user.
    * Defaults to 'G' for guest accounts or unauthenticated states.
@@ -40,10 +44,10 @@ export class Header implements OnInit, OnDestroy {
    * @param {ChangeDetectorRef} cdr - Service to manually trigger change detection loops for asynchronously loaded profile data.
    */
   constructor(
-    private authService: AuthService, 
+    private authService: AuthService,
     private router: Router,
-    private cdr: ChangeDetectorRef 
-  ) {}
+    private cdr: ChangeDetectorRef
+  ) { }
 
   /**
    * Lifecycle hook triggered instantly upon component initialization.
@@ -51,7 +55,7 @@ export class Header implements OnInit, OnDestroy {
    */
   public ngOnInit(): void {
     this.loadUserInitials();
-    const supabase = (this.authService as any).dB; 
+    const supabase = (this.authService as any).dB;
     if (supabase) {
       const { data } = supabase.auth.onAuthStateChange(() => {
         this.loadUserInitials();
@@ -89,18 +93,25 @@ export class Header implements OnInit, OnDestroy {
     const user = await this.authService.getUser();
     this.isLoggedIn = await this.authService.isLoggedIn();
 
-    if (!user) {
+    if (!user?.email) {
       this.userInitials = 'G';
-    } else {
-      const fullName = user.user_metadata?.['full_name'] || user.user_metadata?.['name'];
-      if (fullName) {
-        this.userInitials = this.getInitialsFromName(fullName);
-      } else if (user.email) {
-        this.userInitials = user.email.substring(0, 2).toUpperCase();
-      }
+      this.cdr.detectChanges();
+      return;
     }
-    
-    this.cdr.detectChanges(); 
+
+    await this.contactDatabase.getContacts();
+
+    const contact = this.contactDatabase
+      .contacts()
+      .find((contact) => contact.email === user.email);
+
+    if (contact) {
+      this.userInitials = this.getInitialsFromName(`${contact.firstname} ${contact.lastname}`);
+    } else {
+      this.userInitials = this.getInitialsFromEmail(user.email);
+    }
+
+    this.cdr.detectChanges();
   }
 
   /**
@@ -117,6 +128,18 @@ export class Header implements OnInit, OnDestroy {
       return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase();
     }
     return name.substring(0, 2).toUpperCase();
+  }
+
+  /** Extracts initials from the local part of an email address. */
+  private getInitialsFromEmail(email: string): string {
+    const emailName = email.split('@')[0];
+    const parts = emailName.split('.');
+
+    if (parts.length >= 2 && parts[0] && parts[1]) {
+      return (parts[0].charAt(0) + parts[1].charAt(0)).toUpperCase();
+    }
+
+    return email.substring(0, 2).toUpperCase();
   }
 
   /**
