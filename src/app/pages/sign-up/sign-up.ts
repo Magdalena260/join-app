@@ -20,6 +20,8 @@ import { contactsService } from '../../shared/services/contacts-service';
   styleUrls: ['./sign-up.scss'],
 })
 export class SignUp {
+  private static readonly EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[A-Za-z]{2,}$/;
+
   /**
    * Root FormGroup object aggregating and managing validation rules for all registration inputs.
    */
@@ -29,7 +31,11 @@ export class SignUp {
       Validators.minLength(2),
       Validators.pattern(/^[a-zA-ZäöüÄÖÜß\s-]+$/)
     ]),
-    email: new FormControl('', [Validators.required, Validators.email]),
+    email: new FormControl('', [
+      Validators.required,
+      Validators.email,
+      Validators.pattern(SignUp.EMAIL_PATTERN),
+    ]),
     password: new FormControl('', [Validators.required, Validators.minLength(6)]),
     confirmPassword: new FormControl('', [Validators.required]),
     privacyAccepted: new FormControl(false, [Validators.requiredTrue])

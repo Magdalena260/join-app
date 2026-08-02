@@ -2,6 +2,7 @@
     <div class="auth__logo-signup">
         <app-logo-dark></app-logo-dark>
     </div>
+
     <div class="auth__inner">
         <div class="auth__card auth__card--visible">
             <div class="auth__card-header" style="position: relative; width: 100%;">
@@ -58,7 +59,8 @@
                             @if (signUpForm.get('email')?.hasError('required')) {
                             Email is required.
                             }
-                            @if (signUpForm.get('email')?.hasError('email')) {
+                            @if (signUpForm.get('email')?.hasError('email') ||
+                            signUpForm.get('email')?.hasError('pattern')) {
                             Please enter a valid email address.
                             }
                         </span>
@@ -216,7 +218,8 @@
                                 </svg>
                                 }
                             </span>
-                            <span class="auth__privacy-text">I accept the <a class="auth__privacy-link">Privacy
+                            <span class="auth__privacy-text">I accept the <a class="auth__privacy-link"
+                                    (click)="onPrivacyPolicyClick()">Privacy
                                     policy</a></span>
                         </label>
                     </div>
