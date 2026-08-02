@@ -611,4 +611,58 @@
             top: -12px;
         }
     }
+
+    @include landscape-mobile {
+        min-height: 100vh;
+        height: auto;
+        overflow-y: auto;
+
+        &__inner {
+            min-height: auto;
+            justify-content: flex-start;
+            padding: 96px 16px 32px;
+        }
+
+        &__header {
+            position: relative;
+            top: auto;
+            right: auto;
+            bottom: auto;
+            left: auto;
+            transform: none;
+            width: 100%;
+            max-width: none;
+            margin: 0 auto 24px;
+            justify-content: center;
+        }
+
+        &__header-nav {
+            position: relative;
+            top: auto;
+            margin-left: 0;
+            justify-content: center;
+            padding-top: 0;
+        }
+
+        &__card {
+            position: relative;
+            top: auto;
+            left: auto;
+            transform: none;
+            width: min(100%, 340px);
+            margin: 0 auto 24px;
+
+            &--visible {
+                transform: none;
+            }
+        }
+
+        &__footer {
+            position: relative;
+            bottom: auto;
+            left: auto;
+            transform: none;
+            margin: 0 auto;
+        }
+    }
 }
