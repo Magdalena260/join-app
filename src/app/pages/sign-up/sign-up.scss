@@ -3,46 +3,88 @@
 .auth {
     position: relative;
     width: 100%;
-    height: 100vh;
-    min-height: 100vh;
+    min-height: 100vh; 
     background-color: var(--bg-light);
-    overflow-y: auto;
-    @include flexbox(column, center, center, 0);
+    box-sizing: border-box;
+    padding: var(--space-2xl) var(--space-md); 
+    @include flexbox(column, space-between, center, var(--space-xl));
 
     &__inner {
         position: relative;
         width: 100%;
         max-width: var(--container-content-md);
-        margin: 0 auto;
+        margin: auto 0; 
         @include flexbox(column, center, center, 0);
+        flex-grow: 1;
+    }
+
+    @media (max-width: 1300px) and (min-width: 769px) {
+        min-height: auto;
+        height: auto;
+        padding-top: 25%;
+    
+        .auth__logo-signup {
+            left: 48px; 
+            top: 48px;
+        }
+
+        .auth__inner {
+            min-height: auto;
+            margin: 0 auto;
+            padding-top: var(--space-xl); 
+            padding-bottom: var(--space-2xl);
+        }
+
+        .auth__card {
+            width: 90%;
+            max-width: 520px; 
+            margin: 0 auto;
+            padding: var(--space-3xl) var(--space-2xl); 
+        }
+
+        .auth__card-header {
+            padding: 0 48px;
+            box-sizing: border-box;
+        }
+
+        .auth__back-btn {
+            left: 0;
+            top: 0;
+            transform: none;
+            
+            &:hover, &:active {
+                transform: scale(1.05); 
+            }
+        }
+
+        .auth__footer {
+            position: relative;
+            bottom: auto;
+            left: auto;
+            transform: none;
+            margin: var(--space-2xl) auto 0; 
+        }
     }
 
     @include respond-to(md) {
-        height: 100vh;
-        min-height: 100vh;
-        overflow-y: auto;
-        padding: 0 var(--space-md);
-        @include flexbox(column, center, center, 0);
+        padding: clamp(64px, 8vh, 96px) var(--space-md) var(--space-xl);
 
         &__inner {
-            min-height: 100vh;
+            min-height: auto;
             justify-content: center;
             align-items: center;
-            gap: 0;
         }
 
         @include respond-to(sm) {
-            overflow-y: auto;
-            padding: 0 12px;
+            padding: 88px 12px 24px;
         }
     }
 
     @media (max-width: 375px) {
-        overflow-y: auto;
         &__inner {
             box-sizing: border-box;
-            padding-top: 88px;
-            padding-bottom: 48px;
+            padding-top: 0; 
+            padding-bottom: 0;
         }
 
         &__card {
@@ -56,9 +98,17 @@
         left: 16%;
         pointer-events: none;
 
+        @include respond-to(lg) {
+            top: clamp(16px, 4vh, 24px);
+            left: 8%;
+            transform: none; 
+            width: clamp(56px, 14vw, 72px);
+        }
+
         @include respond-to(md) {
             top: clamp(16px, 4vh, 24px);
-            left: 16%;
+            left: 24px; 
+            transform: none; 
             width: clamp(56px, 14vw, 72px);
             height: auto;
         }
@@ -75,9 +125,10 @@
         border-radius: 50%; 
         opacity: 1;
         
-        position: absolute;
-        left: -48px; 
-        top: 20px;
+        position: absolute; 
+        left: 16px;
+        top: 8px;
+        z-index: 10; 
         
         @include flexbox(row, center, center, 0);
         transition: background-color 150ms ease-in-out, transform 150ms ease-in-out;
@@ -100,16 +151,42 @@
             outline: none;
         }
 
+        @include respond-to(lg) {
+            left: -32px;
+        }
+
         @include respond-to(md) {
-            position: absolute;
-            left: 16px; 
-            top: 10px;
-            transform: none;
+            left: -60px;
         }
 
         @include respond-to(sm) {
-            left: -8px; 
-            top: 8px;
+            left: 8px;
+            top: 0px;
+        }
+    }
+
+    &__title {
+        font-family: var(--ff-display); 
+        font-size: var(--fs-h2);
+        font-weight: var(--fw-bold);    
+        line-height: var(--lh-heading);
+        color: var(--text-color-ultradark);
+        margin-bottom: 0;
+        
+        width: 100%;
+        text-align: center; 
+
+        @include respond-to(md) {
+            font-size: clamp(32px, 10vw, 44px);            
+            color: var(--clr-black);    
+        }
+
+        @include respond-to(sm) {
+            font-size: 28px; 
+        }
+
+        @media (max-width: 375px) {
+            font-size: 24px;
         }
     }
 
@@ -122,7 +199,7 @@
         box-shadow: 0px 0px 14px 3px rgba(0, 0, 0, 0.14);
         @include flexbox(column, center, center, var(--space-xl)); 
 
-        @media (min-width: 769px) {
+        @include respond-to(md) {
             position: static;
             top: auto;
             left: auto;
@@ -135,31 +212,12 @@
             }
         }
 
-        @include respond-to(md) {
-            position: relative;
-            top: auto;
-            left: auto;
-            transform: none; 
-            
-            width: 100%;
-            max-width: 340px;
-            min-height: auto;        
-            border-radius: 30px;      
-            
-            padding: 16px 12px 12px;
-            gap: 12px;
-            margin: 0 auto; 
-
-            &--visible {
-                transform: none; 
-                opacity: 1;
-            }  
-
             @include respond-to(sm) {
+                max-width: 340px;
                 max-height: calc(100vh - 180px);
                 overflow-y: auto; 
-                padding: 10px 12px;
-                gap: 8px;
+                padding: 16px 12px 12px;
+                gap: 12px;
             }
 
             @media (max-width: 375px) {
@@ -167,12 +225,14 @@
                 padding: var(--space-md) var(--space-sm);
                 gap: var(--space-sm);
             }
-        }
     }
 
     &__card-header {
-        @include flexbox(column, center, center, 16px); 
+        position: relative; 
         width: 100%;
+        padding: 0 ; 
+        box-sizing: border-box;
+        @include flexbox(column, center, center, 16px); 
 
         @include respond-to(md) {
             width: 100%;
@@ -239,12 +299,12 @@
 
         @include respond-to(md) {
             width: 100%; 
-            max-width: 400px; 
-            gap: 8px;
+            max-width: 100%; 
+            gap: 12px;
         }
 
         @include respond-to(sm) {
-                gap: 6px;
+            gap: 6px;
         }
     }
 
@@ -543,14 +603,12 @@
     }
 
     &__footer {
-        position: absolute; 
-        bottom: var(--space-2xl); 
-        left: 50%;
-        transform: translateX(-50%); 
+        position: relative; 
+        margin-top: auto; 
         z-index: 999;
-        
         opacity: 1;
         pointer-events: auto;
+        flex-shrink: 0; 
     }
 
     &__footer-nav {
@@ -586,12 +644,11 @@
     @include landscape-mobile {
         min-height: 100vh;
         height: auto;
-        overflow-y: auto;
 
         &__inner {
             min-height: auto;
             justify-content: flex-start;
-            padding: 96px 16px 32px;
+            padding: 24px 16px;
         }
 
         &__card {
@@ -601,15 +658,11 @@
 
         &__footer {
             position: relative;
-            bottom: auto;
-            left: auto;
-            transform: none;
-            margin: 0 auto;
+            margin-top: var(--space-lg);
         }
     }
 
     @media (max-width: 410px) {
-        overflow-y: auto;
         &__logo-signup {
             top: 16px;
             width: 56px;
@@ -686,4 +739,5 @@
             }
         }
     }
+
 }
