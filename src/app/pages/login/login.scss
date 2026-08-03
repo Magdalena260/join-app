@@ -676,6 +676,8 @@
             }
         }
 
+    }
+
     @include respond-to(xsm) {
         &__header-nav {
             top: -10px;
@@ -702,11 +704,12 @@
         }
 
         &__footer {
-            bottom: 26px;
+            bottom: 14px;
             margin-top: 8px;
         }
 
         &__form {
+            margin-top: 10px;
             padding-block: 8px;
             gap: 8px;
         }
@@ -722,17 +725,17 @@
         &__custom-btn {
             &--login {
                 ::ng-deep .custom-btn {
-                    min-height: 42px;
-                    font-size: 18px;
-                    padding: 10px 16px;
+                    min-height: 38px;
+                    font-size: 16px;
+                    padding: 8px 12px;
                 }
             }
 
             &--guest {
                 ::ng-deep .custom-btn.btn-secondary {
-                    min-height: 42px;
-                    font-size: 18px;
-                    padding: 10px 16px;
+                    min-height: 38px;
+                    font-size: 16px;
+                    padding: 8px 12px;
                 }
             }
         }
@@ -801,5 +804,4 @@
             margin: 0 auto;
         }
     }
-}
 }
