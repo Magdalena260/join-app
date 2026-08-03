@@ -642,11 +642,26 @@
 
         &__form {
             padding-block: clamp(8px, 2.2vw, 14px);
+            padding-inline: clamp(10px, 2.8vw, 16px);
             gap: 10px;
         }
 
         &__inputs-container {
+            padding-inline: clamp(2px, 1.2vw, 6px);
+            box-sizing: border-box;
             gap: 12px;
+        }
+    }
+
+    @media (max-width: 786px) and (min-width: 577px) {
+        &__form {
+            padding-block: clamp(10px, 2vw, 16px);
+            padding-inline: clamp(14px, 3vw, 22px);
+        }
+
+        &__inputs-container {
+            padding-inline: clamp(6px, 1.6vw, 10px);
+            box-sizing: border-box;
         }
     }
 
@@ -710,10 +725,13 @@
         &__form {
             margin-top: 10px;
             padding-block: 8px;
+            padding-inline: 10px;
             gap: 8px;
         }
 
         &__inputs-container {
+            padding-inline: 4px;
+            box-sizing: border-box;
             gap: 10px;
         }
 
