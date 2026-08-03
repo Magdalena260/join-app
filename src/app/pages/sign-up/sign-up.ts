@@ -1,8 +1,10 @@
 import { Component, signal } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { App } from "../../app";
 import { ButtonComponent } from '../../shared/components/button/button.component';
 import { LogoDark } from '../../shared/components/logo-dark/logo-dark';
+import { RotateScreen } from "../../shared/components/rotate-screen/rotate-screen";
 import { AuthService } from '../../shared/services/auth-service';
 import { contactsService } from '../../shared/services/contacts-service';
 
@@ -15,7 +17,7 @@ import { contactsService } from '../../shared/services/contacts-service';
 @Component({
   selector: 'app-sign-up',
   standalone: true,
-  imports: [ReactiveFormsModule, ButtonComponent, LogoDark],
+  imports: [ReactiveFormsModule, ButtonComponent, LogoDark, App, RotateScreen],
   templateUrl: './sign-up.html',
   styleUrls: ['./sign-up.scss'],
 })

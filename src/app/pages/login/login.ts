@@ -1,6 +1,7 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { ButtonComponent } from '../../shared/components/button/button.component';
+import { RotateScreen } from '../../shared/components/rotate-screen/rotate-screen';
 import { AuthService } from '../../shared/services/auth-service';
 
 /**
@@ -11,7 +12,7 @@ import { AuthService } from '../../shared/services/auth-service';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ButtonComponent],
+  imports: [ButtonComponent, RotateScreen],
   templateUrl: './login.html',
   styleUrls: ['./login.scss'],
 })
