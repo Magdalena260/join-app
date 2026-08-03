@@ -19,7 +19,7 @@
         flex-grow: 1;
 
 
-        @include respond-to(xl) {
+        @media (max-width: 1300px) and (min-width: 769px) {
         min-height: 100vh;
         height: auto;
 
@@ -69,11 +69,11 @@
         }
 
         .auth__footer {
-            position: relative;
-            bottom: auto;
-            left: auto;
-            transform: none;
-            margin: var(--space-2xl) auto 0;
+            position: absolute;
+            bottom: clamp(20px, 4vh, 40px);
+            left: 50%;
+            transform: translateX(-50%);
+            margin: 0;
             opacity: 1;
             pointer-events: auto;
         }
@@ -84,7 +84,7 @@
             min-height: auto;
             justify-content: center; 
             align-items: center;    
-            padding: 120px var(--space-md) 40px var(--space-md); 
+            padding: clamp(56px, 11vh, 96px) var(--space-md);
             margin: 0 auto;
         }
     }
@@ -199,13 +199,14 @@
 
         @include respond-to(md) {
             position: absolute;
-            top: clamp(16px, 4vh, 24px);
-            right: 24px;
+            order: 0;
+            top: clamp(24px, 5vh, 44px);
+            right: clamp(16px, 4vw, 36px);
             left: auto;
             transform: none;
             
             width: auto;
-            max-width: none; 
+            max-width: none;
             height: auto; 
             margin: 0;
             justify-content: flex-end;
@@ -219,11 +220,11 @@
 
         @include respond-to(md) {
             position: relative;
-            top: -80px;
-            margin-left: 0;
-            width: 100%;
-            justify-content: center;
-            gap: 35px; 
+            top: 0;
+            margin-left: auto;
+            width: auto;
+            justify-content: flex-end;
+            gap: clamp(12px, 2vw, 20px);
             padding-top: 0;
         }
     }
@@ -239,6 +240,7 @@
             font-weight: 400; 
             line-height: 1.2;        
             color: var(--clr-black);  
+            font-size: clamp(16px, 2.3vw, 20px);
         }
     }
 
@@ -267,23 +269,24 @@
         }
 
         @include respond-to(md) {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) translateY(8px);
+            position: relative;
+            order: 2;
+            top: auto;
+            left: auto;
+            transform: none;
             
-            width: min(calc(100% - 24px), 680px);
+            width: min(calc(100% - clamp(20px, 4vw, 32px)), clamp(360px, 74vw, 620px));
             min-height: auto;        
-            border-radius: 30px;      
+            border-radius: clamp(20px, 3.2vw, 30px);
             
-            padding: 12px 24px;
-            gap: 14px;
-            margin: 0;
+            padding: clamp(16px, 3.2vw, 28px) clamp(14px, 4vw, 24px);
+            gap: clamp(12px, 2.4vw, 20px);
+            margin: 0 auto;
             z-index: 1;
 
             &--visible {
                 opacity: 1;
-                transform: translate(-50%, -50%) translateY(8px);
+                transform: none;
             }  
         }
     }
@@ -334,7 +337,7 @@
         @include respond-to(md) {
             width: 100%;
             align-items: center;
-            gap: 12px;
+            gap: clamp(10px, 1.8vw, 14px);
         }
     }
 
@@ -346,7 +349,7 @@
         @include respond-to(md) {
             width: 100%; 
             max-width: 100%; 
-            gap: 14px;       
+            gap: clamp(10px, 2vw, 14px);
         }
     }
 
@@ -416,7 +419,8 @@
 
         @include respond-to(md) {
             padding-right: 44px; 
-            height: 48px;
+            height: clamp(42px, 6.5vw, 48px);
+            font-size: clamp(15px, 2vw, 17px);
         }
     }
 
@@ -479,7 +483,7 @@
         @include respond-to(md) {
             @include flexbox(column, center, center, 21px); 
             width: 100%; 
-            max-width: 180px; 
+            max-width: clamp(168px, 28vw, 220px);
             height: auto;
             margin-top: 0;
             margin-bottom: 0;
@@ -506,7 +510,7 @@
                 ::ng-deep .custom-btn {
                     width: 100%;
                     max-width: 100%;
-                    height: 51px;       
+                    height: clamp(44px, 7vw, 51px);
                     border-radius: 8px; 
                 }
             }
@@ -613,18 +617,32 @@
 
     @include respond-to(sm) {
         &__header {
-            bottom: 96px;
+            position: relative;
+            order: 3;
+            top: auto;
+            right: auto;
+            left: auto;
+            width: 100%;
+            max-width: 440px;
+            margin: 40px auto 0;
+            justify-content: center;
+            bottom: auto;
         }
 
         &__header-nav {
-            top: 16px;
+            top: 0;
+            margin-left: 0;
+            width: 100%;
+            justify-content: center;
+            gap: var(--space-md);
         }
 
         &__footer {
-            bottom: 18px;
+            bottom: 60px;
         }
 
         &__form {
+            padding-block: clamp(8px, 2.2vw, 14px);
             gap: 10px;
         }
 
@@ -633,30 +651,63 @@
         }
     }
 
+    @media (min-width: 411px) and (max-width: 576px) {
+        .auth__card {
+            margin-top: 24px;
+        }
+
+        .auth__footer {
+            bottom: 40px;
+        }
+
+        .auth__custom-btn--login {
+            ::ng-deep .custom-btn {
+                min-height: 40px;
+                font-size: 16px;
+                padding: 8px 14px;
+            }
+        }
+
+        .auth__custom-btn--guest {
+            ::ng-deep .custom-btn.btn-secondary {
+                min-height: 40px;
+                font-size: 16px;
+                padding: 8px 14px;
+            }
+        }
+
     @include respond-to(xsm) {
         &__header-nav {
-            top: 0px;
+            top: -10px;
+        }
+
+        &__inner {
+            padding: 92px 8px 24px;
         }
 
         &__card {
-            width: calc(100% - 24px);
-            padding: 12px;
-            gap: 12px;
+            width: min(calc(100% - 16px), 330px);
+            margin: 0 auto;
+            padding: 10px 10px;
+            gap: 10px;
 
             &--visible {
-                transform: translate(-50%, -50%) translateY(12px);
+                transform: none;
             }
         }
 
         &__header {
-            bottom: 64px;
+            bottom: auto;
+            margin: 40px auto 0;
         }
 
         &__footer {
-            bottom: 12px;
+            bottom: 26px;
+            margin-top: 8px;
         }
 
         &__form {
+            padding-block: 8px;
             gap: 8px;
         }
 
@@ -667,15 +718,33 @@
         &__action-group {
             gap: 14px;
         }
+
+        &__custom-btn {
+            &--login {
+                ::ng-deep .custom-btn {
+                    min-height: 42px;
+                    font-size: 18px;
+                    padding: 10px 16px;
+                }
+            }
+
+            &--guest {
+                ::ng-deep .custom-btn.btn-secondary {
+                    min-height: 42px;
+                    font-size: 18px;
+                    padding: 10px 16px;
+                }
+            }
+        }
     }
 
     @media (min-width: 390px) and (max-width: 430px) {
         &__header {
-            bottom: 90px;
+            bottom: auto;
         }
 
         &__header-nav {
-            top: -12px;
+            top: 0;
         }
     }
 
@@ -732,4 +801,5 @@
             margin: 0 auto;
         }
     }
+}
 }
