@@ -3,28 +3,20 @@
 .auth {
     position: relative;
     width: 100%;
-    min-height: 100vh; 
+    min-height: 100vh;
     background-color: var(--bg-light);
     box-sizing: border-box;
-    
-    @include flexbox(column, space-between, center, var(--space-2xl));
 
     &__inner {
         position: relative;
-        width: 100%; 
+        width: 100%;
         max-width: var(--container-content-md);
-        margin: auto 0; 
-        @include flexbox(column, center, center, 0);
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
         @include global_content_wrapper();
-        flex-grow: 1;
-
-        @include respond-to(md) {
-            height: auto; 
-            min-height: auto;
-            justify-content: center; 
-            align-items: center;    
-            margin: 0 auto;
-        }
+        box-sizing: border-box;
+        margin: 0 auto;
     }
 
     &__splash {
@@ -33,14 +25,14 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: var(--bg-ultralight); 
+        background-color: var(--bg-ultralight);
         z-index: 999;
         @include flexbox(row, center, center, 0);
         transition: background-color 0.8s ease-in-out, opacity 0.6s ease-in-out;
 
         @include respond-to(md) {
-            position: fixed; 
-            background-color: var(--bg-muted); 
+            position: fixed;
+            background-color: var(--bg-muted);
         }
 
         &--animated {
@@ -54,7 +46,7 @@
 
         &--no-transition {
             transition: none;
-            
+
             .auth__logo-wrapper {
                 transition: none;
             }
@@ -68,7 +60,7 @@
         transform: translate(-50%, -50%);
         width: 274px;
         height: 335px;
-        transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); 
+        transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         z-index: 1000;
 
         svg {
@@ -78,9 +70,9 @@
 
         .auth__splash--animated & {
             @media (min-width: 769px) {
-                top: var(--space-2xl); 
-                left: var(--space-2xl); 
-                transform: translate(0px, 0); 
+                top: var(--space-2xl);
+                left: var(--space-2xl);
+                transform: translate(0px, 0);
                 width: 101px;
                 height: 122px;
             }
@@ -91,7 +83,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) scale(1);
-            width: 140px; 
+            width: 140px;
             height: auto;
 
             svg {
@@ -100,17 +92,15 @@
             }
 
             .auth__splash--animated & {
-                top: clamp(16px, 4vh, 24px);  
-                left: clamp(16px, 4vw, 24px);  
-                transform: none; 
-                
-                width: clamp(56px, 14vw, 72px);         
+                top: clamp(16px, 4vh, 24px);
+                left: clamp(16px, 4vw, 24px);
+                transform: none;
+                width: clamp(56px, 14vw, 72px);
                 height: auto;
 
                 svg {
                     .logo-path-dark { fill: #2A3647; }
-                    .logo-path-accent { fill: var(--clr-blue-light); 
-                    }
+                    .logo-path-accent { fill: var(--clr-blue-light); }
                 }
             }
         }
@@ -118,14 +108,14 @@
 
     &__header {
         position: absolute;
-        top: var(--space-2xl);   
-        left: 0;  
-        right: 0;                      
-        margin-inline: auto;           
-        @include flexbox(row, flex-end, center, var(--space-lg)); 
+        top: var(--space-2xl);
+        left: 0;
+        right: 0;
+        margin-inline: auto;
+        @include flexbox(row, flex-end, center, var(--space-lg));
         @include global_content_wrapper();
         z-index: 1100;
-        
+
         opacity: 0;
         pointer-events: none;
         transition: opacity 0.6s ease-in-out;
@@ -136,30 +126,23 @@
         }
 
         @include respond-to(md) {
-            position: absolute;
-            order: 0;
             top: clamp(24px, 5vh, 44px);
             right: clamp(16px, 4vw, 36px);
             left: auto;
             transform: none;
-            
             width: auto;
             max-width: none;
-            height: auto; 
             margin: 0;
             justify-content: flex-end;
         }
     }
 
     &__header-nav {
-        padding-top: var(--space-md); 
-        @include flexbox(row, space-between, center, 35px); 
-        margin-left: auto; 
+        padding-top: var(--space-md);
+        @include flexbox(row, space-between, center, 35px);
+        margin-left: auto;
 
         @include respond-to(md) {
-            position: relative;
-            top: 0;
-            margin-left: auto;
             width: auto;
             justify-content: flex-end;
             gap: clamp(12px, 2vw, 20px);
@@ -169,112 +152,92 @@
 
     &__header-text {
         font-family: var(--ff-body);
-        font-size: var(--fs-body-large); 
+        font-size: var(--fs-body-large);
         color: var(--text-color-dark);
         white-space: nowrap;
 
         @include respond-to(md) {
-            font-size: 20px;  
-            font-weight: 400; 
-            line-height: 1.2;        
-            color: var(--clr-black);  
             font-size: clamp(16px, 2.3vw, 20px);
+            font-weight: var(--fw-regular);
+            line-height: 1.2;
+            color: var(--clr-black);
         }
     }
 
     &__card {
-        width: 652px;
+        width: min(652px, 100%);
         min-height: 449px;
         border-radius: 30px;
         padding: var(--space-2xl) 115px;
         background-color: var(--bg-ultralight);
         box-shadow: 0px 0px 14px 3px rgba(0, 0, 0, 0.14);
-        @include flexbox(column, center, center, var(--space-xl)); 
+        @include flexbox(column, center, center, var(--space-xl));
         position: relative;
         z-index: 1;
 
-        @media (min-width: 769px) {
-            position: static;
-            top: auto;
-            left: auto;
-            transform: none; 
-            margin: 0 auto;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.35s ease, transform 0.35s ease;
 
-            &--visible {
-                opacity: 1;
-                transform: none; 
-            }
+        &--visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        &--no-transition {
+            transition: none;
         }
 
         @include respond-to(md) {
-            position: relative;
-            order: 2;
-            top: auto;
-            left: auto;
-            transform: none;
-            
             width: min(calc(100% - clamp(20px, 4vw, 32px)), clamp(360px, 74vw, 620px));
-            min-height: auto;        
+            min-height: auto;
             border-radius: clamp(20px, 3.2vw, 30px);
-            
             padding: clamp(16px, 3.2vw, 28px) clamp(14px, 4vw, 24px);
             gap: clamp(12px, 2.4vw, 20px);
-            margin: 0 auto;
-            z-index: 1;
+            transform: none;
 
             &--visible {
-                opacity: 1;
                 transform: none;
-            }  
+            }
         }
     }
 
     &__card-header {
-        @include flexbox(column, center, center, 16px); 
+        @include flexbox(column, center, center, 16px);
         width: 100%;
-
-        @include respond-to(md) {
-            width: 100%;
-            height: auto; 
-            margin: 0 auto; 
-        }
     }
 
     &__title {
-        font-family: var(--ff-display); 
+        font-family: var(--ff-display);
         font-size: var(--fs-h2);
-        font-weight: var(--fw-bold);    
+        font-weight: var(--fw-bold);
         line-height: var(--lh-heading);
         color: var(--text-color-ultradark);
-        margin-bottom: 0;
+        margin: 0;
         text-align: center;
 
         @include respond-to(md) {
-            font-size: clamp(32px, 10vw, 44px);            
-            color: var(--clr-black);    
+            font-size: clamp(32px, 10vw, 44px);
+            color: var(--clr-black);
         }
     }
 
     &__underline {
-        width: 124px; 
+        width: 124px;
         height: 3px;
         background-color: var(--clr-blue-light);
         border-radius: var(--radius-pill);
 
         @include respond-to(md) {
-            width: 88px;  
-            height: 3px; 
-            background-color: var(--clr-blue-light); 
+            width: 88px;
         }
     }
 
     &__form {
         width: 100%;
-        @include flexbox(column, center, center, var(--space-xl)); 
+        @include flexbox(column, center, center, var(--space-xl));
 
         @include respond-to(md) {
-            width: 100%;
-            align-items: center;
             gap: clamp(10px, 1.8vw, 14px);
         }
     }
@@ -282,11 +245,10 @@
     &__inputs-container {
         width: 100%;
         max-width: 422px;
-        @include flexbox(column, center, center, var(--space-xl)); 
+        @include flexbox(column, center, center, var(--space-xl));
 
         @include respond-to(md) {
-            width: 100%; 
-            max-width: 100%; 
+            max-width: 100%;
             gap: clamp(10px, 2vw, 14px);
         }
     }
@@ -294,11 +256,11 @@
     &__field-group {
         width: 100%;
         height: 48px;
-        position: relative; 
+        position: relative;
 
         &--invalid {
             .auth__input {
-                border: 1px solid #E60026; 
+                border: 1px solid #E60026;
 
                 &:focus {
                     border: 1px solid #E60026;
@@ -307,32 +269,28 @@
         }
 
         @include respond-to(md) {
-            height: auto; 
+            height: auto;
             min-height: 48px;
-            @include flexbox(column, flex-start, flex-start, 0); 
+            @include flexbox(column, flex-start, flex-start, 0);
         }
     }
 
     &__error-text {
         font-size: 16px;
-        font-weight: var(--fw-regular); 
-        font-style: normal; 
-        line-height: var(--lh-heading); 
-        letter-spacing: 0em;
+        font-weight: var(--fw-regular);
+        line-height: var(--lh-heading);
         color: #E60026;
         text-align: left;
         width: 100%;
         display: block;
-        margin-top: var(--space-xs); 
+        margin-top: var(--space-xs);
         min-height: 24px;
         visibility: hidden;
 
         @include respond-to(md) {
-            font-size: 14px; 
+            font-size: 14px;
             margin-top: 4px;
             margin-bottom: 6px;
-            display: block;
-            min-height: 24px;
         }
 
         &--visible {
@@ -343,9 +301,9 @@
     &__input {
         width: 100%;
         height: 100%;
-        padding: var(--space-md) var(--space-md); 
+        padding: var(--space-md) var(--space-md);
         border: 1px solid var(--border-clr-light);
-        border-radius: var(--radius-md); 
+        border-radius: var(--radius-md);
         font-size: var(--fs-body-normal);
         outline: none;
         background-color: var(--bg-ultralight);
@@ -356,7 +314,7 @@
         }
 
         @include respond-to(md) {
-            padding-right: 44px; 
+            padding-right: 44px;
             height: clamp(42px, 6.5vw, 48px);
             font-size: clamp(15px, 2vw, 17px);
         }
@@ -370,7 +328,7 @@
         pointer-events: none;
 
         @include respond-to(md) {
-            top: 24px; 
+            top: 24px;
             transform: translateY(-50%);
         }
     }
@@ -398,10 +356,10 @@
 
     &__action-group,
     &__header-nav {
-        --btn-font-size: 21px; 
-        --btn-height: 48px; 
-        --btn-gap: 10px;    
-        
+        --btn-font-size: 21px;
+        --btn-height: 48px;
+        --btn-gap: 10px;
+
         --btn-primary-bg: #2A3647;
         --btn-primary-border: #2A3647;
         --btn-primary-hover-bg: #124658;
@@ -414,19 +372,15 @@
     &__action-group {
         width: 100%;
         max-width: 322px;
-
         height: 48px;
-        @include flexbox(row, center, center, 35px); 
+        @include flexbox(row, center, center, 35px);
 
         @include respond-to(md) {
-            @include flexbox(column, center, center, 21px); 
-            width: 100%; 
+            @include flexbox(column, center, center, 21px);
+            width: 100%;
             max-width: clamp(168px, 28vw, 220px);
             height: auto;
-            margin-top: 0;
-            margin-bottom: 0;
-            margin-left: auto;
-            margin-right: auto; 
+            margin: 0 auto;
         }
     }
 
@@ -437,24 +391,23 @@
             min-width: 110px;
             width: auto;
 
-            
             ::ng-deep .custom-btn {
                 padding: 15px 24px;
             }
 
             @include respond-to(md) {
-                width: 100%; 
-                
+                width: 100%;
+
                 ::ng-deep .custom-btn {
                     width: 100%;
                     max-width: 100%;
                     height: clamp(44px, 7vw, 51px);
-                    border-radius: 8px; 
+                    border-radius: 8px;
                 }
             }
         }
 
-    &--guest {
+        &--guest {
             min-width: 177px;
             width: auto;
 
@@ -466,21 +419,21 @@
                 transition: all 100ms ease-in-out;
 
                 &:hover {
-                    border: 2px solid #124658; 
+                    border: 2px solid #124658;
                     color: #124658;
                     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
                 }
 
                 &:active {
-                    border: 1px solid #091931; 
+                    border: 1px solid #091931;
                     color: #091931;
                     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
                 }
             }
 
             @include respond-to(md) {
-                width: 100%; 
-                
+                width: 100%;
+
                 ::ng-deep .custom-btn.btn-secondary {
                     width: 100%;
                     max-width: 100%;
@@ -488,50 +441,38 @@
             }
         }
     }
-    
+
     &__footer {
-        position: absolute;
-        bottom: var(--space-2xl);
+        position: fixed;
         left: 50%;
+        bottom: clamp(10px, 2.5vh, 24px);
         transform: translateX(-50%);
-        z-index: 999;
-        opacity: 0;
-        pointer-events: none;
+        width: auto;
+        @include flexbox(row, center, center, 0);
+        z-index: 1200;
+        opacity: 1;
+        pointer-events: auto;
         transition: opacity 0.6s ease-in-out;
-        
+
         &--visible {
             opacity: 1;
             pointer-events: auto;
         }
-
-        @include respond-to(md) {
-            position: absolute; 
-            bottom: 35px;
-            left: 50%;
-            transform: translateX(-50%);
-            margin: 0;
-            }
-        }
-    
-    &__footer-nav {
-        width: 246px;
-        height: 35px;@include flexbox(row, space-between, center, 16px);
-
-        @include respond-to(md) {
-            width: auto; 
-            height: 35px; 
-            gap: 16px; 
-        }
     }
-    
+
+    &__footer-nav {
+        width: auto;
+        height: auto;
+        @include flexbox(row, center, center, 24px);
+    }
+
     &__footer-link {
         font-family: var(--ff-body);
-        font-size: var(--fs-h5);
+        font-size: 16px;
         font-weight: var(--fw-regular);
         line-height: var(--lh-heading);
         color: var(--text-color-grey);
-        padding: var(--space-sm);
-        width: 115px;
+        padding: 8px;
         cursor: pointer;
         transition: color 100ms ease-in-out;
         display: inline-flex;
@@ -539,395 +480,122 @@
         align-items: center;
         text-decoration: none;
         white-space: nowrap;
-        flex-shrink: 0;
 
         &:hover {
             color: #124658;
             text-decoration: none;
             font-weight: var(--fw-bold);
         }
-
-        @include respond-to(md) {
-            padding: 8px; 
-            font-size: 16px; 
-        }
-    }
-
-    @media (max-width: 1300px) and (min-width: 769px) {
-        .auth {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
-            position: relative;
-            padding-bottom: 0;
-            box-sizing: border-box;
-        }
-
-        .auth__inner {
-            min-height: auto;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            margin: 0 auto;
-        }
-
-        .auth__header {
-            position: absolute;
-            top: 48px;
-            right: 48px;
-            left: auto;
-            margin: 0;
-            width: auto;
-            opacity: 1;
-            pointer-events: auto;
-            display: flex;
-            flex-direction: row;
-            justify-content: flex-end;
-            align-items: center;
-            gap: var(--space-lg);
-        }
-
-        .auth__splash--animated + .auth__logo-wrapper,
-        .auth__splash--animated ~ .auth__logo-wrapper,
-        .auth__logo-wrapper {
-            .auth .auth__splash--animated & {
-                top: 48px;
-                left: 48px;
-                transform: none;
-            }
-        }
-
-        .auth__card {
-            position: relative;
-            top: auto;
-            left: auto;
-            transform: none;
-            width: min(92vw, clamp(560px, 62vw, 740px));
-            max-width: 740px;
-            margin: 0 auto;
-            padding: clamp(36px, 5.5vh, 56px) clamp(44px, 6vw, 72px);
-            gap: clamp(16px, 2vh, 24px);
-        }
-
-        .auth__form {
-            padding-bottom: clamp(24px, 4vh, 40px);
-            gap: clamp(14px, 1.8vh, 20px);
-        }
-
-        .auth__inputs-container {
-            max-width: 100%;
-            padding-inline: clamp(0px, 0.8vw, 4px);
-            box-sizing: border-box;
-        }
-
-        .auth__footer {
-            position: fixed;
-            bottom: 120px;
-            left: 50%;
-            transform: translateX(-50%);
-            margin: 0;
-            opacity: 1;
-            pointer-events: auto;
-            display: flex;
-            z-index: 1200;
-        }
-
-        .auth__footer-nav {
-            position: relative;
-            bottom: 48px;
-        }
-    }
-
-    @media (max-width: 1300px) and (min-width: 769px) and (orientation: landscape) {
-        .auth {
-            min-height: 100vh;
-            height: auto;
-            overflow-y: auto; 
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-            padding-top: 140px;  
-            padding-bottom: 40px; 
-            box-sizing: border-box;
-        }
-
-        .auth__inner {
-            min-height: auto;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            margin: 0 auto;
-        }
-
-        .auth__header {
-            position: absolute;
-            top: 32px; 
-            right: 48px;
-            left: auto;
-            display: flex;
-            gap: var(--space-lg);
-            z-index: 1300;
-        }
-
-        .auth__card {
-            width: min(88vw, 420px);
-            padding: 24px var(--space-xl);
-            margin-top: 120px;
-        }
-
-
-        .auth__form {
-            padding-bottom: 16px;
-            gap: 16px;
-        }
-
-        .auth__inputs-container {
-            max-width: 100%;
-        }
-
-        .auth__footer {
-            position: relative;
-            bottom: auto;
-            left: auto;
-            transform: none;
-            margin-top: 40px; 
-            opacity: 1;
-            pointer-events: auto;
-            display: flex;
-            justify-content: center;
-            width: 100%;
-        }
-
-        .auth__footer-nav {
-            position: relative;
-            bottom: 0;
-            padding-top: 32px;
-        }
-    }
-
-
-    @media (max-width: 860px) and (min-width: 800px) {
-        .auth__footer {
-            bottom: 10px;
-        }
-
-        .auth__footer-nav {
-            bottom: 40px;
-        }
-    }
-
-    @media (max-width: 786px) and (min-width: 577px) {
-        &__form {
-            padding-block: clamp(10px, 2vw, 16px);
-            padding-inline: clamp(14px, 3vw, 22px);
-        }
-
-        &__inputs-container {
-            padding-inline: clamp(6px, 1.6vw, 10px);
-            box-sizing: border-box;
-        }
     }
 
     @include respond-to(sm) {
+        &__card {
+            width: min(calc(100% - 10px), 396px);
+            padding: 32px 14px;
+            border-radius: 30px;
+            gap: 18px;
+        }
+
         &__header {
-            position: relative;
-            order: 3;
+            position: fixed;
             top: auto;
             right: auto;
-            left: auto;
-            width: 100%;
-            max-width: 440px;
-            margin: 40px auto 0;
+            left: 50%;
+            bottom: 72px;
+            transform: translateX(-50%);
+            width: auto;
+            max-width: none;
+            margin: 0;
             justify-content: center;
-            bottom: auto;
+            z-index: 1201;
         }
 
         &__header-nav {
-            top: 0;
             margin-left: 0;
-            width: 100%;
+            width: auto;
             justify-content: center;
             gap: var(--space-md);
         }
 
+        &__action-group {
+            max-width: 180px;
+            gap: 18px;
+        }
+
         &__footer {
-            bottom: 60px;
+            bottom: 8px;
         }
 
-        &__form {
-            padding-block: clamp(8px, 2.2vw, 14px);
-            padding-inline: clamp(10px, 2.8vw, 16px);
-            gap: 10px;
-        }
-
-        &__inputs-container {
-            padding-inline: clamp(2px, 1.2vw, 6px);
-            box-sizing: border-box;
-            gap: 12px;
-        }
-    }
-
-    @media (min-width: 411px) and (max-width: 576px) {
-        .auth__card {
-            margin-top: 24px;
-        }
-
-        .auth__footer {
-            bottom: 40px;
-        }
-
-        .auth__custom-btn--login {
-            ::ng-deep .custom-btn {
-                min-height: 40px;
-                font-size: 16px;
-                padding: 8px 14px;
-            }
-        }
-
-        .auth__custom-btn--guest {
-            ::ng-deep .custom-btn.btn-secondary {
-                min-height: 40px;
-                font-size: 16px;
-                padding: 8px 14px;
-            }
+        &__footer-nav {
+            gap: 20px;
         }
     }
 
     @include respond-to(xsm) {
-        &__header-nav {
-            top: -10px;
-        }
-
-        &__inner {
-            padding: 92px 8px 24px;
-        }
-
         &__card {
-            width: min(calc(100% - 16px), 330px);
-            margin: 0 auto;
-            padding: 10px 10px;
-            gap: 10px;
-
-            &--visible {
-                transform: none;
-            }
+            width: min(calc(100% - 6px), 360px);
+            padding: 28px 10px;
         }
 
         &__header {
-            bottom: auto;
-            margin: 40px auto 0;
+            bottom: 66px;
         }
 
         &__footer {
-            bottom: 14px;
-            margin-top: 8px;
-        }
-
-        &__form {
-            margin-top: 10px;
-            padding-block: 8px;
-            padding-inline: 10px;
-            gap: 8px;
-        }
-
-        &__inputs-container {
-            padding-inline: 4px;
-            box-sizing: border-box;
-            gap: 10px;
-        }
-
-        &__action-group {
-            gap: 14px;
-        }
-
-        &__custom-btn {
-            &--login {
-                ::ng-deep .custom-btn {
-                    min-height: 38px;
-                    font-size: 16px;
-                    padding: 8px 12px;
-                }
-            }
-
-            &--guest {
-                ::ng-deep .custom-btn.btn-secondary {
-                    min-height: 38px;
-                    font-size: 16px;
-                    padding: 8px 12px;
-                }
-            }
+            bottom: 6px;
         }
     }
 
-    @media (min-width: 390px) and (max-width: 430px) {
-        &__header {
-            bottom: auto;
-        }
-
-        &__header-nav {
-            top: 0;
-        }
-    }
-
-    @include landscape-mobile {
-        min-height: 100vh;
-        height: auto;
+    @media (orientation: portrait) and (min-width: 820px) and (max-width: 1050px) and (min-height: 1180px) and (max-height: 1400px) {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100dvh;
+        min-height: 100dvh;
+        max-height: 100dvh;
         overflow-y: auto;
 
         &__inner {
-            min-height: auto;
-            justify-content: flex-start;
-            padding: 96px 16px 32px;
-        }
-
-        &__header {
-            position: relative;
-            top: auto;
-            right: auto;
-            bottom: auto;
-            left: auto;
-            transform: none;
-            width: 100%;
-            max-width: none;
-            margin: 0 auto 24px;
-            justify-content: center;
-        }
-
-        &__header-nav {
-            position: relative;
-            top: auto;
-            margin-left: 0;
-            justify-content: center;
+            height: 100%;
+            min-height: 100%;
+            max-height: 100%;
             padding-top: 0;
+            padding-bottom: 0;
         }
 
         &__card {
-            position: relative;
-            top: auto;
-            left: auto;
-            transform: none;
-            width: min(100%, 340px);
-            margin: 0 auto 24px;
+            width: min(620px, calc(100% - 56px));
+            min-height: 0;
+            max-height: calc(100% - 200px);
+            padding: 40px 88px;
+            gap: 22px;
+        }
 
-            &--visible {
-                transform: none;
-            }
+        &__form {
+            gap: 20px;
+        }
+
+        &__inputs-container {
+            gap: 16px;
+        }
+
+        &__header {
+            top: 42px;
+            right: 34px;
         }
 
         &__footer {
-            position: relative;
-            bottom: auto;
-            left: auto;
-            transform: none;
-            margin: 0 auto;
+            position: fixed;
+            left: 50%;
+            bottom: 0 !important;
+            transform: translateX(-50%);
+            z-index: 1300;
+            opacity: 1 !important;
+            pointer-events: auto !important;
+        }
+
+        &__footer-nav {
+            gap: 22px;
         }
     }
 }
