@@ -4,7 +4,8 @@
 .help-page {
     @include global_content_wrapper();
     @include flexbox(column, flex-start, flex-start, var(--space-xl));
-    padding-block: var(--space-4xl);
+    padding-top: clamp(28px, 5vh, 64px);
+    padding-bottom: clamp(56px, 9vh, 120px);
     font-family: var(--ff-body);
     color: var(--text-color-dark);
 
@@ -19,6 +20,7 @@
         height: 73px;
         @include flexbox(row, space-between, center, var(--space-md));
         opacity: 1;
+        margin-bottom: var(--space-lg);
     }
 
     .help__title-container {
@@ -138,11 +140,14 @@
         width: 100%;
         margin-inline: auto;
         box-sizing: border-box;
+        padding-top: clamp(36px, 7vh, 72px);
+        padding-bottom: calc(clamp(72px, 10vh, 128px) + 80px);
         
         .help__header {
             height: auto; 
             width: 100%;
-            margin-top: var(--space-xl); 
+            margin-top: var(--space-xl);
+            margin-bottom: var(--space-xl);
         }
 
         .help__title-container {

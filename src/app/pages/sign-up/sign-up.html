@@ -1,7 +1,11 @@
 <section class="auth">
+    @if (shouldRotateScreen) {
+    <app-rotate-screen></app-rotate-screen>
+    }
     <div class="auth__logo-signup">
         <app-logo-dark></app-logo-dark>
     </div>
+
     <div class="auth__inner">
         <div class="auth__card auth__card--visible">
             <div class="auth__card-header" style="position: relative; width: 100%;">
@@ -22,8 +26,8 @@
                     <div class="auth__field-group"
                         [class.auth__field-group--invalid]="signUpForm.get('name')?.invalid && signUpForm.get('name')?.touched">
                         <input type="text" placeholder="Name" class="auth__input" formControlName="name" required />
-                        @if (signUpForm.get('name')?.touched && signUpForm.get('name')?.invalid) {
-                        <span class="auth__error-text">
+                        <span class="auth__error-text"
+                            [class.auth__error-text--visible]="signUpForm.get('name')?.touched && signUpForm.get('name')?.invalid">
                             @if (signUpForm.get('name')?.hasError('required')) {
                             Name is required.
                             }
@@ -34,7 +38,6 @@
                             Name contains invalid characters.
                             }
                         </span>
-                        }
                         <svg class="auth__input-icon" width="24" height="24" viewBox="0 0 24 24" fill="#d1d1d1"
                             xmlns="http://w3.org">
                             <mask id="mask0_71395_17521" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
@@ -53,16 +56,16 @@
                         [class.auth__field-group--invalid]="signUpForm.get('email')?.invalid && signUpForm.get('email')?.touched">
                         <input type="email" placeholder="Email" class="auth__input" formControlName="email"
                             autocomplete="username" required />
-                        @if (signUpForm.get('email')?.touched && signUpForm.get('email')?.invalid) {
-                        <span class="auth__error-text">
+                        <span class="auth__error-text"
+                            [class.auth__error-text--visible]="signUpForm.get('email')?.touched && signUpForm.get('email')?.invalid">
                             @if (signUpForm.get('email')?.hasError('required')) {
                             Email is required.
                             }
-                            @if (signUpForm.get('email')?.hasError('email')) {
+                            @if (signUpForm.get('email')?.hasError('email') ||
+                            signUpForm.get('email')?.hasError('pattern')) {
                             Please enter a valid email address.
                             }
                         </span>
-                        }
                         <svg class="auth__input-icon" width="24" height="24" viewBox="0 0 24 24" fill="#d1d1d1"
                             xmlns="http://www.w3.org/2000/svg">
                             <mask id="mask0_71395_17528" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
@@ -129,13 +132,12 @@
                         </button>
                         }
 
-                        @if (passwordControlTouched && signUpForm.get('password')?.invalid) {
-                        <span class="auth__error-text">
+                        <span class="auth__error-text"
+                            [class.auth__error-text--visible]="passwordControlTouched && signUpForm.get('password')?.invalid">
                             @if (signUpForm.get('password')?.hasError('required')) { Password is required. }
                             @if (signUpForm.get('password')?.hasError('minlength')) { Password must be at least 6
                             characters. }
                         </span>
-                        }
                     </div>
 
                     <div class="auth__field-group" [class.auth__field-group--invalid]="shouldShowPasswordError()">
@@ -187,11 +189,9 @@
                             }
                         </button>
                         }
-                        @if (shouldShowPasswordError()) {
-                        <span class="auth__error-text">
+                        <span class="auth__error-text" [class.auth__error-text--visible]="shouldShowPasswordError()">
                             Your passwords don't match. Please try again.
                         </span>
-                        }
                     </div>
 
                     <div class="auth__privacy-container">
@@ -216,7 +216,8 @@
                                 </svg>
                                 }
                             </span>
-                            <span class="auth__privacy-text">I accept the <a class="auth__privacy-link">Privacy
+                            <span class="auth__privacy-text">I accept the <a class="auth__privacy-link"
+                                    (click)="onPrivacyPolicyClick()">Privacy
                                     policy</a></span>
                         </label>
                     </div>

@@ -1,8 +1,9 @@
-import { Component, signal } from '@angular/core';
+import { Component, HostListener, signal } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ButtonComponent } from '../../shared/components/button/button.component';
 import { LogoDark } from '../../shared/components/logo-dark/logo-dark';
+import { RotateScreen } from "../../shared/components/rotate-screen/rotate-screen";
 import { AuthService } from '../../shared/services/auth-service';
 import { contactsService } from '../../shared/services/contacts-service';
 
@@ -15,11 +16,13 @@ import { contactsService } from '../../shared/services/contacts-service';
 @Component({
   selector: 'app-sign-up',
   standalone: true,
-  imports: [ReactiveFormsModule, ButtonComponent, LogoDark],
+  imports: [ReactiveFormsModule, ButtonComponent, LogoDark, RotateScreen],
   templateUrl: './sign-up.html',
   styleUrls: ['./sign-up.scss'],
 })
 export class SignUp {
+  private static readonly EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[A-Za-z]{2,}$/;
+
   /**
    * Root FormGroup object aggregating and managing validation rules for all registration inputs.
    */
@@ -29,7 +32,11 @@ export class SignUp {
       Validators.minLength(2),
       Validators.pattern(/^[a-zA-ZäöüÄÖÜß\s-]+$/)
     ]),
-    email: new FormControl('', [Validators.required, Validators.email]),
+    email: new FormControl('', [
+      Validators.required,
+      Validators.email,
+      Validators.pattern(SignUp.EMAIL_PATTERN),
+    ]),
     password: new FormControl('', [Validators.required, Validators.minLength(6)]),
     confirmPassword: new FormControl('', [Validators.required]),
     privacyAccepted: new FormControl(false, [Validators.requiredTrue])
@@ -75,6 +82,11 @@ export class SignUp {
    * Prevents duplicate sign-up requests while the current submission is still running.
    */
   public isSubmitting = signal<boolean>(false);
+
+  /**
+   * Indicates whether the user should be prompted to rotate their screen.
+   */
+  public shouldRotateScreen = false;
 
   /**
    * Initializes the component with dependency injection.
@@ -236,5 +248,32 @@ export class SignUp {
       return { passwordMismatch: true };
     }
     return null;
+  }
+
+  /**
+   * Initializes the component by checking the initial screen orientation.
+   */
+  public ngOnInit(): void {
+    this.evaluateOrientation();
+  }
+
+  @HostListener('window:resize')
+  onResize() {
+      this.evaluateOrientation();
+  }
+
+  /**
+   * Evaluates the current window dimensions and updates the rotation prompt state.
+   * 
+   * @remarks
+   * Triggered on initialization and window resizing to catch device orientation changes.
+   */
+  private evaluateOrientation(): void {
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    const isLandscape = width > height;
+    const isSmallDevice = width < 622 || height < 500;
+
+    this.shouldRotateScreen = isLandscape && isSmallDevice;
   }
 }
