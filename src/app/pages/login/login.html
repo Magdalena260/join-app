@@ -1,5 +1,7 @@
 <section class="auth">
+    @if (shouldRotateScreen) {
     <app-rotate-screen></app-rotate-screen>
+    }
     <div class="auth__inner">
         <header class="auth__header" [class.auth__header--visible]="!isAnimating()">
             <div class="auth__header-nav">
