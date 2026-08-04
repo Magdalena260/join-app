@@ -3,464 +3,190 @@
 .auth {
     position: relative;
     width: 100%;
-    min-height: 100vh; 
+    min-height: 100vh;
     background-color: var(--bg-light);
     box-sizing: border-box;
-    padding: var(--space-2xl) var(--space-md); 
-    @include flexbox(column, space-between, center, var(--space-xl));
-
-    &__inner {
-        position: relative;
-        width: 100%;
-        max-width: var(--container-content-md);
-        margin: auto 0; 
-        @include flexbox(column, center, center, 0);
-        flex-grow: 1;
-    }
-
-    @media (max-width: 1300px) and (min-width: 769px) {
-        min-height: auto;
-        height: auto;
-        padding-top: 25%;
-    
-        .auth__logo-signup {
-            left: 48px; 
-            top: 48px;
-        }
-
-        .auth__inner {
-            min-height: auto;
-            margin: 0 auto;
-            padding-top: var(--space-xl); 
-            padding-bottom: var(--space-2xl);
-        }
-
-        .auth__card {
-            width: 90%;
-            max-width: 520px; 
-            margin: 0 auto;
-            padding: var(--space-3xl) var(--space-2xl); 
-        }
-
-        .auth__card-header {
-            padding: 0 48px;
-            box-sizing: border-box;
-        }
-
-        .auth__back-btn {
-            left: 0;
-            top: 0;
-            transform: none;
-            
-            &:hover, &:active {
-                transform: scale(1.05); 
-            }
-        }
-
-        .auth__footer {
-            position: relative;
-            bottom: auto;
-            left: auto;
-            transform: none;
-            margin: var(--space-2xl) auto 0; 
-        }
-    }
-
-    @include respond-to(md) {
-        padding: clamp(64px, 8vh, 96px) var(--space-md) var(--space-xl);
-
-        &__inner {
-            min-height: auto;
-            justify-content: center;
-            align-items: center;
-        }
-
-        @include respond-to(sm) {
-            padding: 88px 12px 24px;
-        }
-    }
-
-    @media (max-width: 375px) {
-        &__inner {
-            box-sizing: border-box;
-            padding-top: 0; 
-            padding-bottom: 0;
-        }
-
-        &__card {
-            margin-top: 24px;
-        }
-    }
+    overflow-x: hidden;
 
     &__logo-signup {
         position: absolute;
-        top: var(--space-2xl);
-        left: 16%;
+        top: 48px;
+        left: clamp(24px, 6vw, 72px);
+        z-index: 20;
         pointer-events: none;
 
-        @include respond-to(lg) {
-            top: clamp(16px, 4vh, 24px);
-            left: 8%;
-            transform: none; 
-            width: clamp(56px, 14vw, 72px);
-        }
-
         @include respond-to(md) {
-            top: clamp(16px, 4vh, 24px);
-            left: 24px; 
-            transform: none; 
+            top: 24px;
+            left: 24px;
             width: clamp(56px, 14vw, 72px);
             height: auto;
         }
     }
 
+    &__inner {
+        width: 100%;
+        max-width: var(--container-content-md);
+        min-height: 100vh;
+        margin: 0 auto;
+        padding: clamp(128px, 15vh, 176px) clamp(16px, 5vw, 64px) 94px;
+        box-sizing: border-box;
+        @include flexbox(column, center, center, 0);
+    }
+
+    &__card {
+        width: min(752px, 100%);
+        max-width: 100%;
+        border-radius: 30px;
+        background-color: var(--bg-ultralight);
+        box-shadow: 0 0 14px 3px rgba(0, 0, 0, 0.14);
+        padding: 52px 64px 36px;
+        box-sizing: border-box;
+        @include flexbox(column, flex-start, center, 26px);
+    }
+
+    &__card-header {
+        position: relative;
+        width: 100%;
+        @include flexbox(column, center, center, 14px);
+    }
+
     &__back-btn {
-        background-color: transparent; 
+        position: absolute;
+        left: 0;
+        top: 6px;
+        width: 44px;
+        height: 44px;
         border: none;
+        border-radius: 50%;
+        background: transparent;
         cursor: pointer;
-        padding: 0;
-        
-        width: 32px;
-        height: 32px;
-        border-radius: 50%; 
-        opacity: 1;
-        
-        position: absolute; 
-        left: 16px;
-        top: 8px;
-        z-index: 10; 
-        
         @include flexbox(row, center, center, 0);
-        transition: background-color 150ms ease-in-out, transform 150ms ease-in-out;
+        transition: background-color 120ms ease, transform 120ms ease;
+
+        svg {
+            width: 34px;
+            height: 34px;
+        }
 
         svg path {
-            fill: #124658; 
+            fill: #124658;
         }
 
         &:hover {
-            transform: scale(1.05); 
-            background-color: var(--bg-light); 
+            background-color: var(--bg-light);
+            transform: scale(1.05);
         }
 
         &:active {
             transform: scale(0.95);
-            background-color: var(--border-clr-light); 
-        }
-
-        &:focus {
-            outline: none;
-        }
-
-        @include respond-to(lg) {
-            left: 0;
-            top: 0;
-        }
-
-        @include respond-to(md) {
-            left: 0;
-            top: 0;
-        }
-
-        @include respond-to(sm) {
-            left: 8px;
-            top: 0px;
         }
     }
 
     &__title {
-        font-family: var(--ff-display); 
-        font-size: var(--fs-h2);
-        font-weight: var(--fw-bold);    
+        margin: 0;
+        font-family: var(--ff-display);
+        font-size: 64px;
+        font-weight: var(--fw-bold);
         line-height: var(--lh-heading);
         color: var(--text-color-ultradark);
-        margin-bottom: 0;
-        
-        width: 100%;
-        text-align: center; 
-
-        @include respond-to(md) {
-            font-size: clamp(32px, 10vw, 44px);            
-            color: var(--clr-black);    
-        }
-
-        @include respond-to(sm) {
-            font-size: 28px; 
-        }
-
-        @media (max-width: 375px) {
-            font-size: 24px;
-        }
-    }
-
-    &__card {
-        width: 652px;
-        min-height: 449px;
-        border-radius: 30px;
-        padding: var(--space-2xl) 115px;
-        background-color: var(--bg-ultralight);
-        box-shadow: 0px 0px 14px 3px rgba(0, 0, 0, 0.14);
-        @include flexbox(column, center, center, var(--space-xl)); 
-
-        @include respond-to(md) {
-            position: static;
-            top: auto;
-            left: auto;
-            transform: none; 
-            width: min(92vw, 620px);
-            min-height: auto;
-            border-radius: clamp(20px, 3.8vw, 30px);
-            padding: clamp(20px, 4vw, 40px) clamp(16px, 5.8vw, 56px);
-            gap: clamp(12px, 2.2vw, 24px);
-            margin: 0 auto;
-
-            &--visible {
-                opacity: 1;
-                transform: none; 
-            }
-        }
-
-            @include respond-to(sm) {
-                max-width: 340px;
-                max-height: calc(100vh - 180px);
-                overflow-y: auto; 
-                padding: 16px 12px 12px;
-                gap: 12px;
-            }
-
-            @media (max-width: 375px) {
-                max-height: calc(100vh - 120px);
-                padding: var(--space-md) var(--space-sm);
-                gap: var(--space-sm);
-            }
-    }
-
-    &__card-header {
-        position: relative; 
-        width: 100%;
-        padding: 0 ; 
-        box-sizing: border-box;
-        @include flexbox(column, center, center, 16px); 
-
-        @include respond-to(md) {
-            width: 100%;
-            height: auto; 
-            gap: clamp(10px, 2vw, 16px);
-            margin: 0 auto; 
-        }
-    }
-
-    &__title {
-        font-family: var(--ff-display); 
-        font-size: var(--fs-h2);
-        font-weight: var(--fw-bold);    
-        line-height: var(--lh-heading);
-        color: var(--text-color-ultradark);
-        margin-bottom: 0;
         text-align: center;
-
-        @include respond-to(md) {
-            font-size: clamp(32px, 10vw, 44px);            
-            color: var(--clr-black);    
-        }
-
-        @include respond-to(sm) {
-                font-size: 28px; 
-        }
-
-        @media (max-width: 375px) {
-                font-size: 24px;
-        }
     }
 
     &__underline {
-        width: 124px; 
+        width: 112px;
         height: 3px;
-        background-color: var(--clr-blue-light);
         border-radius: var(--radius-pill);
-
-        @include respond-to(md) {
-            width: 88px;  
-            height: 3px; 
-            background-color: var(--clr-blue-light); 
-        }
+        background-color: var(--clr-blue-light);
     }
 
     &__form {
         width: 100%;
-        @include flexbox(column, center, center, 24px);
-
-        @include respond-to(md) {
-            width: 100%;
-            align-items: center;
-            gap: clamp(10px, 2vw, 18px);
-        }
-
-        @include respond-to(sm) {
-            gap: 8px;
-        }
+        @include flexbox(column, flex-start, center, 20px);
     }
 
     &__inputs-container {
         width: 100%;
-        max-width: 422px;
-        @include flexbox(column, center, center, 12px);
-
-        @include respond-to(md) {
-            width: 100%; 
-            max-width: min(100%, 422px); 
-            gap: clamp(8px, 1.6vw, 12px);
-        }
-
-        @include respond-to(sm) {
-            gap: 6px;
-        }
+        max-width: 516px;
+        @include flexbox(column, flex-start, stretch, 8px);
     }
 
     &__field-group {
         width: 100%;
-        height: auto;
-        position: relative; 
         display: grid;
         grid-template-columns: 1fr;
-        grid-template-rows: 48px 24px;
-        align-items: start;
+        grid-template-rows: 56px 22px;
+        position: relative;
 
         &--invalid {
             .auth__input {
-                border: 1px solid #E60026; 
+                border-color: var(--border-clr-error);
 
                 &:focus {
-                    border: 1px solid #E60026;
+                    border-color: var(--border-clr-error);
                 }
             }
         }
+    }
 
-        @include respond-to(md) {
-            grid-template-rows: clamp(42px, 6vw, 48px) 24px;
+    &__input {
+        grid-column: 1;
+        grid-row: 1;
+        width: 100%;
+        height: 56px;
+        border: 1px solid var(--border-clr-light);
+        border-radius: 10px;
+        padding: 12px 48px 12px 14px;
+        box-sizing: border-box;
+        font-family: var(--ff-body);
+        font-size: 21px;
+        font-weight: var(--fw-regular);
+        color: var(--text-color-dark);
+        outline: none;
+        transition: border-color 0.2s ease;
 
-            @include respond-to(sm) {
-                grid-template-rows: 42px 24px;
-            }
-
-            @media (max-width: 375px) {
-                grid-template-rows: 38px 18px;
-            }
+        &::placeholder {
+            color: #6f6f6f;
         }
+
+        &:focus {
+            border-color: var(--border-clr-active);
+        }
+    }
+
+    &__input-icon,
+    &__visibility-btn {
+        position: absolute;
+        right: 14px;
+        top: 28px;
+        transform: translateY(-50%);
+    }
+
+    &__visibility-btn {
+        border: none;
+        background: transparent;
+        padding: 0;
+        cursor: pointer;
     }
 
     &__error-text {
         grid-column: 1;
         grid-row: 2;
-        font-size: var(--fs-body-normal);
-        font-weight: var(--fw-regular); 
-        line-height: var(--lh-heading); 
-        color: var(--border-clr-error); 
-        text-align: left;
-        width: 100%;
-        display: block;
-        margin-top: 4px; 
-        margin-bottom: 0;
-        min-height: 24px;
+        font-family: var(--ff-body);
+        font-size: 14px;
+        line-height: 1.15;
+        color: var(--border-clr-error);
+        margin-top: 4px;
+        min-height: 22px;
         visibility: hidden;
-
-        @include respond-to(md) {
-            font-size: 14px;
-            margin-top: 4px;
-            margin-bottom: 6px; 
-            display: block;
-            min-height: 24px;
-
-            @include respond-to(sm) {
-                font-size: 12px;
-                margin-top: 2px;
-                margin-bottom: 0;
-                line-height: 1.1;
-                min-height: 24px;
-            }
-        }
 
         &--visible {
             visibility: visible;
         }
     }
 
-    &__input {
-        width: 100%;
-        height: 100%;
-        padding: var(--space-md) var(--space-md); 
-        border: 1px solid var(--border-clr-light);
-        border-radius: var(--radius-md); 
-        font-size: var(--fs-body-normal);
-        outline: none;
-        background-color: var(--bg-ultralight);
-        transition: border-color 0.2s ease-in-out;
-
-        &:focus {
-            border-color: var(--border-clr-active);
-        }
-
-        @include respond-to(md) {
-            height: clamp(42px, 6vw, 48px);
-            font-size: clamp(14px, 2vw, 16px);
-            padding: clamp(10px, 1.8vw, 14px) 44px clamp(10px, 1.8vw, 14px) 12px;
-            padding-right: 44px; 
-
-            @include respond-to(sm) {
-                height: 42px;
-            }
-
-            @media (max-width: 375px) {
-                height: 38px;
-                font-size: 14px ;
-                padding: var(--space-xs) var(--space-md);
-            }
-        }
-    }
-
-    &__input-icon {
-        position: absolute;
-        right: var(--space-md);
-        top: 24px;
-        transform: translateY(-50%);
-        pointer-events: none;
-
-        @include respond-to(md) {
-            top: 22px;
-
-            @include respond-to(sm) {
-                top: 21px;
-            }
-        }
-    }
-
-    &__visibility-btn {
-        position: absolute;
-        right: var(--space-md);
-        top: 24px;
-        transform: translateY(-50%);
-        background: none;
-        border: none;
-        padding: 0;
-        cursor: pointer;
-        @include flexbox(row, center, center, 0);
-
-        &:focus {
-            outline: none;
-        }
-
-        @include respond-to(md) {
-            top: 24px;
-            transform: translateY(-50%);
-
-            @include respond-to(sm) {
-                top: 21px;
-            }
-        }
-    }
-
     &__privacy-container {
         width: 100%;
-        margin-top: var(--space-xs);
+        margin-top: 4px;
         @include flexbox(row, center, center, 0);
     }
 
@@ -484,12 +210,13 @@
         width: 24px;
         height: 24px;
         border-radius: 50%;
-        overflow: hidden; 
+        overflow: hidden;
         position: relative;
         transition: transform 150ms ease-in-out;
 
         &:hover {
-            transform: scale(1.02); 
+            transform: scale(1.02);
+
             &::after {
                 content: '';
                 position: absolute;
@@ -498,15 +225,15 @@
                 width: 100%;
                 height: 100%;
                 border-radius: 50%;
-                box-shadow: inset 0px 0px 5px 2px rgba(42, 54, 71, 0.2);
-                pointer-events: none; 
+                box-shadow: inset 0 0 5px 2px rgba(42, 54, 71, 0.2);
+                pointer-events: none;
             }
         }
     }
 
     &__privacy-text {
         font-family: var(--ff-body);
-        font-size: var(--fs-body-normal);
+        font-size: 16px;
         color: var(--text-color-dark);
     }
 
@@ -514,18 +241,17 @@
         color: var(--clr-blue-light);
         text-decoration: none;
         font-weight: var(--fw-bold);
-        cursor: pointer;
-        
+
         &:hover {
             text-decoration: underline;
         }
     }
 
     &__action-group {
-        --btn-font-size: 21px; 
-        --btn-height: 48px; 
-        --btn-gap: 10px;    
-        
+        --btn-font-size: 21px;
+        --btn-height: 48px;
+        --btn-gap: 10px;
+
         --btn-primary-bg: #2A3647;
         --btn-primary-border: #2A3647;
         --btn-primary-hover-bg: #124658;
@@ -534,50 +260,24 @@
         --btn-primary-active-bg: #091931;
         --btn-primary-active-border: #091931;
 
-        width: auto;
-        height: 48px;
-        @include flexbox(row, center, center, var(--space-xl)); 
-
-        @include respond-to(md) {
-            width: auto;
-            max-width: none;
-            height: auto;
-            @include flexbox(column, center, center, 10px);
-        }
-
-        @include respond-to(sm) {
-            gap: 8px;
-        }
+        width: 100%;
+        @include flexbox(row, center, center, 0);
+        margin-top: 2px;
     }
 
     &__custom-btn {
-        height: 100%;
-        width: auto;
-        flex: 0 0 auto;
-
         ::ng-deep .custom-btn {
-            width: auto !important;
-            min-width: 160px;
-            padding-inline: 24px;
-        }
-
-        @include respond-to(md) {
-            width: auto;
-            ::ng-deep .custom-btn {
-                width: auto !important;
-                min-width: 160px;
-                height: 51px;
-            }
+            min-width: 112px;
+            padding: 12px 24px;
         }
     }
 
     &__toast {
         position: absolute;
-        top: 90%; 
         left: 50%;
+        top: 90%;
+        transform: translateX(-50%);
         z-index: 9999;
-
-        transform: translateX(-50%); 
         opacity: 0;
 
         display: inline-flex;
@@ -585,14 +285,14 @@
         justify-content: center;
         padding: 14px 24px;
         white-space: nowrap;
-
-        background: var(--clr-blue-muted);
-        box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.4);
         border-radius: 20px;
 
+        background: var(--clr-blue-muted);
+        box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+
         font-family: var(--ff-body);
-        font-weight: var(--fw-regular);
         font-size: var(--fs-body-large);
+        font-weight: var(--fw-regular);
         color: var(--clr-white);
 
         animation: toastBottomToCenter 0.6s ease-out forwards;
@@ -601,201 +301,215 @@
     @keyframes toastBottomToCenter {
         0% {
             opacity: 0;
-            translate: 0 50vh; 
+            translate: 0 50vh;
         }
+
         60% {
             opacity: 1;
         }
+
         100% {
             opacity: 1;
-            translate: 0 0; 
+            translate: 0 0;
         }
     }
 
     &__footer {
-        position: relative; 
-        margin-top: auto; 
-        z-index: 999;
-        opacity: 1;
-        pointer-events: auto;
-        flex-shrink: 0; 
+        position: absolute;
+        left: 50%;
+        bottom: 24px;
+        transform: translateX(-50%);
+        z-index: 10;
     }
 
     &__footer-nav {
-        width: 246px;
-        height: 35px;
-        @include flexbox(row, space-between, center, 16px);
+        @include flexbox(row, center, center, 24px);
     }
 
     &__footer-link {
-        font-family: var(--ff-body); 
-        font-size: var(--fs-h5);              
+        font-family: var(--ff-body);
+        font-size: 16px;
         font-weight: var(--fw-regular);
-        line-height: var(--lh-heading);            
-        color: var(--text-color-grey); 
-        padding: var(--space-sm);      
+        line-height: 1.2;
+        color: var(--text-color-grey);
+        padding: 8px;
         width: 115px;
-        cursor: pointer;
-        transition: color 100ms ease-in-out;
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
         text-decoration: none;
         white-space: nowrap;
         flex-shrink: 0;
+        cursor: pointer;
+        transition: color 100ms ease;
 
         &:hover {
-            color: #124658;  
-            text-decoration: none;
+            color: #124658;
             font-weight: var(--fw-bold);
         }
     }
 
-    @include landscape-mobile {
-        min-height: 100vh;
-        height: auto;
-
+    @include respond-to(md) {
         &__inner {
-            min-height: auto;
-            justify-content: flex-start;
-            padding: 24px 16px;
+            padding: 138px 16px 104px;
         }
 
         &__card {
-            width: min(100%, 340px);
-            margin: 0 auto 24px;
-        }
-
-        &__footer {
-            position: relative;
-            margin-top: var(--space-lg);
-        }
-    }
-
-        @media (orientation: landscape) and (min-width: 1370px) and (max-width: 1400px) and (min-height: 880px) and (max-height: 940px) {
-        padding-top: 110px; 
-        padding-bottom: 40px;
-
-        &__logo-signup {
-            left: 170px;
-            top: 88px;
-        }
-
-        &__inner {
-            margin: 0 auto;
-            min-height: auto;
-            padding-top: 140px; 
-            padding-bottom: 0px;
-        }
-
-        &__card {
-            width: 560px;
-            min-height: auto; 
-            padding: 32px 64px; 
-            margin: 0 auto;
+            width: min(calc(100% - 10px), 486px);
+            border-radius: 30px;
+            padding: 30px 18px 24px;
+            gap: 18px;
         }
 
         &__card-header {
-            padding: 0 48px; 
-            box-sizing: border-box;
+            gap: 12px;
         }
 
         &__back-btn {
-            left: 0;
-            top: 0;
-        }
+            left: 6px;
+            top: 2px;
 
-        &__footer {
-            margin-top: 40px;
-        }
-    }
+            width: 42px;
+            height: 42px;
 
-    @media (max-width: 540px) and (min-width: 411px) {
-        &__inner {
-            padding-top: 20px;
-        }
-
-        &__card {
-            margin-top: 20px;
-        }
-    }
-
-    @media (max-width: 410px) {
-        &__logo-signup {
-            top: 16px;
-            width: 56px;
-            height: auto;
-            z-index: 3;
-        }
-
-        &__inner {
-            padding-top: 64px;
-            padding-bottom: 24px;
-        }
-
-        &__card {
-            max-width: 320px;
-            max-height: calc(100vh - 158px);
-            margin-top: -6px;
-            padding: 10px 12px;
-            gap: 8px;
-            border-radius: 20px;
-            overflow-y: auto;
-        }
-
-        &__card-header {
-            gap: 8px;
+            svg {
+                width: 32px;
+                height: 32px;
+            }
         }
 
         &__title {
-            font-size: 24px;
+            font-size: clamp(46px, 11vw, 72px);
         }
 
         &__underline {
-            width: 72px;
-        }
-
-        &__form {
-            gap: 7px;
+            width: 108px;
         }
 
         &__inputs-container {
-            gap: 6px;
+            max-width: 100%;
+            gap: 8px;
         }
 
         &__field-group {
-            grid-template-rows: 40px 18px;
+            grid-template-rows: 56px 22px;
         }
 
         &__input {
-            height: 40px;
-            font-size: 14px;
-            padding: 9px 40px 9px 10px;
+            height: 56px;
+            font-size: clamp(16px, 2.8vw, 21px);
+            padding: 12px 48px 12px 22px;
         }
 
         &__input-icon,
         &__visibility-btn {
-            right: 10px;
-            top: 19px;
+            top: 28px;
+            right: 16px;
         }
 
-        &__error-text {
-            min-height: 18px;
-            font-size: 11px;
-            margin-top: 1px;
+        &__privacy-container {
+            margin-top: 2px;
+        }
+
+        &__privacy-text {
+            font-size: clamp(15px, 2.3vw, 18px);
         }
 
         &__action-group {
-            --btn-font-size: 18px;
-            --btn-height: 46px;
-            gap: 6px;
+            margin-top: 0;
         }
 
         &__custom-btn {
             ::ng-deep .custom-btn {
-                height: 46px !important;
+                min-width: 212px;
+                min-height: 62px;
+                font-size: clamp(18px, 2.8vw, 21px);
+                border-radius: 12px;
             }
+        }
+
+        &__footer {
+            bottom: 18px;
+        }
+
+        &__footer-link {
+            font-size: 16px;
         }
     }
 
+    @include respond-to(sm) {
+        &__inner {
+            padding: 122px 10px 96px;
+        }
+
+        &__card {
+            width: min(calc(100% - 2px), 470px);
+            padding: 28px 18px 20px;
+        }
+
+        &__title {
+            font-size: clamp(38px, 11.5vw, 60px);
+        }
+
+        &__underline {
+            width: 98px;
+        }
+
+        &__input {
+            font-size: clamp(16px, 4.2vw, 20px);
+        }
+
+        &__privacy-text {
+            font-size: clamp(14px, 3.8vw, 17px);
+        }
+
+        &__custom-btn {
+            ::ng-deep .custom-btn {
+                min-width: 180px;
+                min-height: 58px;
+                font-size: clamp(16px, 4.4vw, 20px);
+            }
+        }
+
+        &__footer-nav {
+            gap: 18px;
+        }
+
+        &__footer-link {
+            font-size: 16px;
+        }
+    }
+
+    @include respond-to(xsm) {
+        &__inner {
+            padding: 112px 8px 84px;
+        }
+
+        &__card {
+            padding: 24px 14px 18px;
+            border-radius: 24px;
+        }
+
+        &__title {
+            font-size: 52px;
+        }
+
+        &__input {
+            font-size: 16px;
+            padding-left: 14px;
+        }
+
+        &__privacy-text {
+            font-size: 14px;
+        }
+
+        &__custom-btn {
+            ::ng-deep .custom-btn {
+                min-width: 170px;
+                min-height: 54px;
+                font-size: 16px;
+            }
+        }
+
+        &__footer {
+            bottom: 12px;
+        }
+    }
 }

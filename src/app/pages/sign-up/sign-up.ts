@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, HostListener, signal } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ButtonComponent } from '../../shared/components/button/button.component';
@@ -82,6 +82,11 @@ export class SignUp {
    * Prevents duplicate sign-up requests while the current submission is still running.
    */
   public isSubmitting = signal<boolean>(false);
+
+  /**
+   * Indicates whether the user should be prompted to rotate their screen.
+   */
+  public shouldRotateScreen = false;
 
   /**
    * Initializes the component with dependency injection.
@@ -243,5 +248,32 @@ export class SignUp {
       return { passwordMismatch: true };
     }
     return null;
+  }
+
+  /**
+   * Initializes the component by checking the initial screen orientation.
+   */
+  public ngOnInit(): void {
+    this.evaluateOrientation();
+  }
+
+  @HostListener('window:resize')
+  onResize() {
+      this.evaluateOrientation();
+  }
+
+  /**
+   * Evaluates the current window dimensions and updates the rotation prompt state.
+   * 
+   * @remarks
+   * Triggered on initialization and window resizing to catch device orientation changes.
+   */
+  private evaluateOrientation(): void {
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    const isLandscape = width > height;
+    const isSmallDevice = width < 622 || height < 500;
+
+    this.shouldRotateScreen = isLandscape && isSmallDevice;
   }
 }
