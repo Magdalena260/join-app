@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, HostListener, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { ButtonComponent } from '../../shared/components/button/button.component';
 import { RotateScreen } from '../../shared/components/rotate-screen/rotate-screen';
@@ -79,6 +79,11 @@ export class Login implements OnInit {
   public showError = signal<boolean>(false);
 
   /**
+   * Indicates whether the user should be prompted to rotate their screen.
+   */
+  public shouldRotateScreen = false;
+
+  /**
    * Instantiates the component wrapper context and evaluates session loading footprints.
    * Hard-bypasses transition schedules immediately if past records are validated.
    * 
@@ -94,14 +99,15 @@ export class Login implements OnInit {
   }
 
   /**
-   * Lifecycle hook triggered instantly upon component tree evaluation.
-   * Aborts transition sub-routines completely if the skip-flag evaluates to true.
+   * Initializes the component and triggers the splash transition.
+   * Aborts execution early if animation skipping is enabled.
    */
   public ngOnInit(): void {
     if (this.skipAnimation()) {
       return;
     }
     this.startSplashTransition();
+    this.evaluateOrientation();
   }
 
   /**
@@ -182,5 +188,28 @@ export class Login implements OnInit {
       this.isAnimating.set(false);
       sessionStorage.setItem('join_splash_done', 'true');
     }, animationDelayMs);
+  }
+
+  /**
+   * Listens to window resize events to update the screen orientation state.
+   */
+  @HostListener('window:resize')
+  public onResize(): void {
+    this.evaluateOrientation();
+  }
+
+  /**
+   * Evaluates the current window dimensions and updates the rotation prompt state.
+   * 
+   * @remarks
+   * The prompt is only triggered for small devices currently held in landscape mode.
+   */
+  private evaluateOrientation(): void {
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    const isLandscape = width > height;
+    const isSmallDevice = width < 622 || height < 500;
+
+    this.shouldRotateScreen = isLandscape && isSmallDevice;
   }
 }
