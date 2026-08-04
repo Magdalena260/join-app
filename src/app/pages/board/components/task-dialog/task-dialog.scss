@@ -110,11 +110,11 @@
     width: 100%;
 
     /* FIX: Auch den Footer auf Mobile schmaler machen */
-    padding: 1rem;
+    padding: 1.5rem;
 
     /* Ab Desktop wieder der volle Abstand */
     @include respond-to(lg) {
-      padding: var(--space-md) var(--space-lg);
+      padding: var(--space-lg);
     }
 
     box-sizing: border-box;
@@ -122,5 +122,20 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    gap: var(--space-md)
   }
+}
+
+app-button {
+    pointer-events: auto;
+
+    @include respond-to(sm) {
+        --btn-font-size: 16px;
+        --btn-gap: 4px
+    }
+}
+
+.createTaskBtn {
+  --btn-primary-hover-bg: var(--clr-blue-muted);
+  --btn-primary-hover-border: var(--clr-blue-muted);
 }

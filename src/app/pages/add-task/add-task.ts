@@ -37,6 +37,8 @@ type AssignedContact = {
 })
 export class AddTask implements OnChanges, AfterViewInit, OnInit {
   @Input() task: Task | null = null;
+  @Input() columnId = 'todo';
+  @Input() isDialogMode = false;
 
   taskSaved = output<void>();
 
@@ -76,8 +78,6 @@ export class AddTask implements OnChanges, AfterViewInit, OnInit {
     }),
   });
 
-  /** Shows the task success message for a short time. */
-  /** Shows the task success message for a short time. */
   /** Shows the task success message and navigates back to the board. */
   showSuccessMessage(): void {
     this.isSuccessMsgVisible.set(true);
@@ -187,7 +187,7 @@ export class AddTask implements OnChanges, AfterViewInit, OnInit {
       title: formValue.title,
       desc: formValue.description,
       due_date: formValue.dueDate,
-      status: 0,
+      status: this.task?.status ?? this.mapColumnIdToStatus(this.columnId),
       priority: this.mapPriorityToNumber(formValue.priority),
       collaborators: formValue.assignedTo.map((contact) => contact.id),
       subtasks: formValue.subtasks.map((subtask) => ({
@@ -197,6 +197,22 @@ export class AddTask implements OnChanges, AfterViewInit, OnInit {
       category: this.mapCategoryToNumber(formValue.category),
     };
   }
+
+  private mapColumnIdToStatus(columnId: string): number {
+  if (columnId === 'todo') {
+    return 0;
+  }
+
+  if (columnId === 'progress') {
+    return 1;
+  }
+
+  if (columnId === 'feedback') {
+    return 2;
+  }
+
+  return 0;
+}
 
   /** Converts collaborator ids from the task into contact objects for the form. */
   private mapCollaboratorIdsToContacts(collaboratorIds: number[]): AssignedContact[] {

@@ -1,0 +1,9 @@
+<section class="content">
+   
+    @if (userName()) {
+        <h3>{{ greetingGetterLoggedIn }},</h3>
+        <h2>{{ userName() }}</h2>
+    } @else {
+        <h3>{{ greetingGetter }}</h3>
+    }
+</section>
