@@ -356,7 +356,7 @@
 
     &__action-group,
     &__header-nav {
-        --btn-font-size: 21px;
+        --btn-font-size: clamp(16px, 1.9vw, 21px);
         --btn-height: 48px;
         --btn-gap: 10px;
 
@@ -530,6 +530,94 @@
 
         &__footer-nav {
             gap: 20px;
+        }
+    }
+
+    @media (max-width: 320px) and (min-height: 320px) {
+        min-height: 100dvh;
+        overflow-y: auto;
+        padding-bottom: 0;
+
+        &__splash {
+            position: absolute;
+            height: 100dvh;
+            background-color: transparent;
+        }
+
+        &__inner {
+            min-height: 100dvh;
+            display: grid;
+            grid-template-rows: minmax(0, 1fr) auto auto minmax(0, 1fr) auto;
+            align-items: center;
+            padding-top: clamp(24px, 5vh, 52px);
+            padding-bottom: max(8px, env(safe-area-inset-bottom));
+            width: 100%;
+            gap: 0;
+        }
+
+        &__card {
+            width: min(calc(100% - 16px), 360px);
+            padding: clamp(24px, 4.5vw, 32px) clamp(14px, 4vw, 20px);
+            gap: clamp(16px, 3.2vw, 20px);
+            margin: 0 auto;
+            grid-row: 2;
+            position: relative;
+            z-index: 1101;
+        }
+
+        &__header {
+            position: static;
+            top: auto;
+            right: auto;
+            left: auto;
+            bottom: auto;
+            transform: none;
+            width: 100%;
+            justify-content: center;
+            z-index: 1201;
+            margin-top: clamp(16px, 3vh, 28px);
+            margin-bottom: 0;
+            grid-row: 3;
+        }
+
+        &__header-nav {
+            margin-left: 0;
+            justify-content: center;
+            gap: clamp(10px, 2.2vw, 14px);
+            padding-top: 0;
+        }
+
+        &__footer {
+            position: static;
+            left: auto;
+            bottom: auto;
+            transform: none;
+            grid-row: 5;
+            align-self: end;
+            margin-bottom: max(0px, env(safe-area-inset-bottom));
+        }
+    }
+
+    @media (max-width: 320px) and (max-height: 700px) {
+        &__inner {
+            grid-template-rows: auto auto 1fr auto;
+            align-items: start;
+            padding-top: clamp(96px, 14vh, 120px);
+            padding-bottom: max(8px, env(safe-area-inset-bottom));
+        }
+
+        &__card {
+            grid-row: 1;
+            margin-top: 0;
+        }
+
+        &__header {
+            grid-row: 2;
+            margin-top: clamp(14px, 2.6vh, 22px);
+        }
+
+        &__footer {
+            grid-row: 4;
         }
     }
 
