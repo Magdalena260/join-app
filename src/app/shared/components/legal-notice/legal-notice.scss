@@ -20,6 +20,9 @@ h2 {
 
 
 .legal-wrapper {
+  max-width: var(--container-content-md);
+  width: 100%;
+  box-sizing: border-box;
   padding: var(--space-xl);
 
   @include respond-to(lg) {
