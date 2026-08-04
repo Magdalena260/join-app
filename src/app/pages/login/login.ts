@@ -28,10 +28,15 @@ export class Login implements OnInit {
   async onLoginSubmit(event: Event) {
     event.preventDefault();
 
-    const { data, error } = await this.authService.login(
-      this.emailValue(),
-      this.passwordValue(),
-    );
+    const email = this.emailValue().trim();
+    const password = this.passwordValue().trim();
+
+    if (!email || !password || !this.isValidEmail(email)) {
+      this.showError.set(true);
+      return;
+    }
+
+    const { data, error } = await this.authService.login(email, password);
 
     if (error || !data?.user) {
       this.showError.set(true);
@@ -103,11 +108,12 @@ export class Login implements OnInit {
    * Aborts execution early if animation skipping is enabled.
    */
   public ngOnInit(): void {
+    this.evaluateOrientation();
+
     if (this.skipAnimation()) {
       return;
     }
     this.startSplashTransition();
-    this.evaluateOrientation();
   }
 
   /**
@@ -127,6 +133,14 @@ export class Login implements OnInit {
     const input = event.target as HTMLInputElement; 
     this.emailValue.set(input.value); 
     this.showError.set(false); 
+  }
+
+  /**
+   * Checks whether the provided email address follows a basic valid format.
+   */
+  private isValidEmail(email: string): boolean {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(email);
   }
 
   /**
@@ -212,4 +226,5 @@ export class Login implements OnInit {
 
     this.shouldRotateScreen = isLandscape && isSmallDevice;
   }
+
 }
