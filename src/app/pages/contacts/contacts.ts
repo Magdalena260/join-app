@@ -85,7 +85,7 @@ export class Contacts {
     if (!updatedContact || !updatedContact.id) {
       return;
     }
-
+    console.log('Updating contact:', updatedContact);
     await this.contactsService.updateContact(updatedContact);
 
     this.activeContact.set(updatedContact);
