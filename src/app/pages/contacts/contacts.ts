@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
+import { Contact } from '../../shared/interfaces/contact';
 import { contactsService } from '../../shared/services/contacts-service';
 import { ContactsDetailComponent } from './components/contacts-detail/contacts-detail';
 import { ContactList, UIContact } from './components/contacts-list/contacts-list';
@@ -82,14 +83,32 @@ export class Contacts {
    * @returns {Promise<void>}
    */
   public async handleContactUpdate(updatedContact: UIContact): Promise<void> {
-    if (!updatedContact || !updatedContact.id) {
-      return;
-    }
+  if (!updatedContact || !updatedContact.id) {
+    return;
+  }
 
-    await this.contactsService.updateContact(updatedContact);
+  const nameParts = updatedContact.name ? updatedContact.name.trim().split(/\s+/) : [];
+  const extractedFirstname = nameParts[0] || '';
+  const extractedLastname = nameParts.slice(1).join(' ');
+  const contactPayload: Contact = {
+    id: updatedContact.id,
+    firstname: extractedFirstname || updatedContact.firstname || '',
+    lastname: extractedLastname || updatedContact.lastname || '',
+    email: updatedContact.email,
+    telephone: updatedContact.telephone,
+  };
 
-    this.activeContact.set(updatedContact);
-    this.closeEditContact();
+  await this.contactsService.updateContact(contactPayload);
+
+  
+  this.activeContact.set({
+    ...updatedContact,
+    firstname: contactPayload.firstname,
+    lastname: contactPayload.lastname,
+    name: `${contactPayload.firstname} ${contactPayload.lastname}`.trim()
+  });
+
+  this.closeEditContact();
   }
 
   /**
