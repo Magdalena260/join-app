@@ -1,3 +1,8 @@
+@if (isAuthPage()) {
+<main>
+  <router-outlet></router-outlet>
+</main>
+} @else {
 <app-rotate-screen></app-rotate-screen>
 
 <div class="app-layout">
@@ -12,3 +17,4 @@
     </main>
   </div>
 </div>
+}

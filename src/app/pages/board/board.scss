@@ -1,5 +1,13 @@
 @use '../../../styles/abstracts/mixins' as *;
 
+h2 {
+  margin: 0;
+
+  @include respond-to (sm) {
+    font-size: 48px;
+  }
+}
+
 .board {
   @include global_content_wrapper();
   background-color: var(--bg-light);
@@ -11,6 +19,8 @@
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
+  padding: var(--space-xl);
+  padding-top: var(--space-xl);
 
   @include respond-to(xl) {
     width: 100%;
@@ -20,17 +30,26 @@
     min-height: 100%;
   }
 
+  @include respond-to(lg) {
+    padding: var(--space-sm);
+    padding-top: var(--space-xl);
+  }
+
+  @include respond-to (md) {
+    padding-bottom: calc(88px + var(--space-xl));
+  }
+
   &__header {
     @include flexbox(row, space-between, center, 1rem);
-    padding-top: var(--space-2xl);
-    padding-bottom: var(--space-xl);
+    // padding-top: var(--space-2xl);
+    // padding-bottom: var(--space-xl);
     flex-shrink: 0;
 
     @include respond-to(xl) {
       flex-direction: column;
       align-items: stretch;
       gap: 1.5rem;
-      padding-top: var(--space-xl);
+      // padding-top: var(--space-xl);
     }
   }
 
@@ -63,6 +82,10 @@
       flex: 1;
       min-width: 0;
     }
+  }
+
+  input {
+    border: 2px solid var(--clr-darker-grey);
   }
 
   &__add-desktop {
@@ -98,6 +121,7 @@
     @include flexbox(row, space-between, center, 1rem);
     padding: var(--space-md) var(--space-md);
     flex-shrink: 0;
+
     @include respond-to(xl) {
       @include flexbox(row, flex-start, center, 2rem);
       padding: var(--space-sm) var(--space-sm);
@@ -108,6 +132,7 @@
     line-height: 28px;
     margin: 0;
     color: var(--text-color-dark);
+
     @include respond-to(xl) {
       font-size: var(--fs-body-medium);
     }
@@ -169,15 +194,6 @@
       flex-wrap: nowrap;
       min-height: 180px;
 
-      /*       margin-left: calc(clamp(var(--space-lg), 5vw, var(--space-2xl)) * -1);
-      margin-right: calc(clamp(var(--space-lg), 5vw, var(--space-2xl)) * -1);
-
-      padding-left: clamp(var(--space-lg), 5vw, var(--space-2xl));
-      padding-right: clamp(var(--space-lg), 5vw, var(--space-2xl));
-
-      padding-bottom: 1rem;
-      padding-top: 0; */
-
       width: auto;
       max-width: none;
       min-width: 0;
@@ -185,9 +201,11 @@
 
       scrollbar-width: none;
       -ms-overflow-style: none;
+
       &::-webkit-scrollbar {
         display: none;
       }
+
       -webkit-overflow-scrolling: touch;
     }
   }
@@ -231,6 +249,10 @@
   border: 2px dashed var(--border-clr-dark);
   border-radius: var(--radius-lg);
   min-height: 150px;
+
+  @include respond-to(xl) {
+    min-height: 260px;
+  }
 }
 
 .board__task {
@@ -245,4 +267,9 @@
   @media (max-width: 1300px) {
     cursor: pointer;
   }
+}
+
+.board__add-desktop {
+  --btn-primary-hover-bg: var(--clr-blue-muted);
+  --btn-primary-hover-border: var(--clr-blue-muted);
 }

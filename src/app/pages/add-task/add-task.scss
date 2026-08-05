@@ -1,5 +1,13 @@
 @use '../../../styles/abstracts/mixins' as *;
 
+h2 {
+    margin: 0;
+
+    @include respond-to (sm) {
+        font-size: 48px;
+    }
+}
+
 .addTaskLayout {
     width: 100%;
     max-width: var(--container-content-md);
@@ -23,7 +31,7 @@
         box-sizing: border-box;
 
         @include respond-to(lg) {
-            padding: var(--space-lg);
+            padding: var(--space-sm);
             padding-top: 140px;
         }
 
@@ -40,7 +48,7 @@
                 top: 96px;
                 left: calc(232px);
                 padding-top: 32px;
-                padding-left: var(--space-lg);
+                padding-left: var(--space-sm);
                 position: fixed;
                 background-color: var(--clr-tinted-grey);
                 z-index: 100;
@@ -52,7 +60,7 @@
                 top: 96px;
                 left: 0;
                 padding-top: 32px;
-                padding-left: var(--space-lg);
+                padding-left: var(--space-sm);
                 position: fixed;
                 background-color: var(--clr-tinted-grey);
                 z-index: 100;
@@ -63,7 +71,9 @@
             }
 
             h2 {
-                font-size: 52px;
+                @include respond-to(sm) {
+                    font-size: 48px;
+                }
             }
         }
 
@@ -129,6 +139,11 @@ app-button {
         --btn-font-size: 16px;
         --btn-gap: 4px
     }
+}
+
+.createTaskBtn {
+    --btn-primary-hover-bg: var(--clr-blue-muted);
+    --btn-primary-hover-border: var(--clr-blue-muted);
 }
 
 app-add-task-basic-info {
@@ -201,10 +216,58 @@ app-add-task-detail-info {
 }
 
 .addTaskLayout__content--edit {
+    padding-top: 0;
+
+    .addTaskLayout__content__formComponents {
+        flex-direction: column;
+        gap: var(--space-xl);
+    }
+
     .addTaskLayout__content__footer {
         padding-bottom: 0;
     }
 
+    app-add-task-basic-info {
+        width: 100%;
+    }
 
-    padding-top: 0;
+    app-add-task-detail-info {
+        width: 100%;
+    }
+}
+
+.addTaskLayout--dialog {
+
+    .addTaskLayout__content {
+        @include respond-to(lg) {
+            padding-top: 0;
+        }
+    }
+
+    .addTaskLayout__content__headline {
+        @include respond-to(lg) {
+            background-color: white;
+            position: sticky;
+            padding: 0;
+            top: 0;
+            left: auto;
+            width: 100%;
+        }
+    }
+
+    .addTaskLayout__content__footer {
+        @include respond-to(lg) {
+            position: static;
+            padding-bottom: 0;
+            background-color: transparent;
+        }
+    }
+
+    .addTaskLayout__content__footer__buttons {
+        display: none;
+
+        @include respond-to(lg) {
+            display: none;
+        }
+    }
 }

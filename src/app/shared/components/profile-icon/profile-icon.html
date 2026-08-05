@@ -1,13 +1,6 @@
-<!-- */von contact-list Zeile:33-34 AvATAR von contact mit
-Hintergrundfarbe und Initialen aus contact list werden übergeben, bkeibt auch bei Test so*/ -->
+<div class="profile-icon" [class.profile-iconsmall]="size === 'small'" [class.profile-iconbig]="size === 'big'"
+  [class.profile-iconeighty]="size === 'eighty'" [class.profile-iconheader]="size === 'header'"
+  [style.background-color]="user?.avatarColor || avatarColor">
 
-<div
-  class="profile-icon"
-  [class.profile-iconsmall]="size === 'small'"
-  [class.profile-iconbig]="size === 'big'"
-  [class.profile-iconeighty]="size === 'eighty'"
-  [class.profile-iconheader]="size === 'header'"
-  [style.background-color]="contact?.avatarColor || avatarColor">
-
-  {{ contact?.initials || initials }}
+  {{ user?.initials || initials }}
 </div>

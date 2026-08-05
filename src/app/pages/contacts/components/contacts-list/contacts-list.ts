@@ -16,17 +16,30 @@ import { Contact } from '../../../../shared/interfaces/contact';
 import { contactsService } from '../../../../shared/services/contacts-service';
 import { ContactAddNewContactDialog } from '../contact-add-new-contact-dialog/contact-add-new-contact-dialog';
 
+/**
+ * Extended contact interface enriched with visual layout properties 
+ * required exclusively by UI presentation layers.
+ */
 export interface UIContact extends Contact {
   name: string;
   initials: string;
   avatarColor: string;
 }
 
+/**
+ * Dictionary blueprint for clustering UI-ready contacts under 
+ * matching single-character alphabetical headlines.
+ */
 interface ContactGroup {
   letter: string;
   contacts: UIContact[];
 }
 
+/**
+ * Component managing the rendering and grouping of user contact records.
+ * Orchestrates real-time cache sync streams and provides event bindings for 
+ * sub-overlay interactions and selection highlights.
+ */
 @Component({
   selector: 'app-contacts-list',
   standalone: true,
@@ -35,16 +48,27 @@ interface ContactGroup {
   styleUrls: ['./contacts-list.scss'],
 })
 export class ContactList implements OnInit {
+  /** Reference injected service managing shared contact entities and DB bridges. */
   public contactsService = inject(contactsService);
+  
+  /** Injected Angular ChangeDetectorRef to force template evaluation ticks on micro-tasks. */
   private cdr = inject(ChangeDetectorRef);
+  
+  /** Signal capturing the currently highlighted or viewed entity in the list view. */
   public selectedContact = signal<UIContact | null>(null);
 
+  /** Caches temporary unique record keys to auto-trigger item selections upon asynchronous DB writes. */
   private pendingCreatedContactId: number | null = null;
 
+  /** Reference hook mapping the modular sub-overlay used for creating new entries. */
   @ViewChild(ContactAddNewContactDialog)
   public addContactDialog!: ContactAddNewContactDialog;
 
-    constructor() {
+  /**
+   * Initializes the reactive execution loop wrapper.
+   * Intercepts updates to local collection limits to auto-focus freshly generated entities.
+   */
+  constructor() {
     effect(() => {
       const rawContacts = this.contactsService.contacts();
       
@@ -60,12 +84,17 @@ export class ContactList implements OnInit {
     });
   }
 
+  /**
+   * Triggers the internal presentation state change on the dialog child layout node.
+   */
   public openAddContactDialog(): void {
     this.addContactDialog.openDialog();
   }
 
+  /** Emits the newly selected UI-ready contact wrapper up toward outer orchestrators. */
   @Output() public contactSelected = new EventEmitter<UIContact>();
 
+  /** Array of hex and custom style property declarations used to colorize avatars. */
   public availableColors: string[] = [
     'var(--clr-user-tangerine)',
     'var(--clr-user-flamingo)',
@@ -84,6 +113,11 @@ export class ContactList implements OnInit {
     'var(--clr-user-marigold)',
   ];
 
+  /**
+   * Intercepts successful creation signals to schedule an automated focus action.
+   * 
+   * @param {any} contact - The newly committed contact payload from dialog events.
+   */
   public handleNewContactCreated(contact: any): void {
     if (contact && typeof contact.id === 'number') {
       this.pendingCreatedContactId = contact.id;
@@ -117,7 +151,7 @@ export class ContactList implements OnInit {
    * @param {Contact} contact - The contact object received from Contacts-Service.
    * @returns {void}
    */
-    public selectContact(contact: Contact): void {
+  public selectContact(contact: Contact): void {
     const isFirstTime = this.selectedContact() === null;
     const transformed = this.transformContactData(contact);
 

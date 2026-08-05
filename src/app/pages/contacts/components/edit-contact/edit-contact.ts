@@ -2,6 +2,10 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UIContact } from '../contacts-list/contacts-list';
 
+/**
+ * Component handling the user interface and input validation for modifying existing contact records.
+ * Synchronizes updated data structures back to outer orchestrators upon successful validation.
+ */
 @Component({
   selector: 'app-edit-contact',
   standalone: true,
@@ -16,6 +20,7 @@ export class EditContactComponent {
    */
   public editingContact: UIContact | null = null;
 
+  /** Internal backing store holding the original contact reference. */
   private _contact: UIContact | null = null;
 
   /**
@@ -41,7 +46,7 @@ export class EditContactComponent {
    * Fulfills User Story 4 (opens form with pre-filled data).
    * Uses setter to create a local copy when the input changes.
    */
-    @Input()
+  @Input()
   set contact(value: UIContact | null) {
     this._contact = value;
     this.editingContact = value ? { ...value } : null;
@@ -59,6 +64,11 @@ export class EditContactComponent {
     }
   }
 
+  /**
+   * Returns the original contact object reference passed to this component.
+   * 
+   * @returns {UIContact | null} The raw contact payload or null if unassigned.
+   */
   get contact(): UIContact | null {
     return this._contact;
   }
@@ -87,6 +97,8 @@ export class EditContactComponent {
 
   /**
    * Closes the overlay only when the backdrop itself is clicked.
+   * 
+   * @param {MouseEvent} event - Native mouse click event intercept context.
    */
   public onOverlayClick(event: MouseEvent): void {
     if (event.target === event.currentTarget) {

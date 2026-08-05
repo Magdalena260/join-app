@@ -1,0 +1,209 @@
+@use '../../../../styles/abstracts/mixins' as *;
+
+.content {
+    padding: var(--space-xl);
+
+    &__main {
+        display: flex;
+        justify-content: space-between;
+        gap: var(--space-xl);
+
+        &__summary {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-xl);
+
+            @include respond-to(lg) {
+                width: 100%;
+                gap: var(--space-md);
+            }
+
+            &__firstLane {
+                display: flex;
+                gap: var(--space-xl);
+
+                @include respond-to (lg) {
+                    gap: var(--space-md);
+                }
+            }
+
+            &__secondLane {
+                &:hover {
+                    .border {
+                        background-color: white;
+                    }
+                }
+            }
+
+            &__thirdLane {
+                display: flex;
+                gap: var(--space-xl);
+
+                @include respond-to (lg) {
+                    gap: var(--space-md);
+                }
+            }
+        }
+    }
+}
+
+.card {
+    background-color: white;
+    height: 160px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-allaround);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-xl);
+    padding: var(--space-md);
+
+    @include respond-to (lg) {
+        gap: var(--space-md);
+        padding: var(--space-sm);
+        height: 120px;
+    }
+
+    h2 {
+        margin: 0;
+
+        @include respond-to (md) {
+            font-size: 49px;
+        }
+    }
+
+    &__text {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        p {
+            text-align: center;
+
+            @include respond-to (sm) {
+                font-size: 14px;
+            }
+        }
+    }
+
+    &__svg {
+        background-color: var(--clr-blue-dark);
+        border-radius: var(--radius-pill);
+        padding: var(--space-md);
+
+        svg {
+            color: white;
+            min-width: 28px;
+            min-height: 28px;
+            max-width: 28px;
+            max-height: 28px;
+
+            @include respond-to (lg) {
+                min-width: 20px;
+                min-height: 20px;
+                max-width: 20px;
+                max-height: 20px;
+            }
+        }
+
+        &__secondLane {
+            background-color: #ff3d00;
+            border-radius: var(--radius-pill);
+            padding: var(--space-md);
+
+            svg {
+                color: white;
+                min-width: 28px;
+                min-height: 28px;
+                max-width: 28px;
+                max-height: 28px;
+
+                @include respond-to (lg) {
+                    min-width: 20px;
+                    min-height: 20px;
+                    max-width: 20px;
+                    max-height: 20px;
+                }
+            }
+        }
+    }
+
+    &:hover {
+        background-color: var(--clr-blue-dark);
+        cursor: pointer;
+        color: white;
+
+        .card__svg {
+            background-color: white;
+
+            svg {
+                color: var(--clr-blue-dark);
+            }
+        }
+    }
+
+    &--firstLane {
+        width: 50%;
+    }
+
+    &--secondLane {
+        width: 100%;
+
+        &__summary {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-xl);
+
+            @include respond-to (lg) {
+                gap: var(--space-md);
+            }
+        }
+    }
+
+    &--thirdLane {
+        width: 33%;
+    }
+}
+
+.border {
+    width: 2px;
+    height: 80px;
+    background-color: var(--clr-darker-grey);
+    border-radius: var(--radius-pill);
+}
+
+.card__date {
+
+    @include respond-to (sm) {
+        font-size: 14px;
+    }
+
+    h4 {
+        @include respond-to (sm) {
+            font-size: 16px;
+        }
+    }
+}
+
+.scale {
+    transition: transform 150ms ease;
+
+    &:hover {
+            transform: scale(1.02);
+        }
+
+    &__leftFixed {
+        transform-origin: left;  
+    }
+
+    &__rightFixed {
+        transform-origin: right;
+    }
+
+    &__leftTopFixed {
+        transform-origin: left top;
+    }
+}

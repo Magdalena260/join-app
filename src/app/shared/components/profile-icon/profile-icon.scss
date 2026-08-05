@@ -1,9 +1,7 @@
 
 @use '../../../../styles/abstracts/mixins' as *;
 
-
 .profile-icon {
-       
         width: 56px;
         height: 56px;
         border-radius: var(--radius-pill);
@@ -16,11 +14,9 @@
         display: flex;
         justify-content: center;
         align-items: center;
-    }
+}
 
-//   Contact small
 .profile-iconsmall {
-       
         width: 42px; 
         height: 42px;
         border-radius: var(--radius-pill);
@@ -33,12 +29,9 @@
         display: flex;
         justify-content: center;
         align-items: center;
-    }
+}
 
-
-    //   Contact big
 .profile-iconbig {
-       
         width: 120px;
         height: 120px;
         border-radius: var(--radius-pill);
@@ -51,12 +44,9 @@
         display: flex;
         justify-content: center;
         align-items: center;
-    }
+}
 
-
-    // responsive stays like normal and 
-    .profile-iconeighty {
-       
+.profile-iconeighty {
         width: 80px;
         height: 80px;
         border-radius: var(--radius-pill);
@@ -69,13 +59,9 @@
         display: flex;
         justify-content: center;
         align-items: center;
-    }
+}
 
-
-
-/* User Header without color inside! */
-    .profile-iconheader {
-       
+.profile-iconheader {
         width: 48px;
         height: 48px;
         border-radius: var(--radius-pill);
@@ -89,20 +75,16 @@
         display: flex;
         justify-content: center;
         align-items: center;
-      
 
-         &:hover {
-        background-color: rgba(#0C2E62, 0.12); 
-       
-  }
+        &:hover {
+            background-color: rgba(#0C2E62, 0.12); 
     }
+}
 
-// responsive
 
- .profile-icon2 {
-       
+.profile-icon2 {
         width: 40px;
-        height: 40x;
+        height: 40px;
         border-radius: var(--radius-pill);
         border: 2px solid var( --clr-blue-muted);
         color: #124658;
@@ -113,9 +95,8 @@
         display: flex;
         justify-content: center;
         align-items: center;
-      
 
-         &:hover {
+        &:hover {
         background-color: #0C2E62 12%;
-       
-  }}
+    }
+}
