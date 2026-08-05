@@ -58,19 +58,20 @@
             </svg>
 
           </div>
+
+          @if (contactForm.controls.name.invalid && contactForm.controls.name.touched) {
+
+          @if (contactForm.controls.name.errors?.['required']) {
+          <p class="dialog__error">Please enter a name.</p>
+          }
+
+          @if (contactForm.controls.name.errors?.['pattern']) {
+          <p class="dialog__error">
+            Please enter a valid first and last name.
+          </p>
+          }
+          }
         </div>
-
-        @if (contactForm.controls.name.invalid && contactForm.controls.name.touched) {
-        @if (contactForm.controls.name.errors?.['required']) {
-        <p class="dialog__error">Please enter a name.</p>
-        }
-
-        @if (contactForm.controls.name.errors?.['pattern']) {
-        <p class="dialog__error">
-          Please enter a valid first and last name.
-        </p>
-        }
-        }
 
 
         <div class="dialog__inputWrapper">
@@ -88,18 +89,17 @@
               </g>
             </svg>
           </div>
+          @if (contactForm.controls.email.invalid && contactForm.controls.email.touched) {
+          @if (contactForm.controls.email.errors?.['required']) {
+          <p class="dialog__error">Please enter a mail.</p>
+          }
+          @if (contactForm.controls.email.errors?.['pattern']) {
+          <p class="dialog__error">
+            Email must include @ and end with .de or .com.
+          </p>
+          }
+          }
         </div>
-
-        @if (contactForm.controls.email.invalid && contactForm.controls.email.touched) {
-        @if (contactForm.controls.email.errors?.['required']) {
-        <p class="dialog__error">Please enter a mail.</p>
-        }
-        @if (contactForm.controls.email.errors?.['pattern']) {
-        <p class="dialog__error">
-          Email must include @ and end with .de or .com.
-        </p>
-        }
-        }
 
         <div class="dialog__inputWrapper">
           <input class="dialog__input dialog__input--phone" type="tel" placeholder="Phone"
@@ -117,16 +117,17 @@
               </g>
             </svg>
           </div>
+          @if (contactForm.controls.telephone.invalid && contactForm.controls.telephone.touched) {
+          @if (contactForm.controls.telephone.errors?.['required']) {
+          <p class="dialog__error">Please enter a phone number.</p>
+          }
+          @if (contactForm.controls.telephone.errors?.['pattern']) {
+          <p class="dialog__error">Phone number must start with +49.</p>
+          }
+          }
         </div>
 
-        @if (contactForm.controls.telephone.invalid && contactForm.controls.telephone.touched) {
-        @if (contactForm.controls.telephone.errors?.['required']) {
-        <p class="dialog__error">Please enter a phone number.</p>
-        }
-        @if (contactForm.controls.telephone.errors?.['pattern']) {
-        <p class="dialog__error">Phone number must start with +49.</p>
-        }
-        }
+
 
         <div class="dialog__actions">
           <app-button class="dialog__actions__btn-icon hidden-lg" text="Cancel" variant="outline" size="md" width="auto"
