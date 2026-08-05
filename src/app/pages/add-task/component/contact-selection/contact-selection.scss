@@ -1,7 +1,8 @@
 .contactList {
     background-color: var(--clr-white);
     max-height: 240px;
-    overflow: scroll;
+    overflow-y: scroll;
+    overflow-x: hidden;
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-allaround);
     padding-top: 14px;
