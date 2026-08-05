@@ -194,10 +194,10 @@
     flex-direction: column;
     justify-content: flex-start;
     margin-bottom: 0;
-    padding-bottom: 0;
+    padding-bottom: 26px;
 
     @include respond-to(md) {
-      padding-bottom: 28px;
+      padding-bottom: 26px;
     }
   }
 
