@@ -129,6 +129,7 @@ export class AddTaskDetailInfo {
   /** Closes open dropdowns when the user clicks outside their wrappers. */
   @HostListener('document:click', ['$event'])
   closeDropdownsOnOutsideClick(event: MouseEvent): void {
+    console.log('Document click', event.target);
     const target = event.target as Node;
     const clickedInsideAssigned = this.assignedDropdown?.nativeElement.contains(target);
     const clickedInsideCategory = this.categoryDropdown?.nativeElement.contains(target);
