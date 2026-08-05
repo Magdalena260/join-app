@@ -76,6 +76,43 @@ export class Contacts implements OnInit, OnDestroy {
   }
 
   /**
+   * Updates an edited contact in the database by splitting the full name into 
+   * firstname and lastname parameters, and refreshes the active reactive state.
+   * Fulfills User Story 4 (Saving the adapted contact data).
+   * 
+   * @param {UIContact} updatedContact - The contact object containing the modified values from the form view.
+   * @returns {Promise<void>} A promise that resolves once the remote backend persistence operation completes.
+   */
+  public async handleContactUpdate(updatedContact: UIContact): Promise<void> {
+    if (!updatedContact || !updatedContact.id) {
+      return;
+    }
+
+    const nameParts = updatedContact.name ? updatedContact.name.trim().split(/\s+/) : [];
+    const extractedFirstname = nameParts[0] || '';
+    const extractedLastname = nameParts.slice(1).join(' ');
+    
+    const contactPayload: Contact = {
+      id: updatedContact.id,
+      firstname: extractedFirstname || updatedContact.firstname || '',
+      lastname: extractedLastname || updatedContact.lastname || '',
+      email: updatedContact.email,
+      telephone: updatedContact.telephone,
+    };
+
+    await this.contactsService.updateContact(contactPayload);
+
+    this.activeContact.set({
+      ...updatedContact,
+      firstname: contactPayload.firstname,
+      lastname: contactPayload.lastname,
+      name: `${contactPayload.firstname} ${contactPayload.lastname}`.trim()
+    });
+
+    this.closeEditContact();
+  }
+
+  /**
    * Deletes a contact from the database using the Contacts service and clears the active selection.
    * Fulfills User Story 4 (The option 'Delete' removes the contact permanently).
    * @param {UIContact} contact - The contact object requested for deletion.
@@ -90,41 +127,6 @@ export class Contacts implements OnInit, OnDestroy {
 
     this.activeContact.set(null);
     this.isEditContactOpen.set(false);
-  }
-
-  /**
-   * Updates an edited contact in the database and refreshes the current active view.
-   * Fulfills User Story 4 (Saving the adapted contact data).
-   * @param {UIContact} updatedContact - The contact object with modified values.
-   * @returns {Promise<void>}
-   */
-  public async handleContactUpdate(updatedContact: UIContact): Promise<void> {
-  if (!updatedContact || !updatedContact.id) {
-    return;
-  }
-
-  const nameParts = updatedContact.name ? updatedContact.name.trim().split(/\s+/) : [];
-  const extractedFirstname = nameParts[0] || '';
-  const extractedLastname = nameParts.slice(1).join(' ');
-  const contactPayload: Contact = {
-    id: updatedContact.id,
-    firstname: extractedFirstname || updatedContact.firstname || '',
-    lastname: extractedLastname || updatedContact.lastname || '',
-    email: updatedContact.email,
-    telephone: updatedContact.telephone,
-  };
-
-  await this.contactsService.updateContact(contactPayload);
-
-  
-  this.activeContact.set({
-    ...updatedContact,
-    firstname: contactPayload.firstname,
-    lastname: contactPayload.lastname,
-    name: `${contactPayload.firstname} ${contactPayload.lastname}`.trim()
-  });
-
-  this.closeEditContact();
   }
 
   /**
