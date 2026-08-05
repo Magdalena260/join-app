@@ -325,6 +325,7 @@
   &__info-data-block {
     @include flexbox(column, flex-start, flex-start, var(--space-md));
     width: 100%;
+    min-width: 0;
 
     @include respond-to(lg) {
       width: 100%;
@@ -333,6 +334,8 @@
 
   &__data-group {
     @include flexbox(column, flex-start, flex-start, var(--space-xs));
+    width: 100%;
+    min-width: 0;
     box-sizing: border-box;
   }
 
@@ -344,11 +347,17 @@
   }
 
   &__value {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
     font-size: var(--fs-body-normal);
     margin: 0;
 
     &--email {
       color: var(--clr-blue-light);
+      overflow-wrap: anywhere;
+      word-break: break-word;
     }
     &--phone {
       color: var(--text-color-dark);
