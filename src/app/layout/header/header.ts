@@ -53,12 +53,16 @@ export class Header implements OnInit, OnDestroy {
    * Lifecycle hook triggered instantly upon component initialization.
    * Resolves baseline user footprints and binds persistent hooks to capture cross-session auth changes.
    */
-  public ngOnInit(): void {
-    this.loadUserInitials();
+  public async ngOnInit(): Promise<void> {
+    
+    this.isLoggedIn = await this.authService.isLoggedIn();
+    // Defer initial load to next microtask to avoid ExpressionChangedAfterItHasBeenCheckedError
+    Promise.resolve().then(() => this.loadUserInitials());
     const supabase = (this.authService as any).dB;
     if (supabase) {
       const { data } = supabase.auth.onAuthStateChange(() => {
-        this.loadUserInitials();
+        // Defer auth-state-triggered updates to avoid in-cycle updates
+        Promise.resolve().then(() => this.loadUserInitials());
       });
       this.authSubscription = data.subscription;
     }
@@ -66,7 +70,8 @@ export class Header implements OnInit, OnDestroy {
     this.routerSubscription = this.router.events
       .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
       .subscribe(() => {
-        this.loadUserInitials();
+        // Defer navigation-triggered updates as well
+        Promise.resolve().then(() => this.loadUserInitials());
       });
   }
 
@@ -91,11 +96,11 @@ export class Header implements OnInit, OnDestroy {
    */
   public async loadUserInitials(): Promise<void> {
     const user = await this.authService.getUser();
-    this.isLoggedIn = await this.authService.isLoggedIn();
 
     if (!user?.email) {
       this.userInitials = 'G';
-      this.cdr.detectChanges();
+      // Defer detection to the next microtask to avoid ExpressionChangedAfterItHasBeenCheckedError
+      Promise.resolve().then(() => this.cdr.detectChanges());
       return;
     }
 
@@ -111,7 +116,8 @@ export class Header implements OnInit, OnDestroy {
       this.userInitials = this.getInitialsFromEmail(user.email);
     }
 
-    this.cdr.detectChanges();
+    // Defer detection to the next microtask to avoid ExpressionChangedAfterItHasBeenCheckedError
+    Promise.resolve().then(() => this.cdr.detectChanges());
   }
 
   /**

@@ -79,8 +79,18 @@ export class contactsService {
    *
    * @param {Contact} contact - The mutated contact entity payload containing the localized property changes and its relational identifier.
    */
-  async updateContact(contact: Contact) {
-    const { error } = await this.supabase.from('contacts').update(contact).eq('id', contact.id);
+  async updateContact(contact: Contact): Promise<void> {
+  const updateData = {
+    firstname: contact.firstname,
+    lastname: contact.lastname,
+    email: contact.email,
+    telephone: contact.telephone,};
+
+    const { error } = await this.supabase
+      .from('contacts')
+      .update(updateData)
+      .eq('id', contact.id);
+
     if (error) {
       console.error('Contacts update contact error', error);
     }

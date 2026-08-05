@@ -30,6 +30,12 @@ export class AuthService {
    */
   constructor(private router: Router) {
     this.dB = createClient(environment.apiUrl, environment.apiKey);
+
+    // Keep local auth flag in sync with Supabase auth state to avoid
+    // false negatives during initial reload/login restoration.
+    this.dB.auth.onAuthStateChange((event, session) => {
+      this.isAuthenticated = !!session?.user;
+    });
   }
 
   /**
@@ -114,12 +120,23 @@ export class AuthService {
    * @returns {Promise<boolean>} Deferred promise resolving to a binary true if a valid session footprint exists, false otherwise.
    */
   async isLoggedIn(): Promise<boolean> {
-    if (this.isAuthenticated) {
-      return true;
-    }
+    if (this.isAuthenticated) return true;
 
-    const user = await this.getUser();
-    return !!user;
+    // Use getSession() which more reliably reports an existing session
+    // during app start / page reload compared to getUser().
+    try {
+      const { data, error } = await this.dB.auth.getSession();
+      if (error) {
+        console.error('Error checking session:', error);
+        return false;
+      }
+
+      const hasUser = !!data?.session?.user;
+      this.isAuthenticated = hasUser;
+      return hasUser;
+    } catch (e) {
+      return false;
+    }
   }
 
   /**
