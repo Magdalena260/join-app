@@ -35,8 +35,6 @@
                 left: 0;
                 right: 0;
                 z-index: 10;
-                overflow-y: hidden;
-                overflow-x: hidden;
             }
 
             &__requiredText {
@@ -136,6 +134,11 @@
 
 .requiredInput {
     color: var(--clr-feedback-error)
+}
+
+.noScroll {
+    overflow-y: hidden;
+    overflow-x: hidden;
 }
 
 .assignedContactIcons {
