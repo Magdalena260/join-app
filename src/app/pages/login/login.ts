@@ -226,5 +226,4 @@ export class Login implements OnInit {
 
     this.shouldRotateScreen = isLandscape && isSmallDevice;
   }
-
 }
