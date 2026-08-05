@@ -53,7 +53,9 @@ export class Header implements OnInit, OnDestroy {
    * Lifecycle hook triggered instantly upon component initialization.
    * Resolves baseline user footprints and binds persistent hooks to capture cross-session auth changes.
    */
-  public ngOnInit(): void {
+  public async ngOnInit(): Promise<void> {
+    
+    this.isLoggedIn = await this.authService.isLoggedIn();
     // Defer initial load to next microtask to avoid ExpressionChangedAfterItHasBeenCheckedError
     Promise.resolve().then(() => this.loadUserInitials());
     const supabase = (this.authService as any).dB;
@@ -94,7 +96,6 @@ export class Header implements OnInit, OnDestroy {
    */
   public async loadUserInitials(): Promise<void> {
     const user = await this.authService.getUser();
-    this.isLoggedIn = await this.authService.isLoggedIn();
 
     if (!user?.email) {
       this.userInitials = 'G';
