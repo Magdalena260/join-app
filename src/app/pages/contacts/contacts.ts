@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
 import { Contact } from '../../shared/interfaces/contact';
 import { contactsService } from '../../shared/services/contacts-service';
 import { ContactsDetailComponent } from './components/contacts-detail/contacts-detail';
@@ -18,8 +18,10 @@ import { EditContactComponent } from './components/edit-contact/edit-contact';
   templateUrl: './contacts.html',
   styleUrls: ['./contacts.scss'],
 })
-export class Contacts {
+export class Contacts implements OnInit, OnDestroy {
   private contactsService = inject(contactsService);
+  private rotateScreenElement: HTMLElement | null = null;
+  private rotateScreenPreviousDisplay = '';
 
   /**
    * Central signal holding the currently active contact for the whole page.
@@ -29,6 +31,20 @@ export class Contacts {
 
   /** Signal controlling the visibility state of the edit contact component/overlay. */
   public isEditContactOpen = signal<boolean>(false);
+
+  /**
+   * Hides the global rotate-screen overlay while the contacts view is active.
+   */
+  public ngOnInit(): void {
+    this.toggleGlobalRotateScreen(false);
+  }
+
+  /**
+   * Restores the original rotate-screen visibility when leaving contacts.
+   */
+  public ngOnDestroy(): void {
+    this.toggleGlobalRotateScreen(true);
+  }
 
   /**
    * Updates the central active contact when a selection event occurs.
@@ -123,5 +139,32 @@ export class Contacts {
     if (listComponent) {
       listComponent.selectedContact.set(null); 
     }
+  }
+
+  /**
+   * Temporarily toggles the root rotate-screen host element.
+   * Keeps changes local to this route by restoring the previous inline style.
+   */
+  private toggleGlobalRotateScreen(shouldShow: boolean): void {
+    if (typeof document === 'undefined') {
+      return;
+    }
+
+    const rotateScreenHost = document.querySelector('app-rotate-screen') as HTMLElement | null;
+    if (!rotateScreenHost) {
+      return;
+    }
+
+    if (!this.rotateScreenElement) {
+      this.rotateScreenElement = rotateScreenHost;
+      this.rotateScreenPreviousDisplay = rotateScreenHost.style.display;
+    }
+
+    if (shouldShow) {
+      this.rotateScreenElement.style.display = this.rotateScreenPreviousDisplay;
+      return;
+    }
+
+    this.rotateScreenElement.style.display = 'none';
   }
 }
