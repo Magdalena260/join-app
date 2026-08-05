@@ -84,4 +84,10 @@ export class TaskDialog {
   clearTask(): void {
     this.addTaskComponent.clearTaskForm();
   }
+
+  onBackdropClick(event: MouseEvent): void {
+    if (event.target === event.currentTarget) {
+      this.closeDialog();
+    }
+  }
 }

@@ -1,5 +1,5 @@
-<dialog #dialog class="add-task-dialog" (click)="closeDialog()">
-  <div class="add-task-dialog__content" (click)="$event.stopPropagation()">
+<dialog #dialog class="add-task-dialog" (click)="onBackdropClick($event)">
+  <div class="add-task-dialog__content">
     <!-- HEADER -->
     <header class="add-task-dialog__header">
       <button class="add-task-dialog__close-btn" (click)="closeDialog()">
