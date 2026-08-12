@@ -43,11 +43,11 @@ join-app/
 └── tsconfig.*.json         // Strikte Regeln und Konfigurationen für den TypeScript-Compiler
 ```
 
-# 📜 Team-Manifest: JoinApp
+# Team-Manifest: JoinApp
 
 Dieses Manifest definiert unsere gemeinsamen Spielregeln für die Entwicklung. Es hilft uns, effizient zusammenzuarbeiten, Code-Konflikte zu vermeiden und die Qualität unseres Projekts hoch zu halten.
 
-## 🤝 1. Kommunikation & Stand-Up
+## 1. Kommunikation & Stand-Up
 
 - **Daily Stand-Up:** Wir treffen uns täglich um **15:00 Uhr**.
 - **Agenda für das Stand-Up:** Jeder beantwortet kurz und knapp drei Fragen:
@@ -56,7 +56,7 @@ Dieses Manifest definiert unsere gemeinsamen Spielregeln für die Entwicklung. E
   3. Wo hänge ich fest oder brauche Hilfe (Blocker)?
 - **Asynchrone Kommunikation:** Außerhalb des Stand-Ups kommunizieren wir proaktiv im Chat. Wenn jemand feststeckt, wird umgehend im Team nachgefragt, anstatt stundenlang allein nach einem Fehler zu suchen. Wir respektieren dabei individuelle Arbeits- und Schichtpläne.
 
-## 🌿 2. Branching-Strategie (Git)
+## 2. Branching-Strategie (Git)
 
 Wir arbeiten **niemals** direkt auf dem `main`-Branch!
 
@@ -78,27 +78,27 @@ Wir nutzen _Conventional Commits_, damit unsere Git-Historie lesbar und nachvoll
 
 _Tipp: Commits sollten kleine, logische Einheiten sein. Lieber öfter kleine Commits machen als einen riesigen am Ende des Tages!_
 
-## 🔀 4. Pull Requests (PRs) & Merges
+## 4. Pull Requests (PRs) & Merges
 
 - **Vier-Augen-Prinzip:** Niemand mergt seinen eigenen Code in den `main`-Branch!
 - Sobald ein Feature fertig ist, wird ein Pull Request (PR) erstellt.
 - Ein anderes Teammitglied schaut sich den Code kurz an (Code Review) und gibt ihn frei.
 - **Vor dem PR:** Der Entwickler stellt sicher, dass sein lokaler Branch auf dem neuesten Stand ist (`git pull origin main` in den eigenen Branch mergen und Konflikte lokal lösen), bevor der PR erstellt wird.
 
-## 🏗️ 5. Code & Architektur
+## 5. Code & Architektur
 
 - Wir halten uns an die vereinbarte Angular-Ordnerstruktur (`pages`, `shared`, `sections`).
 - **Environment-Variablen:** Sensible Daten (wie Supabase API-Keys) werden nur in den `environment.ts` Dateien gepflegt und sauber über Angular-Services abgerufen.
 - **Sauberer Code:** Bevor ein PR erstellt wird, räumen wir unseren Code auf (keine unnötigen `console.log()` mehr, korrekte Einrückungen, ungenutzte Imports entfernen).
 - **Automatisches Formatieren:** Wir nutzen _Prettier_. Bitte stelle in deinem Code-Editor (z.B. VS Code) ein, dass Dokumente beim Speichern automatisch formatiert werden ("Format on Save"). Das verhindert unnötige Git-Konflikte durch verschiedene Einrückungen.
 
-## 🙋‍♂️ 6. Fehlerkultur & Bei Unsicherheiten (Die 15-Minuten-Regel)
+## 6. Fehlerkultur & Bei Unsicherheiten (Die 15-Minuten-Regel)
 
 - **Fragen ist ausdrücklich erwünscht:** Wir arbeiten als Team zusammen. Wenn jemand bei einem Konzept, einer Fehlermeldung oder einer bestimmten Architektur-Entscheidung unsicher ist, wird proaktiv nachgefragt.
 - **Timeboxing:** Bevor wir uns stundenlang frustrieren, gilt die 15-Minuten-Regel. Wer länger als 15 bis 30 Minuten an einem Bug festhängt, ohne erkennbaren Fortschritt zu machen, bittet das Team um Hilfe. Oft sieht ein zweites Paar Augen (oder ein kurzes Screen-Sharing) den fehlenden Buchstaben oder Denkfehler in Sekunden.
 - **Keine falsche Scheu:** Es gibt keine dummen Fragen. Lieber einmal zu viel nachgefragt und gemeinsam eine Lösung gefunden, als Code zu pushen, bei dem man sich unwohl fühlt.
 
-## 📋 7. Ticket-Management & Workflow (GitHub Projects)
+## 7. Ticket-Management & Workflow (GitHub Projects)
 
 Wir nutzen GitHub Projects zur Aufgabenverwaltung. Um den Überblick zu behalten und Doppelarbeit zu vermeiden, halten wir uns strikt an folgenden Ablauf:
 
