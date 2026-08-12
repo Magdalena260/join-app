@@ -66,7 +66,7 @@ Wir arbeiten **niemals** direkt auf dem `main`-Branch!
   - `fix/name-des-bugs` (z. B. `fix/header-alignment`)
   - `chore/setup-thema` (z. B. `chore/angular-config`)
 
-## 💾 3. Commit-Nachrichten
+## 3. Commit-Nachrichten
 
 Wir nutzen _Conventional Commits_, damit unsere Git-Historie lesbar und nachvollziehbar bleibt. Alle Commits werden im Präsens und auf Englisch geschrieben.
 
